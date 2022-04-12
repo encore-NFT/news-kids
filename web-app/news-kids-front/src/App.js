@@ -1,8 +1,20 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Layout from "./components/shared/Layout";
+import Home from "./screens/Home";
+import Quiz from "./screens/Quiz";
+import { GlobalStyles } from "./styles";
+
 function App() {
   return (
-    <div>
-      <h1>News-Kids 테스트</h1>
-    </div>
+    <>
+      <GlobalStyles />
+      <Router>
+        <Routes>
+          <Route path={`/`} element={<Layout><Home /></Layout>} />
+          <Route path={`/quiz`} element={<Layout><Quiz /></Layout>} />
+        </Routes>
+      </Router>
+    </>
   );
 }
 
