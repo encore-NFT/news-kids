@@ -42,7 +42,7 @@ function Header() {
                             <Search />
                         </div>
                         <InputBase
-                            placeholder="Search…"
+                            placeholder="검색"
                         />
                     </SearchGrid>
                     <div>
@@ -70,9 +70,9 @@ function Header() {
                             onClose={handleClose}
                         >
                             <Link to={`/profile`}>
-                                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                                <MenuItem onClick={handleClose}>마이페이지</MenuItem>
                             </Link>
-                            <MenuItem onClick={handleClose}>Logout</MenuItem>
+                            <MenuItem onClick={handleClose}>로그아웃</MenuItem>
                         </Menu>
                     </div>
                 </Toolbar>
