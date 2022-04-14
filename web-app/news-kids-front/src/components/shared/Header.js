@@ -1,4 +1,5 @@
-import { AppBar, Button, IconButton, InputBase, Menu, MenuItem, Toolbar, Typography } from "@material-ui/core";
+import logo from '../../images/news-kids-logo.svg';
+import { AppBar, Button, IconButton, InputBase, Menu, MenuItem, Toolbar } from "@material-ui/core";
 import { AccountCircle, Search } from "@material-ui/icons";
 import { styled } from "@material-ui/styles";
 import { useState } from "react";
@@ -23,9 +24,7 @@ function Header() {
             <HeaderBar>
                 <Toolbar>
                     <Link to={`/`}>
-                        <MyLogo variant="h6" noWrap>
-                            News-Kids
-                        </MyLogo>
+                        <img width="150px" height="26px" src={logo} alt="굿즈 로고" />
                     </Link>
                     <Link to={`/`}>
                         <MyButton>홈</MyButton>
@@ -84,16 +83,12 @@ function Header() {
 export default Header;
 
 const MyAppBar = styled(AppBar)({
-    backgroundColor: theme.palette.primary.main,
-});
-
-const MyLogo = styled(Typography)({
-    marginRight: "10px",
-    color: theme.palette.primary.contrastText
+    backgroundColor: '#ffffff'
 });
 
 const MyButton = styled(Button)({
     fontWeight: "bold",
+    fontSize: '16px'
 });
 
 const HeaderBar = styledComponents.div`
@@ -108,12 +103,8 @@ const Grow = styledComponents.div`
 const SearchGrid = styledComponents.div`
     display: flex;
     border-radius: 10px;
+    border: 1px solid #dbdbdb;
     padding: 2px 10px;
-    margin-right: 3px;
-    background-color: ${theme.palette.primary.light};
-    &:hover {
-        background-color: ${theme.palette.secondary.light};
-    }
     svg{
         height: 100%;
         margin-right: 5px;

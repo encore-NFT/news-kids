@@ -1,11 +1,11 @@
-import { styled, Typography } from "@material-ui/core";
+import logo from '../images/news-kids-logo.svg';
 import { useForm } from "react-hook-form";
 import AuthInput from "../components/auth/AuthInput";
 import FormBox from "../components/auth/FormBox";
 import AuthLayout from "../components/auth/AuthLayout";
 import AuthButton from "../components/auth/AuthButton";
-import { theme } from "../styles";
 import BottomBox from "../components/auth/BottomBox";
+import LogoImg from '../components/auth/LogoImg';
 
 function SignUp() {
     const { register, handleSubmit } = useForm();
@@ -15,7 +15,7 @@ function SignUp() {
     return (
         <AuthLayout>
             <FormBox>
-                <MyLogo variant="h4">News-Kids</MyLogo>
+                <LogoImg width="230px" height="40px" src={logo} alt="굿즈 로고" />
                 <form onSubmit={handleSubmit(onSubmitValid)}>
                     <AuthInput
                         {...register('name')}
@@ -58,9 +58,3 @@ function SignUp() {
 }
 
 export default SignUp;
-
-const MyLogo = styled(Typography)({
-    color: theme.palette.primary.contrastText,
-    textAlign: 'center',
-    marginBottom: '25px'
-});
