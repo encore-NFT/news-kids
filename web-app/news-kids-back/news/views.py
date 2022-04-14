@@ -25,6 +25,7 @@ class NewsView(View):
                     'timestamp': c.timestamp
                     } for c in Comments.objects.filter(news=news.id)
                 ],
+                'liked_users'  : news.liked_users.count(), 
             } for news in News.objects.all()
         ]
         return JsonResponse({'data': news_list}, status=200)
@@ -34,12 +35,6 @@ class CommentsView(View):
     # 댓글 Create
     @login_decorator    # login 검증
     def post(self, request):
-        # 삭제!
-        # data      = json.loads(request.body)
-        # user      = request.user
-        # post_id   = data.get('post', None)
-        # content   = data.get('content', None)
-
         data      = json.loads(request.body)
         user      = request.user
         news_id   = data.get('news', None)
@@ -49,7 +44,7 @@ class CommentsView(View):
         if not (news_id and content):
             return JsonResponse({'message': 'KEY_ERROR'}, status=400)
         
-        # 뉴스 id 유효 검증
+        # news_id 유효 검증
         if not News.objects.filter(id=news_id).exists():
             return JsonResponse({'message': 'INVALID_POST'}, status=400)
 
@@ -60,7 +55,7 @@ class CommentsView(View):
             content   = content
         )
         return JsonResponse({'message': 'SUCCESS'}, status=200)
-        
+
 
 class CommentsDetailView(View):
     # 뎃글 Update
@@ -107,3 +102,34 @@ class CommentsDetailView(View):
         # 대상 comments 삭제
         comments.delete()
         return JsonResponse({'message': 'SUCCESS'}, status=200)
+
+
+class LikeView(View):
+    # 좋아요 기능
+    @login_decorator    # login 검증
+    def post(self, request):
+        data    = json.loads(request.body)
+        user    = request.user
+        news_id = data.get('news', None)    # 프론트에서 news.id 받아옴
+
+        # news_id 폼 검증
+        if not news_id:
+            return JsonResponse({'message': 'KEY_ERROR'}, status=400)
+
+        # news_id 유효 검증
+        if not News.objects.filter(id=news_id).exists():
+            return JsonResponse({'message': 'INVALID_POST'}, status=400)
+
+        # id 대상 뉴스 로드
+        news = News.objects.get(id=news_id)
+
+        if news.liked_users.filter(id=user.id).exists():
+            news.liked_users.remove(user)
+            message = 'Cancle'
+        else:
+            news.liked_users.add(user)
+            message = 'Like'
+
+        like_count = news.liked_users.count()
+
+        return JsonResponse({'message': message, 'like_count': like_count}, status=200)
