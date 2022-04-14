@@ -106,7 +106,7 @@ class CommentsDetailView(View):
 
 class LikeView(View):
     # 좋아요 기능
-    @login_decorator    # login 검증
+    # @login_decorator    # login 검증
     def post(self, request):
         data    = json.loads(request.body)
         user    = request.user

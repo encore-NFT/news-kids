@@ -65,11 +65,10 @@ class LoginView(View):
         data     = json.loads(request.body)
         email    = data.get('email', None)
         name     = data.get('name', None)
-        phone    = data.get('phone', None)
         password = data.get('password', None)
         
         # 프론트에서 1차 공백 체크
-        if not (password and (email or name or phone)):
+        if not (password and (email or name)):
             return JsonResponse({'message': 'KEY_ERROR'}, status=400)        
             
         # 사용자 유무 검증
