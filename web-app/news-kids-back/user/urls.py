@@ -1,17 +1,3 @@
-# from django.urls import path
-
-# from .views import (
-#     NewsView, 
-#     CommentsView, 
-#     CommentsDetailView,
-# )
-
-# urlpatterns = [
-#     path('', NewsView.as_view()),
-#     path('/comments', CommentsView.as_view()),
-#     path('/comments/<int:comment_id>', CommentsDetailView.as_view()),
-# ]
-
 from django.urls import path
 
 from .views import (
@@ -20,6 +6,8 @@ from .views import (
 )
 
 urlpatterns = [
-    path('/signup', SignupView.as_view()),
-    path('/login', LoginView.as_view()),
+    # 회원가입
+    path('signup', SignupView.as_view()),
+    # 로그인
+    path('login', LoginView.as_view()),
 ]

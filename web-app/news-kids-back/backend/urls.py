@@ -18,15 +18,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('user', include('user.urls')),
-    path('api/news', include('news.urls')),
+    # Including another URLconf
+    path('api/user/', include('user.urls')),
+    path('api/news/', include('news.urls')),
 ]
-
-
-# # westagram/urls.py
-
-# from django.urls import path, include
-
-# urlpatterns = [
-#     path('user', include('user.urls')),
-# ]

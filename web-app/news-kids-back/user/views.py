@@ -1,4 +1,5 @@
 import re
+import jwt
 import json
 import bcrypt
 from django.views import View
@@ -6,6 +7,7 @@ from django.http import JsonResponse
 from django.db.models import Q
 
 from .models import User
+from config import SECRET_KEY, ALGORITHMS
 
 MINIMUM_PASSWORD_LENGTH = 8
 
@@ -44,7 +46,7 @@ class SignupView(View):
             return JsonResponse({'message': 'PASSWORD_VALIDATION_ERROR'}, status=422)
         
         # unique 값 검증
-        if User.objects.filter(Q(email=email) | Q(name=name)).exists():
+        if User.objects.filter(Q(user_email=email) | Q(user_name=name)).exists():
             return JsonResponse({'message': 'USER_ALREADY_EXISTS'}, status=409)
 
         # 회원 생성
@@ -71,14 +73,14 @@ class LoginView(View):
             return JsonResponse({'message': 'KEY_ERROR'}, status=400)        
             
         # 사용자 유무 검증
-        if User.objects.filter(Q(email=email) | Q(name=name) | Q(phone=phone)).exists():
-            user = User.objects.get(Q(email=email) | Q(name=name) | Q(phone=phone))
+        if User.objects.filter(Q(user_email=email) | Q(user_name=name)).exists():
+            user = User.objects.get(Q(user_email=email) | Q(user_name=name))
 
             # 비밀번호 검증
-            if bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
+            if bcrypt.checkpw(password.encode('utf-8'), user.user_password.encode('utf-8')):
                 
                 # JSON Web Token: 인가를 위해 JWT 발행, respone 전달
-                token = jwt.encode({'user_id': user.id}, SECRET['secret'], algorithm='HS256')
+                token = jwt.encode({'user_id': user.id}, SECRET_KEY, algorithm=ALGORITHMS)
                 return JsonResponse({'message': 'SUCCESS', 'access_token': token}, status=200) 
             
             return JsonResponse({'message': 'INVALID_PASSWORD'}, status=401)
