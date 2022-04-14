@@ -7,7 +7,7 @@ import AuthButton from "../components/auth/AuthButton";
 import { theme } from "../styles";
 import BottomBox from "../components/auth/BottomBox";
 
-function Login() {
+function SignUp() {
     const { register, handleSubmit } = useForm();
     const onSubmitValid = (data) => {
         console.log(data)
@@ -26,6 +26,22 @@ function Login() {
                         size="small"
                     />
                     <AuthInput
+                        {...register('nickname')}
+                        name="nickname"
+                        label="닉네임"
+                        type="text"
+                        variant="outlined"
+                        size="small"
+                    />
+                    <AuthInput
+                        {...register('email')}
+                        name="email"
+                        label="이메일"
+                        type="email"
+                        variant="outlined"
+                        size="small"
+                    />
+                    <AuthInput
                         {...register('password')}
                         name="password"
                         label="비밀번호"
@@ -33,15 +49,15 @@ function Login() {
                         variant="outlined"
                         size="small"
                     />
-                    <AuthButton type="submit">로그인</AuthButton>
+                    <AuthButton type="submit">회원가입</AuthButton>
                 </form>
             </FormBox>
-            <BottomBox cta="계정이 없으신가요?" linkText="회원가입" link={`/sign-up`} />
+            <BottomBox cta="계정이 있으신가요?" linkText="로그인" link={`/login`} />
         </AuthLayout>
     )
 }
 
-export default Login;
+export default SignUp;
 
 const MyLogo = styled(Typography)({
     color: theme.palette.primary.contrastText,
