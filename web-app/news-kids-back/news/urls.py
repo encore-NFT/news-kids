@@ -1,11 +1,13 @@
-# from django.urls import path
+from django.urls import path
 
-# from .views import (
-#     NewsView, 
-#     # CommentView, 
-# )
+from .views import (
+    NewsView, 
+    CommentsView, 
+    CommentsDetailView,
+)
 
-# urlpatterns = [
-#     path('', NewsView.as_view()),
-#     # path('/comment', CommentView.as_view()),
-# ]
+urlpatterns = [
+    path('', NewsView.as_view()),
+    path('/comments', CommentsView.as_view()),
+    path('/comments/<int:comment_id>', CommentsDetailView.as_view()),
+]

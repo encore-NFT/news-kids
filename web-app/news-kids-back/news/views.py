@@ -19,77 +19,91 @@ class NewsView(View):
                 'news_title'   : news.news_title,
                 'news_image'   : news.news_image,
                 'news_article' : news.news_article,
-                # 'comments'     : [{
-                #     'user': c.user.user_name, 
-                #     'content': c.content, 
-                #     'timestamp': c.timestamp
-                #     } for c in Comments.objects.filter(news=news.id)
-                # ],
+                'comments'     : [{
+                    'user': c.user.user_name, 
+                    'content': c.content, 
+                    'timestamp': c.timestamp
+                    } for c in Comments.objects.filter(news=news.id)
+                ],
             } for news in News.objects.all()
         ]
         return JsonResponse({'data': news_list}, status=200)
 
 
-# class CommentView(View):
-#     @login_decorator
-#     def post(self, request):
-#         data      = json.loads(request.body)
-#         user      = request.user
-#         post_id   = data.get('post', None)
-#         content   = data.get('content', None)
-        
-#         # KEY_ERROR check
-#         if not (post_id and content):
-#             return JsonResponse({'message': 'KEY_ERROR'}, status=400)
-        
-#         # valid post check
-#         if not Post.objects.filter(id=post_id).exists():
-#             return JsonResponse({'message': 'INVALID_POST'}, status=400)
+class CommentsView(View):
+    # 댓글 Create
+    @login_decorator    # login 검증
+    def post(self, request):
+        # 삭제!
+        # data      = json.loads(request.body)
+        # user      = request.user
+        # post_id   = data.get('post', None)
+        # content   = data.get('content', None)
 
-#         Comment.objects.create(
-#             user      = user,
-#             post      = Post.objects.get(id=post_id),
-#             content   = content
-#         )
-#         return JsonResponse({'message': 'SUCCESS'}, status=200)
+        data      = json.loads(request.body)
+        user      = request.user
+        news_id   = data.get('news', None)
+        content   = data.get('content', None)
+        
+        # 폼 KEY_ERROR 검증
+        if not (news_id and content):
+            return JsonResponse({'message': 'KEY_ERROR'}, status=400)
+        
+        # 뉴스 id 유효 검증
+        if not News.objects.filter(id=news_id).exists():
+            return JsonResponse({'message': 'INVALID_POST'}, status=400)
+
+        # 댓글 DB 저장
+        Comments.objects.create(
+            user      = user,
+            news      = News.objects.get(id=news_id),
+            content   = content
+        )
+        return JsonResponse({'message': 'SUCCESS'}, status=200)
         
 
-# class CommentDetailView(View):
-#     # update
-#     @login_decorator
-#     def post(self, request, comment_id):
-#         try:
-#             data    = json.loads(request.body)
-#             content = data.get('content', None)
+class CommentsDetailView(View):
+    # 뎃글 Update
+    @login_decorator    # login 검증
+    def post(self, request, comments_id):
+        try:
+            data    = json.loads(request.body)
+            content = data.get('content', None)
 
-#             # KEY_ERROR check
-#             if not content:
-#                 return JsonResponse({'message': 'KEY_ERROR'}, status=400)
+            # 폼 KEY_ERROR 검증
+            if not content:
+                return JsonResponse({'message': 'KEY_ERROR'}, status=400)
             
-#             comment = Comment.objects.get(id=comment_id)
+            # 수정할 comments 가져오기
+            comments = Comments.objects.get(id=comments_id)
             
-#             # valid user check
-#             if comment.user != request.user:
-#                 return JsonResponse({'message': 'INVALID_USER'}, status=401)
+            # 유저 검증
+            if comments.user != request.user:
+                return JsonResponse({'message': 'INVALID_USER'}, status=401)
 
-#             comment.content = content 
-#             comment.save()
-#             return JsonResponse({'message': 'SUCCESS'}, status=200)
+            # 대상 comments 수정 후 저장
+            comments.content = content 
+            comments.save()
+            return JsonResponse({'message': 'SUCCESS'}, status=200)
 
-#         except JSONDecodeError:
-#             return JsonResponse({'message': 'REQUEST_BOBY_DOES_NOT_EXISTS'}, status=400)
+        # JSON 에러 처리
+        except JSONDecodeError:
+            return JsonResponse({'message': 'REQUEST_BOBY_DOES_NOT_EXISTS'}, status=400)
 
-#     @login_decorator
-#     def delete(self, request, comment_id):
-#         # vaild comment check
-#         if not Comment.objects.filter(id=comment_id).exists():
-#             return JsonResponse({'message': 'INVALID_COMMENT'}, status=400)
+    # 댓글 Delete
+    @login_decorator    # login 검증
+    def delete(self, request, comments_id):
+        # 대상 comments 유효 검증
+        if not Comments.objects.filter(id=comments_id).exists():
+            return JsonResponse({'message': 'INVALID_COMMENT'}, status=400)
         
-#         comment = Comment.objects.get(id=comment_id)
+        # 삭제할 comments 가져오기
+        comments = Comments.objects.get(id=comments_id)
         
-#         # valid user check
-#         if comment.user != request.user:
-#             return JsonResponse({'message': 'INVALID_USER'}, status=401)
+        # 유저 검증
+        if comments.user != request.user:
+            return JsonResponse({'message': 'INVALID_USER'}, status=401)
 
-#         comment.delete()
-#         return JsonResponse({'message': 'SUCCESS'}, status=200)
+        # 대상 comments 삭제
+        comments.delete()
+        return JsonResponse({'message': 'SUCCESS'}, status=200)
