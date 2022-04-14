@@ -1,7 +1,7 @@
-import { Button, Container, styled } from '@material-ui/core';
 import { useState } from 'react';
 import styledComponents from 'styled-components';
-import { theme } from '../styles';
+import QuestionButton from '../components/quiz/QuestionButton';
+import QuizLayout from '../components/quiz/QuizLayout';
 
 function Quiz() {
     const questions = [
@@ -71,14 +71,14 @@ function Quiz() {
     return (
         <>
             {showScore ? (
-                <CorrectContainer>
+                <QuizLayout>
                     <QuizState>점수 결과</QuizState>
-                    <CorrectState>
+                    <Question>
                         {questions.length * 20}점 만점에 당신의 점수는 {score}점 입니다.
-                    </CorrectState>
-                </CorrectContainer>
+                    </Question>
+                </QuizLayout>
             ) : (
-                <QuizContainer>
+                <QuizLayout>
                     <QuizTop>
                         <QuizState>
                             퀴즈 {currentQuestion + 1}
@@ -90,7 +90,7 @@ function Quiz() {
                             <QuestionButton key={answerOption.answerText} onClick={() => handleAnswerOptionClick(answerOption.isCorrect)}>{answerOption.answerText}</QuestionButton>
                         ))}
                     </Questions>
-                </QuizContainer>
+                </QuizLayout>
             )}
         </>
     );
@@ -98,16 +98,6 @@ function Quiz() {
 
 export default Quiz;
 
-const QuizContainer = styled(Container)({
-    border: '0.5px solid #eaeaea',
-    borderRadius: '20px',
-    backgroundColor: '#ffffff',
-    padding: '5em 2em',
-    boxShadow: '0px 0px 10px 1px #e2e2e2',
-});
-const CorrectContainer = styledComponents(QuizContainer)`
-    text-align: center;
-`
 const QuizTop = styledComponents.div`
     text-align: center;
     margin-bottom: 20px;
@@ -130,19 +120,8 @@ const Question = styledComponents(QuizTop)`
     width: 80%;
     margin: 25px auto;
 `
-const CorrectState = styledComponents(Question)``
 
 const Questions = styledComponents.div`
     display: flex;
     flex-direction: column;
 `
-const QuestionButton = styled(Button)({
-    padding: '10px 0px',
-    width: '80%',
-    margin: '8px auto',
-    border: '0.5px solid #adadad',
-    borderRadius: '20px',
-    fontSize: '16px',
-    fontWeight: '600',
-    color: theme.palette.secondary.contrastText,
-})
