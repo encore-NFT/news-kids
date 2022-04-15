@@ -4,10 +4,11 @@ from json.decoder import JSONDecodeError
 from django.views import View
 from django.http  import JsonResponse
 
-from .models      import News, Comments
+from .models      import News, Comments, Thumbnails, Keyword
 from user.models  import User
 from user.utils   import login_decorator
 
+# 뉴스 Read
 class NewsView(View):
     def get(self, request):
         news_list = [{
@@ -19,6 +20,9 @@ class NewsView(View):
                 'news_title'   : news.news_title,
                 'news_image'   : news.news_image,
                 'news_article' : news.news_article,
+                'keyword'      : Keyword.objects.get(news=news.id).keyword,
+                'definition'   : Keyword.objects.get(news=news.id).definition,
+                'thumbnails'   : [t.thumbnail_url for t in Thumbnails.objects.filter(news=news.id)],
                 'comments'     : [{
                     'user': c.user.user_name, 
                     'content': c.content, 
@@ -30,7 +34,7 @@ class NewsView(View):
         ]
         return JsonResponse({'data': news_list}, status=200)
 
-
+# 댓글 Create
 class CommentsView(View):
     # 댓글 Create
     @login_decorator    # login 검증
@@ -56,7 +60,7 @@ class CommentsView(View):
         )
         return JsonResponse({'message': 'SUCCESS'}, status=200)
 
-
+# 댓글 Update / Delete
 class CommentsDetailView(View):
     # 뎃글 Update
     @login_decorator    # login 검증
@@ -103,7 +107,7 @@ class CommentsDetailView(View):
         comments.delete()
         return JsonResponse({'message': 'SUCCESS'}, status=200)
 
-
+# 좋아요 Create
 class LikeView(View):
     # 좋아요 기능
     # @login_decorator    # login 검증

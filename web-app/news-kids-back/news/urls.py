@@ -10,6 +10,6 @@ from .views import (
 urlpatterns = [
     path('', NewsView.as_view()),
     path('comments', CommentsView.as_view()),
-    path('comments/<int:comment_id>', CommentsDetailView.as_view()),
+    path('comments/<int:comments_id>', CommentsDetailView.as_view()),
     path('like', LikeView.as_view()),
 ]
