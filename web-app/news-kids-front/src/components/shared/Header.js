@@ -30,7 +30,7 @@ function Header() {
                         <MyButton>홈</MyButton>
                     </Link>
                     <Link to={`/trend`}>
-                        <MyButton>트랜드</MyButton>
+                        <MyButton>트렌드</MyButton>
                     </Link>
                     <Link to={`/quiz`}>
                         <MyButton>퀴즈</MyButton>
