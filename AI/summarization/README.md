@@ -29,11 +29,14 @@
 - [어린이 조선일보](http://kid.chosun.com) 
 
 ### 2. Preprocess
-- newsdata to json use Mecab
+- newsdata to json use [Mecab](https://konlpy.org/ko/latest/api/konlpy.tag/#mecab-class)
 - json to Bert pytorch file
 
 ### 3. Train
-- train with endoer-classifier
+- train with encoder-classifier
+
+<img width="888" alt="image" src="https://user-images.githubusercontent.com/44595181/163676742-e8f58c31-5b43-42ae-9162-70e4006e5608.png">
+
 
 ### 4. Test
 
