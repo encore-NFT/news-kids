@@ -151,3 +151,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# credential file
+*credentials.json
+
+# aws-file
+*rootkey.csv
