@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from "./components/shared/Layout";
 import Home from "./screens/Home";
@@ -7,18 +8,16 @@ import Quiz from "./screens/Quiz";
 import SignUp from "./screens/SignUp";
 import { GlobalStyles } from "./styles";
 
-const TOKEN = "token";
-export const isLoggedIn = Boolean(localStorage.getItem(TOKEN));
-console.log(isLoggedIn)
-
 function App() {
+  const TOKEN = "token";
+  const [isLoggedIn, setIsLoggedIn] = useState(Boolean(localStorage.getItem(TOKEN)));
 
   return (
     <>
       <GlobalStyles />
       <Router>
         <Routes>
-          <Route path={`/`} element={isLoggedIn ? <Layout><Home /></Layout> : <Login />} />
+          <Route path={`/`} element={isLoggedIn ? <Layout setIsLoggedIn={setIsLoggedIn}><Home /></Layout> : <Login setIsLoggedIn={setIsLoggedIn} />} />
           <Route path={`/quiz`} element={<Layout><Quiz /></Layout>} />
           <Route path={`/profile`} element={<Layout><Profile /></Layout>} />
           <Route path={`/sign-up`} element={<SignUp />} />

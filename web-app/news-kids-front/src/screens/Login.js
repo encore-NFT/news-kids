@@ -8,9 +8,8 @@ import BottomBox from "../components/auth/BottomBox";
 import LogoImg from '../components/auth/LogoImg';
 import AuthApis from '../api/AuthApis';
 import FormError from '../components/auth/FormError';
-import isLoggedIn from '../App';
 
-function Login() {
+function Login({ setIsLoggedIn }) {
     const { register, handleSubmit, formState: { errors }, setError, clearErrors } = useForm();
     const onSubmitValid = (data) => {
         postLogin(data)
@@ -24,8 +23,7 @@ function Login() {
             const token = response.data.access_token;
             if (token) {
                 localStorage.setItem("token", token);
-                isLoggedIn(true);
-                window.location.reload();
+                setIsLoggedIn(true);
             };
 
         } catch (err) {

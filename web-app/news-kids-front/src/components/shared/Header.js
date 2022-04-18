@@ -6,9 +6,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import styledComponents from "styled-components";
 import { theme } from "../../styles";
-import isLoggedIn from '../../App';
 
-function Header() {
+function Header({ setIsLoggedIn }) {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
 
@@ -23,8 +22,7 @@ function Header() {
     const logout = () => {
         handleClose();
         localStorage.removeItem("token");
-        isLoggedIn(false);
-        window.location.reload();
+        setIsLoggedIn(false);
     }
 
     return (
