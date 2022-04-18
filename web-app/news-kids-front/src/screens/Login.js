@@ -6,14 +6,21 @@ import AuthLayout from "../components/auth/AuthLayout";
 import AuthButton from "../components/auth/AuthButton";
 import BottomBox from "../components/auth/BottomBox";
 import LogoImg from '../components/auth/LogoImg';
+import AuthApis from '../api/AuthApis';
 
 function Login() {
-    const { register, handleSubmit, clearErrors } = useForm();
+    const { register, handleSubmit } = useForm();
     const onSubmitValid = (data) => {
-        console.log(data)
+        postLogin(data)
     };
-    const clearLoginError = () => {
-        clearErrors("result");
+
+    const postLogin = async (data) => {
+        try {
+            const response = await AuthApis.postLogin(data);
+            console.log("로그인 response", response);
+        } catch (err) {
+            console.log("Error", err);
+        }
     }
     return (
         <AuthLayout>
@@ -21,11 +28,11 @@ function Login() {
                 <LogoImg width="230px" height="40px" src={logo} alt="굿즈 로고" />
                 <form onSubmit={handleSubmit(onSubmitValid)}>
                     <AuthInput
-                        {...register('name', {
+                        {...register('id', {
                             required: "사용자 아이디는 필수입니다."
                         })}
-                        onChange={clearLoginError}
-                        name="name"
+                        //onChange={clearLoginError}
+                        name="id"
                         label="아이디"
                         type="text"
                         variant="outlined"
@@ -35,7 +42,7 @@ function Login() {
                         {...register('password', {
                             required: "비밀번호는 필수입니다."
                         })}
-                        onChange={clearLoginError}
+                        // onChange={clearLoginError}
                         name="password"
                         label="비밀번호"
                         type="password"
