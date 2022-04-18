@@ -35,10 +35,11 @@
 
 ---
 
-1. test_result.csv :  <br>
-  | media  |    id    | article_original |   article_morp    | abstractive | extractive |
-  | :----: | :------: | :--------------: | :---------------: | :---------: | :--------: |
-  | 신문사 | 기사번호 |     기사원문     | 형태소분석된 기사 |  생성요약   |  추출요약  |
+1. test_result.csv :
+
+| media  |    id    | article_original |   article_morp    | abstractive | extractive |
+|:----:|:------:|:--------------:|:---------------:|:---------:|:--------:|
+| 신문사 | 기사번호 |     기사원문     | 형태소분석된 기사 |  생성요약   |  추출요약  |
 
 2. bert_data : json_data to pt
    - `korean.test.0.bert.pt`, `korean.train.0.bert.pt`, `korean.valid.0.bert.pt`
