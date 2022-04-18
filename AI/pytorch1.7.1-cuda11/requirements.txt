@@ -1,0 +1,16 @@
+xgboost
+tqdm
+pytorch-metric-learning
+jupyterlab
+jupyter
+matplotlib
+opencv-python-headless
+pytorch-lightning
+pytorch_pretrained_bert
+tensorboardX
+transformers
+multiprocess
+easydict
+seaborn
+tensorboard
+boto3
