@@ -86,6 +86,6 @@ class LoginView(View):
                 token = jwt.encode({'user_id': user.id}, SECRET_KEY, algorithm=ALGORITHMS)
                 return JsonResponse({'message': 'SUCCESS', 'access_token': token}, status=200) 
             
-            return JsonResponse({'message': 'INVALID_PASSWORD'}, status=401)
+            return JsonResponse({'message': '아이디 또는 비밀번호를 잘못 입력했습니다.'}, status=401)
         
-        return JsonResponse({'message': 'INVALID_USER'}, status=401)
+        return JsonResponse({'message': '아이디 또는 비밀번호를 잘못 입력했습니다.'}, status=401)
