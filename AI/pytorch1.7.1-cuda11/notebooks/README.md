@@ -35,7 +35,7 @@
 
 ---
 
-1. test_result.csv : 
+1. test_result.csv :  <br>
   | media  |    id    | article_original |   article_morp    | abstractive | extractive |
   | :----: | :------: | :--------------: | :---------------: | :---------: | :--------: |
   | 신문사 | 기사번호 |     기사원문     | 형태소분석된 기사 |  생성요약   |  추출요약  |
