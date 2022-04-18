@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import styledComponents from "styled-components";
 import { theme } from "../../styles";
+import isLoggedIn from '../../App';
 
 function Header() {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -18,6 +19,13 @@ function Header() {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    const logout = () => {
+        handleClose();
+        localStorage.removeItem("token");
+        isLoggedIn(false);
+        window.location.reload();
+    }
 
     return (
         <MyAppBar position="fixed">
@@ -71,7 +79,7 @@ function Header() {
                             <Link to={`/profile`}>
                                 <MenuItem onClick={handleClose}>마이페이지</MenuItem>
                             </Link>
-                            <MenuItem onClick={handleClose}>로그아웃</MenuItem>
+                            <MenuItem onClick={logout}>로그아웃</MenuItem>
                         </Menu>
                     </div>
                 </Toolbar>

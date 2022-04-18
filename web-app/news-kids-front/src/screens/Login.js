@@ -8,9 +8,10 @@ import BottomBox from "../components/auth/BottomBox";
 import LogoImg from '../components/auth/LogoImg';
 import AuthApis from '../api/AuthApis';
 import FormError from '../components/auth/FormError';
+import isLoggedIn from '../App';
 
 function Login() {
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, formState: { errors }, setError, clearErrors } = useForm();
     const onSubmitValid = (data) => {
         postLogin(data)
     };
@@ -19,9 +20,25 @@ function Login() {
         try {
             const response = await AuthApis.postLogin(data);
             console.log("로그인 response", response);
+
+            const token = response.data.access_token;
+            if (token) {
+                localStorage.setItem("token", token);
+                isLoggedIn(true);
+                window.location.reload();
+            };
+
         } catch (err) {
-            console.log("Error", err);
+            if (err.response.status === 401) {
+                return setError("result", {
+                    message: err.response.data.message,
+                });
+            }
         }
+    }
+
+    const clearLoginError = () => {
+        clearErrors("result");
     }
     return (
         <AuthLayout>
@@ -32,6 +49,7 @@ function Login() {
                         {...register('id', {
                             required: "사용자 아이디는 필수입니다."
                         })}
+                        onChange={clearLoginError}
                         name="id"
                         label="아이디 또는 이메일"
                         type="text"
@@ -47,6 +65,7 @@ function Login() {
                                 message: "비밀번호는 최소 8자 이상입니다."
                             },
                         })}
+                        onChange={clearLoginError}
                         name="password"
                         label="비밀번호"
                         type="password"
@@ -54,7 +73,9 @@ function Login() {
                         size="small"
                     />
                     {errors.password && (<FormError message={errors.password.message} />)}
+                    {/* <AuthButton type="submit" onClick={() => setIsLoggedIn(true)}>로그인</AuthButton> */}
                     <AuthButton type="submit">로그인</AuthButton>
+                    <FormError message={errors?.result?.message} />
                 </form>
             </FormBox>
             <BottomBox cta="계정이 없으신가요?" linkText="회원가입" link={`/sign-up`} />
