@@ -1,20 +1,31 @@
-import axios from "axios"
+import NewsApis from "../api/NewsApis"
+import {useEffect, useState} from 'react'
+
 function Home() {
+    const [news, setNews] = useState([]);
 
-    const TestApiCall = async () => {
+    useEffect(() => {
+        readNewsLIsts();
+    }, []);
+
+    const readNewsLIsts = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/api/news')
-            const data = response.data;
-            console.log("response >>", data);
-        } catch (err) {
-            console.log("Error >>", err);
+            const response = await NewsApis.getNewsList();
+            if (response.status === 200) {
+                console.log(response.data);
+                setNews(response.data);
+                console.log(news);
+            } else {
+                alert(response.status);
+            }
+        } catch (error) {
+            console.log(error);
         }
-    }
-
-    console.log(TestApiCall());
+    };
 
     return (
-        <div>News-Kids HomePage
+        <div>
+            News-Kids HomePage
         </div>
     )
 }
