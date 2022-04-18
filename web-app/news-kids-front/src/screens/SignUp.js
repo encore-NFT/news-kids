@@ -6,12 +6,25 @@ import AuthLayout from "../components/auth/AuthLayout";
 import AuthButton from "../components/auth/AuthButton";
 import BottomBox from "../components/auth/BottomBox";
 import LogoImg from '../components/auth/LogoImg';
+import AuthApis from '../api/AuthApis';
+
 
 function SignUp() {
     const { register, handleSubmit } = useForm();
+
     const onSubmitValid = (data) => {
-        console.log(data)
+        postSignup(data);
     };
+
+    const postSignup = async (data) => {
+        try {
+            const response = await AuthApis.postRegister(data)
+            console.log("회원가입 response", response);
+        } catch (err) {
+            console.log("Error", err);
+        }
+    }
+
     return (
         <AuthLayout>
             <FormBox>
