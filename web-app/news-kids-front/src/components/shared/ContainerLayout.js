@@ -9,7 +9,7 @@ const QuizContainer = styled(Container)({
     textAlign: 'center',
 });
 
-function QuizLayout({ children }) {
+function ContainerLayout({ children }) {
     return (
         <QuizContainer>
             {children}
@@ -17,4 +17,4 @@ function QuizLayout({ children }) {
     )
 }
 
-export default QuizLayout;
+export default ContainerLayout;

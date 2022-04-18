@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styledComponents from 'styled-components';
 import QuestionButton from '../components/quiz/QuestionButton';
-import QuizLayout from '../components/quiz/QuizLayout';
+import ContainerLayout from '../components/shared/ContainerLayout';
 
 function Quiz() {
     const questions = [
@@ -71,14 +71,14 @@ function Quiz() {
     return (
         <>
             {showScore ? (
-                <QuizLayout>
+                <ContainerLayout>
                     <QuizState>점수 결과</QuizState>
                     <Question>
                         {questions.length * 20}점 만점에 당신의 점수는 {score}점 입니다.
                     </Question>
-                </QuizLayout>
+                </ContainerLayout>
             ) : (
-                <QuizLayout>
+                <ContainerLayout>
                     <QuizTop>
                         <QuizState>
                             퀴즈 {currentQuestion + 1}
@@ -90,7 +90,7 @@ function Quiz() {
                             <QuestionButton key={answerOption.answerText} onClick={() => handleAnswerOptionClick(answerOption.isCorrect)}>{answerOption.answerText}</QuestionButton>
                         ))}
                     </Questions>
-                </QuizLayout>
+                </ContainerLayout>
             )}
         </>
     );
