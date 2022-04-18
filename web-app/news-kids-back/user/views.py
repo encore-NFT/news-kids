@@ -47,7 +47,7 @@ class SignupView(View):
         
         # unique 값 검증
         if User.objects.filter(Q(user_email=email) | Q(user_name=name)).exists():
-            return JsonResponse({'message': 'USER_ALREADY_EXISTS'}, status=409)
+            return JsonResponse({'message': '사용자 아이디 또는 이메일이 존재합니다.'}, status=409)
 
         # 회원 생성
         User.objects.create(
