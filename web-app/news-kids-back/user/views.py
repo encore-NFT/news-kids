@@ -63,9 +63,13 @@ class LoginView(View):
     # post request
     def post(self, request):
         data     = json.loads(request.body)
-        email    = data.get('email', None)
-        name     = data.get('name', None)
+        id       = data.get('id', None)
         password = data.get('password', None)
+
+        if validate_email(id):
+            email, name = id, None
+        else:
+            email, name = None, id
         
         # 프론트에서 1차 공백 체크
         if not (password and (email or name)):
