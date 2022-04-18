@@ -20,8 +20,9 @@ class NewsView(View):
                 'news_title'   : news.news_title,
                 'news_image'   : news.news_image,
                 'news_article' : news.news_article,
-                'keyword'      : Keyword.objects.get(news=news.id).keyword,
-                'definition'   : Keyword.objects.get(news=news.id).definition,
+                # 'keyword'      : Keyword.objects.get(news=news.id).keyword,
+                # 'definition'   : Keyword.objects.get(news=news.id).definition,
+                'keyword'      : list(Keyword.objects.filter(news=news.id).values('keyword', 'definition')),
                 'thumbnails'   : [t.thumbnail_url for t in Thumbnails.objects.filter(news=news.id)],
                 'comments'     : [{
                     'user': c.user.user_name, 
