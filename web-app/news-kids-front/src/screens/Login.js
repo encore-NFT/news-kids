@@ -7,9 +7,10 @@ import AuthButton from "../components/auth/AuthButton";
 import BottomBox from "../components/auth/BottomBox";
 import LogoImg from '../components/auth/LogoImg';
 import AuthApis from '../api/AuthApis';
+import FormError from '../components/auth/FormError';
 
 function Login() {
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmitValid = (data) => {
         postLogin(data)
     };
@@ -31,24 +32,28 @@ function Login() {
                         {...register('id', {
                             required: "사용자 아이디는 필수입니다."
                         })}
-                        //onChange={clearLoginError}
                         name="id"
-                        label="아이디"
+                        label="아이디 또는 이메일"
                         type="text"
                         variant="outlined"
                         size="small"
                     />
+                    {errors.id && (<FormError message={errors.id.message} />)}
                     <AuthInput
                         {...register('password', {
-                            required: "비밀번호는 필수입니다."
+                            required: "비밀번호는 필수입니다.",
+                            minLength: {
+                                value: 8,
+                                message: "비밀번호는 최소 8자 이상입니다."
+                            },
                         })}
-                        // onChange={clearLoginError}
                         name="password"
                         label="비밀번호"
                         type="password"
                         variant="outlined"
                         size="small"
                     />
+                    {errors.password && (<FormError message={errors.password.message} />)}
                     <AuthButton type="submit">로그인</AuthButton>
                 </form>
             </FormBox>
