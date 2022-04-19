@@ -109,14 +109,14 @@ class ProfileView(View):
         record = {
             'like': [
                 list(News.objects.filter(id=l.news_id)
-                    .values('id', 'news_title', 'news_image'))
+                    .values('id', 'news_title', 'news_image'))[0]
                 for l in like_record
             ],
             'comment': [{
                 'content' : c.content,
                 'timestamp': c.timestamp,
                 'news': list(News.objects.filter(id=c.news_id)
-                            .values('id', 'news_title', 'news_image'))
+                            .values('id', 'news_title', 'news_image'))[0]
                 }for c in comment_record
             ],
         }
