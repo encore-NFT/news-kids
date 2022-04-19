@@ -3,11 +3,13 @@ import { AppBar, Button, IconButton, InputBase, Menu, MenuItem, Toolbar } from "
 import { AccountCircle, Search } from "@material-ui/icons";
 import { styled } from "@material-ui/styles";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styledComponents from "styled-components";
 import { theme } from "../../styles";
 
-function Header() {
+function Header({ setIsLoggedIn, isLoggedIn }) {
+
+    const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
 
@@ -18,6 +20,17 @@ function Header() {
     const handleClose = () => {
         setAnchorEl(null);
     };
+    const myPage = () => {
+        handleClose();
+        navigate(`/profile`);
+    }
+
+    const logout = () => {
+        handleClose();
+        localStorage.removeItem("token");
+        setIsLoggedIn(false);
+        navigate(`/login`);
+    }
 
     return (
         <MyAppBar position="fixed">
@@ -68,10 +81,22 @@ function Header() {
                             open={open}
                             onClose={handleClose}
                         >
-                            <Link to={`/profile`}>
-                                <MenuItem onClick={handleClose}>마이페이지</MenuItem>
-                            </Link>
-                            <MenuItem onClick={handleClose}>로그아웃</MenuItem>
+                            {isLoggedIn
+                                ?
+                                <MenuItem onClick={myPage}>마이페이지</MenuItem>
+
+                                :
+                                <Link to={`/login`}>
+                                    <MenuItem onClick={handleClose}>마이페이지</MenuItem>
+                                </Link>
+                            }
+                            {isLoggedIn
+                                ? <MenuItem onClick={logout}>로그아웃</MenuItem>
+
+                                : <Link to={`/login`}>
+                                    <MenuItem>로그인</MenuItem>
+                                </Link>
+                            }
                         </Menu>
                     </div>
                 </Toolbar>

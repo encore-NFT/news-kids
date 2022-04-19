@@ -1,6 +1,12 @@
+// import {useEffect, useState} from 'react'
+
 function Home() {
+    
+
     return (
-        <div>News-Kids HomePage</div>
+        <div>
+            News-Kids HomePage
+        </div>
     )
 }
 

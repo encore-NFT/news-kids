@@ -7,6 +7,8 @@ from django.http import JsonResponse
 from django.db.models import Q
 
 from .models import User
+from news.models import Comments, News, Like
+from .utils   import login_decorator
 from config import SECRET_KEY, ALGORITHMS
 
 MINIMUM_PASSWORD_LENGTH = 8
@@ -47,7 +49,7 @@ class SignupView(View):
         
         # unique 값 검증
         if User.objects.filter(Q(user_email=email) | Q(user_name=name)).exists():
-            return JsonResponse({'message': 'USER_ALREADY_EXISTS'}, status=409)
+            return JsonResponse({'message': '사용자 아이디 또는 이메일이 존재합니다.'}, status=409)
 
         # 회원 생성
         User.objects.create(
@@ -63,9 +65,13 @@ class LoginView(View):
     # post request
     def post(self, request):
         data     = json.loads(request.body)
-        email    = data.get('email', None)
-        name     = data.get('name', None)
+        id       = data.get('id', None)
         password = data.get('password', None)
+
+        if validate_email(id):
+            email, name = id, None
+        else:
+            email, name = None, id
         
         # 프론트에서 1차 공백 체크
         if not (password and (email or name)):
@@ -82,6 +88,38 @@ class LoginView(View):
                 token = jwt.encode({'user_id': user.id}, SECRET_KEY, algorithm=ALGORITHMS)
                 return JsonResponse({'message': 'SUCCESS', 'access_token': token}, status=200) 
             
-            return JsonResponse({'message': 'INVALID_PASSWORD'}, status=401)
-        
-        return JsonResponse({'message': 'INVALID_USER'}, status=401)
+            return JsonResponse({'message': '아이디 또는 비밀번호를 잘못 입력했습니다.'}, status=401)
+
+        return JsonResponse({'message': '아이디 또는 비밀번호를 잘못 입력했습니다.'}, status=401)
+
+# 프로필
+class ProfileView(View):
+    @login_decorator
+    def get(self, request):
+        user_id = request.user.id
+        user = User.objects.get(id=user_id)
+        comment_record = Comments.objects.filter(user_id=user_id)
+        like_record = Like.objects.filter(user_id=user_id)
+
+        profile = {
+            'user_name': user.user_name,
+            'user_nickname': user.user_nickname,
+            'user_email': user.user_email,
+        }
+        record = {
+            'like': [
+                list(News.objects.filter(id=l.news_id)
+                    .values('id', 'news_title', 'news_image'))
+                for l in like_record
+            ],
+            'comment': [{
+                'content' : c.content,
+                'timestamp': c.timestamp,
+                'news': list(News.objects.filter(id=c.news_id)
+                            .values('id', 'news_title', 'news_image'))
+                }for c in comment_record
+            ],
+        }
+
+        data = {'profile': profile, 'record': record}
+        return JsonResponse({'data': data}, status=200)

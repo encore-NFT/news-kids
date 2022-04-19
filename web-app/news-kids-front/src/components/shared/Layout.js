@@ -6,13 +6,13 @@ const Content = styled.main`
     margin-top: 100px;
     width: 100%;
     max-width: 1000px;
-    min-width: 530px;
+    min-width: 500px;
 `;
 
-function Layout({ children }) {
+function Layout({ children, setIsLoggedIn, isLoggedIn }) {
     return (
         <>
-            <Header />
+            <Header setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />
             <Content>
                 {children}
             </Content>

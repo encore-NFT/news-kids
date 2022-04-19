@@ -4,6 +4,7 @@ const AuthContainer = styled(Container)({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    textAlign: 'center',
     flexDirection: 'column',
     border: '1px solid #dbdbdb',
     backgroundColor: '#ffffff',
