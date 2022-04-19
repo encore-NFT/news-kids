@@ -10,7 +10,7 @@ import { GlobalStyles } from "./styles";
 
 function App() {
 
-  const TOKEN = "token";
+  const TOKEN = "Authorization";
   const [isLoggedIn, setIsLoggedIn] = useState(Boolean(localStorage.getItem(TOKEN)));
   return (
     <>
