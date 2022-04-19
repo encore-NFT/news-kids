@@ -7,6 +7,8 @@ from django.http import JsonResponse
 from django.db.models import Q
 
 from .models import User
+from news.models import Comments, News, Like
+from .utils   import login_decorator
 from config import SECRET_KEY, ALGORITHMS
 
 MINIMUM_PASSWORD_LENGTH = 8
@@ -87,5 +89,29 @@ class LoginView(View):
                 return JsonResponse({'message': 'SUCCESS', 'access_token': token}, status=200) 
             
             return JsonResponse({'message': '아이디 또는 비밀번호를 잘못 입력했습니다.'}, status=401)
-        
+
         return JsonResponse({'message': '아이디 또는 비밀번호를 잘못 입력했습니다.'}, status=401)
+
+# 프로필
+class ProfileView(View):
+    @login_decorator
+    def get(self, request):
+        user_id = request.user
+
+        profile = [{
+            'user_name'     : u.user_name,
+            'user_nickname' : u.user_nickname,
+            'user_email'    : u.user_email,
+            'like'          : [{
+                'news' : News.objects.get(id=l.news_id)
+            } for l in Like.objects.filter(user_id=user_id)],
+            'comments': [{
+                'content'   : c.content,
+                'timestamp' : c.timestamp,
+                'news' : News.objects.get(id=c.news_id)
+                } for c in Comments.objects.filter(user_id=user_id)
+            ],
+            } for u in User.objects.filter(id=user_id)
+        ]
+
+        return JsonResponse({'data': profile}, status=200)
