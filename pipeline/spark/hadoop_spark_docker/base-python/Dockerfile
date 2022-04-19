@@ -56,10 +56,6 @@ RUN set -x \
     && cd ${shared_workspace} \
     && mkdir jars \
     && cd jars \
-    # && curl -LO https://repo1.maven.org/maven2/org/mongodb/spark/mongo-spark-connector_2.12/3.0.1/mongo-spark-connector_2.12-3.0.1.jar \
-    # && curl -LO https://repo1.maven.org/maven2/org/mongodb/mongodb-driver-core/4.0.5/mongodb-driver-core-4.0.5.jar \
-    # && curl -LO https://repo1.maven.org/maven2/org/mongodb/mongodb-driver-sync/4.0.5/mongodb-driver-sync-4.0.5.jar \
-    # && curl -LO https://repo1.maven.org/maven2/org/mongodb/bson/4.0.5/bson-4.0.5.jar \
     && curl -LO https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.21/mysql-connector-java-8.0.21.jar \
     && curl -LO https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.2.3/hadoop-aws-3.2.3.jar \
     && curl -LO https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.901/aws-java-sdk-bundle-1.11.901.jar \
@@ -71,9 +67,6 @@ RUN pip3 install --upgrade \
     setuptools \
     wheel \
     pandas \
-    # m1
-    && pip install tensorflow==2.6.0 -f https://tf.kmtea.eu/whl/stable.html \
-    # intel
     # tensorflow==2.6.0 \
     # scipy \
     # Cython \
@@ -81,9 +74,9 @@ RUN pip3 install --upgrade \
     # torch \
     JPype1 \
     konlpy \
-    mecab-python3 \
+    mecab-python3
     # # kss \
-    && pip uninstall -y keras==2.8.0
+    # && pip uninstall -y keras==2.8.0
 
 # Add credential for S3 & RDS
 COPY ./base-python/credentials.json /opt/workspace/src/.credentials.json
