@@ -26,6 +26,12 @@ def validate_password(password):
         return False
     return True
 
+# get json
+def get_json(arr):
+    if arr:
+        return arr[0]
+    return arr
+
 # 회원가입
 class SignupView(View):
     # post request
@@ -108,16 +114,17 @@ class ProfileView(View):
         }
         record = {
             'like': [
-                list(News.objects.filter(id=l.news_id)
-                    .values('id', 'news_title', 'news_image'))[0]
+                get_json(list(News.objects.filter(id=l.news_id)
+                    .values('id', 'news_title', 'news_image')))
                 for l in like_record
             ],
             'comment': [{
+                'id': c.id,
                 'content' : c.content,
                 'timestamp': c.timestamp,
-                'news': list(News.objects.filter(id=c.news_id)
-                            .values('id', 'news_title', 'news_image'))[0]
-                }for c in comment_record
+                'news': get_json(list(News.objects.filter(id=c.news_id)
+                            .values('id', 'news_title', 'news_image')))
+                } for c in comment_record
             ],
         }
 

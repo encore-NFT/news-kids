@@ -8,6 +8,12 @@ from .models      import News, Comments, Thumbnails, Keyword
 from user.models  import User
 from user.utils   import login_decorator
 
+# get json
+def get_json(arr):
+    if arr:
+        return arr[0]
+    return arr
+
 # 뉴스 Read
 class NewsView(View):
     def get(self, request):
@@ -20,7 +26,7 @@ class NewsView(View):
                 'news_title'   : news.news_title,
                 'news_image'   : news.news_image,
                 'news_article' : news.news_article,
-                'keyword'      : list(Keyword.objects.filter(news=news.id).values('keyword', 'definition')),
+                'keyword'      : get_json(list(Keyword.objects.filter(news=news.id).values('keyword', 'definition'))),
                 'thumbnails'   : [t.thumbnail_url for t in Thumbnails.objects.filter(news=news.id)],
                 'comments'     : [{
                     'user': c.user.user_name, 
