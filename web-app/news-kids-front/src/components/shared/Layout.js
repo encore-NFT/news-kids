@@ -9,10 +9,10 @@ const Content = styled.main`
     min-width: 500px;
 `;
 
-function Layout({ children, setIsLoggedIn }) {
+function Layout({ children, setIsLoggedIn, isLoggedIn }) {
     return (
         <>
-            <Header setIsLoggedIn={setIsLoggedIn} />
+            <Header setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />
             <Content>
                 {children}
             </Content>

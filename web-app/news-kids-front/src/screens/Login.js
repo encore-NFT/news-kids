@@ -8,9 +8,13 @@ import BottomBox from "../components/auth/BottomBox";
 import LogoImg from '../components/auth/LogoImg';
 import AuthApis from '../api/AuthApis';
 import FormError from '../components/auth/FormError';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Login({ setIsLoggedIn }) {
-    const { register, handleSubmit, formState: { errors }, setError, clearErrors } = useForm();
+    const navigate = useNavigate();
+    const { register, handleSubmit, formState: { errors }, setError, clearErrors } = useForm({
+        mode: "onChange",
+    });
     const onSubmitValid = (data) => {
         postLogin(data)
     };
@@ -24,6 +28,7 @@ function Login({ setIsLoggedIn }) {
             if (token) {
                 localStorage.setItem("token", token);
                 setIsLoggedIn(true);
+                navigate(`/`);
             };
 
         } catch (err) {
@@ -41,7 +46,9 @@ function Login({ setIsLoggedIn }) {
     return (
         <AuthLayout>
             <FormBox>
-                <LogoImg width="230px" height="40px" src={logo} alt="굿즈 로고" />
+                <Link to={`/`}>
+                    <LogoImg width="230px" height="40px" src={logo} alt="굿즈 로고" />
+                </Link>
                 <form onSubmit={handleSubmit(onSubmitValid)}>
                     <AuthInput
                         {...register('id', {
@@ -71,7 +78,6 @@ function Login({ setIsLoggedIn }) {
                         size="small"
                     />
                     {errors.password && (<FormError message={errors.password.message} />)}
-                    {/* <AuthButton type="submit" onClick={() => setIsLoggedIn(true)}>로그인</AuthButton> */}
                     <AuthButton type="submit">로그인</AuthButton>
                     <FormError message={errors?.result?.message} />
                 </form>

@@ -8,16 +8,18 @@ import BottomBox from "../components/auth/BottomBox";
 import LogoImg from '../components/auth/LogoImg';
 import AuthApis from '../api/AuthApis';
 import FormError from '../components/auth/FormError';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 function SignUp() {
-    const { register, handleSubmit, formState: { errors }, reset, setError } = useForm({
+    const navigate = useNavigate();
+    const { register, handleSubmit, formState: { errors }, setError } = useForm({
         mode: "onChange",
     });
 
     const onSubmitValid = (data) => {
         postSignup(data);
-        reset();
+        navigate(`/login`);
     };
 
     const postSignup = async (data) => {
@@ -36,7 +38,9 @@ function SignUp() {
     return (
         <AuthLayout>
             <FormBox>
-                <LogoImg width="230px" height="40px" src={logo} alt="굿즈 로고" />
+                <Link to={`/`}>
+                    <LogoImg width="230px" height="40px" src={logo} alt="굿즈 로고" />
+                </Link>
                 <form onSubmit={handleSubmit(onSubmitValid)}>
                     <AuthInput
                         {...register('name', {

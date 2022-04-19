@@ -9,6 +9,7 @@ import SignUp from "./screens/SignUp";
 import { GlobalStyles } from "./styles";
 
 function App() {
+
   const TOKEN = "token";
   const [isLoggedIn, setIsLoggedIn] = useState(Boolean(localStorage.getItem(TOKEN)));
 
@@ -17,9 +18,10 @@ function App() {
       <GlobalStyles />
       <Router>
         <Routes>
-          <Route path={`/`} element={isLoggedIn ? <Layout setIsLoggedIn={setIsLoggedIn}><Home /></Layout> : <Login setIsLoggedIn={setIsLoggedIn} />} />
+          <Route path={`/`} element={<Layout setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} ><Home /></Layout>} />
           <Route path={`/quiz`} element={<Layout><Quiz /></Layout>} />
           <Route path={`/profile`} element={<Layout><Profile /></Layout>} />
+          <Route path={`/login`} element={<Login setIsLoggedIn={setIsLoggedIn} />} />
           <Route path={`/sign-up`} element={<SignUp />} />
         </Routes>
       </Router>

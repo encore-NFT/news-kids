@@ -3,11 +3,12 @@ import { AppBar, Button, IconButton, InputBase, Menu, MenuItem, Toolbar } from "
 import { AccountCircle, Search } from "@material-ui/icons";
 import { styled } from "@material-ui/styles";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styledComponents from "styled-components";
 import { theme } from "../../styles";
 
-function Header({ setIsLoggedIn }) {
+function Header({ setIsLoggedIn, isLoggedIn }) {
+    const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
 
@@ -23,6 +24,7 @@ function Header({ setIsLoggedIn }) {
         handleClose();
         localStorage.removeItem("token");
         setIsLoggedIn(false);
+        navigate(`/login`);
     }
 
     return (
@@ -74,10 +76,22 @@ function Header({ setIsLoggedIn }) {
                             open={open}
                             onClose={handleClose}
                         >
-                            <Link to={`/profile`}>
-                                <MenuItem onClick={handleClose}>마이페이지</MenuItem>
-                            </Link>
-                            <MenuItem onClick={logout}>로그아웃</MenuItem>
+                            {isLoggedIn
+                                ? <Link to={`/profile`}>
+                                    <MenuItem onClick={handleClose}>마이페이지</MenuItem>
+                                </Link>
+
+                                : <Link to={`/login`}>
+                                    <MenuItem onClick={handleClose}>마이페이지</MenuItem>
+                                </Link>
+                            }
+                            {isLoggedIn
+                                ? <MenuItem onClick={logout}>로그아웃</MenuItem>
+
+                                : <Link to={`/login`}>
+                                    <MenuItem>로그인</MenuItem>
+                                </Link>
+                            }
                         </Menu>
                     </div>
                 </Toolbar>
