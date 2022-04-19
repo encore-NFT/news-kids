@@ -96,22 +96,30 @@ class LoginView(View):
 class ProfileView(View):
     @login_decorator
     def get(self, request):
-        user_id = request.user
+        user_id = request.user.id
+        user = User.objects.get(id=user_id)
+        comment_record = Comments.objects.filter(user_id=user_id)
+        like_record = Like.objects.filter(user_id=user_id)
 
-        profile = [{
-            'user_name'     : u.user_name,
-            'user_nickname' : u.user_nickname,
-            'user_email'    : u.user_email,
-            'like'          : [{
-                'news' : News.objects.get(id=l.news_id)
-            } for l in Like.objects.filter(user_id=user_id)],
-            'comments': [{
-                'content'   : c.content,
-                'timestamp' : c.timestamp,
-                'news' : News.objects.get(id=c.news_id)
-                } for c in Comments.objects.filter(user_id=user_id)
+        profile = {
+            'user_name': user.user_name,
+            'user_nickname': user.user_nickname,
+            'user_email': user.user_email,
+        }
+        record = {
+            'like': [
+                list(News.objects.filter(id=l.news_id)
+                    .values('id', 'news_title', 'news_image'))
+                for l in like_record
             ],
-            } for u in User.objects.filter(id=user_id)
-        ]
+            'comment': [{
+                'content' : c.content,
+                'timestamp': c.timestamp,
+                'news': list(News.objects.filter(id=c.news_id)
+                            .values('id', 'news_title', 'news_image'))
+                }for c in comment_record
+            ],
+        }
 
-        return JsonResponse({'data': profile}, status=200)
+        data = {'profile': profile, 'record': record}
+        return JsonResponse({'data': data}, status=200)
