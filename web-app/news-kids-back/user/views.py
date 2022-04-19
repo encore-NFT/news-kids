@@ -2,6 +2,8 @@ import re
 import jwt
 import json
 import bcrypt
+from datetime import datetime
+
 from django.views import View
 from django.http import JsonResponse
 from django.db.models import Q
@@ -31,6 +33,11 @@ def get_json(arr):
     if arr:
         return arr[0]
     return arr
+
+# time parsing
+def time_str(timestamp):
+    timestamp = timestamp.strftime("%Y.%m.%d. %H:%M:%S")
+    return timestamp
 
 # 회원가입
 class SignupView(View):
@@ -121,7 +128,7 @@ class ProfileView(View):
             'comment': [{
                 'id': c.id,
                 'content' : c.content,
-                'timestamp': c.timestamp,
+                'timestamp': time_str(c.timestamp),
                 'news': get_json(list(News.objects.filter(id=c.news_id)
                             .values('id', 'news_title', 'news_image')))
                 } for c in comment_record
