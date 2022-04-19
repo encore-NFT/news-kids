@@ -23,13 +23,16 @@ torch: 1.7.1
 ## 실행
 - image build
 ```
-docker build -t pytorch1.7.1-cuda11.3 -f v2.DockerFile .
+docker build -t cuda11.3:pytorch1.7.1 -f pytorch.DockerFile .
 ```
 - docker run : gpu 사용
 ```
-docker run -it --name pytorch --gpus '"device=0"' -v $PWD/notebooks:/notebooks -p 8888:8888 -p 6006:6006 pytorch1.7.1-cuda11:latest
+docker run -it --name pytorch --gpus '"device=0"' -v $PWD/notebooks:/notebooks -p 8888:8888 -p 6006:6006 cuda11.3:pytorch1.7.1
 ```
-
+- docker start
+```
+docker start pytorch -i
+```
 ---
 
 # local M1 conda 환경 구성
