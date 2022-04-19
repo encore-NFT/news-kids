@@ -38,7 +38,7 @@ RUN set -x \
     && curl -LO https://bitbucket.org/eunjeon/mecab-ko/downloads/mecab-0.996-ko-0.9.2.tar.gz \
     && tar -zxvf mecab-0.996-ko-0.9.2.tar.gz \
     && cd mecab-0.996-ko-0.9.2 \
-    ./configure && \
+    && ./configure \
     && make && make check && make install && ldconfig \
     # mecab-ko-dic
     && cd ${shared_workspace} \
@@ -46,7 +46,7 @@ RUN set -x \
     && tar -zxvf mecab-ko-dic-2.1.1-20180720.tar.gz \
     && cd mecab-ko-dic-2.1.1-20180720 \
     && ./autogen.sh \
-    ./configure && \
+    && ./configure \
     && make && make install \
     && cd ${shared_workspace} \
     && rm mecab-0.996-ko-0.9.2.tar.gz mecab-ko-dic-2.1.1-20180720.tar.gz
@@ -80,4 +80,3 @@ RUN pip3 install --upgrade \
 
 # Add credential for S3 & RDS
 COPY ./base-python/credentials.json /opt/workspace/src/.credentials.json
-ADD ./base/entrypoint.sh /entrypoint.sh
