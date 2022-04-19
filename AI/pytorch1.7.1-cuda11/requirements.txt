@@ -1,5 +1,6 @@
 xgboost
 tqdm
+pandas
 pytorch-metric-learning
 jupyterlab
 jupyter
@@ -14,3 +15,8 @@ easydict
 seaborn
 tensorboard
 boto3
+textblob
+wordcloud
+konlpy
+JPype1
+jamo
