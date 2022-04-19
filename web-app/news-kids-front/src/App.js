@@ -6,6 +6,7 @@ import Login from "./screens/Login";
 import Profile from "./screens/Profile";
 import Quiz from "./screens/Quiz";
 import SignUp from "./screens/SignUp";
+import Trend from "./screens/Trend";
 import { GlobalStyles } from "./styles";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
       <Router>
         <Routes>
           <Route path={`/`} element={<Layout setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} ><Home /></Layout>} />
+          <Route path={`/trend`} element={<Layout setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} ><Trend /></Layout>} />
           <Route path={`/quiz`} element={<Layout setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} ><Quiz /></Layout>} />
           <Route path={`/profile`} element={<Layout setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn}><Profile /></Layout>} />
           <Route path={`/login`} element={<Login setIsLoggedIn={setIsLoggedIn} />} />
