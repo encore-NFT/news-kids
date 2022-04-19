@@ -14,6 +14,11 @@ def get_json(arr):
         return arr[0]
     return arr
 
+# time parsing
+def time_str(timestamp):
+    timestamp = timestamp.strftime("%Y.%m.%d. %H:%M:%S")
+    return timestamp
+
 # 뉴스 Read
 class NewsView(View):
     def get(self, request):
@@ -31,7 +36,7 @@ class NewsView(View):
                 'comments'     : [{
                     'user': c.user.user_name, 
                     'content': c.content, 
-                    'timestamp': c.timestamp
+                    'timestamp': time_str(c.timestamp)
                     } for c in Comments.objects.filter(news=news.id)
                 ],
                 'liked_users'  : news.liked_users.count(), 
