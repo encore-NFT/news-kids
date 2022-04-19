@@ -8,6 +8,7 @@ import styledComponents from "styled-components";
 import { theme } from "../../styles";
 
 function Header({ setIsLoggedIn, isLoggedIn }) {
+
     const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -19,6 +20,10 @@ function Header({ setIsLoggedIn, isLoggedIn }) {
     const handleClose = () => {
         setAnchorEl(null);
     };
+    const myPage = () => {
+        handleClose();
+        navigate(`/profile`);
+    }
 
     const logout = () => {
         handleClose();
@@ -77,11 +82,11 @@ function Header({ setIsLoggedIn, isLoggedIn }) {
                             onClose={handleClose}
                         >
                             {isLoggedIn
-                                ? <Link to={`/profile`}>
-                                    <MenuItem onClick={handleClose}>마이페이지</MenuItem>
-                                </Link>
+                                ?
+                                <MenuItem onClick={myPage}>마이페이지</MenuItem>
 
-                                : <Link to={`/login`}>
+                                :
+                                <Link to={`/login`}>
                                     <MenuItem onClick={handleClose}>마이페이지</MenuItem>
                                 </Link>
                             }

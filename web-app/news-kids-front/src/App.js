@@ -12,15 +12,14 @@ function App() {
 
   const TOKEN = "token";
   const [isLoggedIn, setIsLoggedIn] = useState(Boolean(localStorage.getItem(TOKEN)));
-
   return (
     <>
       <GlobalStyles />
       <Router>
         <Routes>
           <Route path={`/`} element={<Layout setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} ><Home /></Layout>} />
-          <Route path={`/quiz`} element={<Layout><Quiz /></Layout>} />
-          <Route path={`/profile`} element={<Layout><Profile /></Layout>} />
+          <Route path={`/quiz`} element={<Layout setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} ><Quiz /></Layout>} />
+          <Route path={`/profile`} element={<Layout setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn}><Profile /></Layout>} />
           <Route path={`/login`} element={<Login setIsLoggedIn={setIsLoggedIn} />} />
           <Route path={`/sign-up`} element={<SignUp />} />
         </Routes>
