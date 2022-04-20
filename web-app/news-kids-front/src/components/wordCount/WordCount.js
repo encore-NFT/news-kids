@@ -2,11 +2,9 @@ import ContainerLayout from '../shared/ContainerLayout'
 import { Grid, Typography, styled, Toolbar, Button } from '@material-ui/core'
 
 function WordCount({wordCount}) {
-    console.log(wordCount);
+    
     return (
-        <ContainerLayout>
-            hello
-        </ContainerLayout>
+        <>hello</>
     );
 }; 
 

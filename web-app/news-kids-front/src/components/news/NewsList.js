@@ -27,13 +27,11 @@ function NewsList({
                     {news_title}
                 </NewsInfo>
                 <Toolbar>
-                    <NewsInfo>{news_date}</NewsInfo>
-                    <a href={{ news_url }}>
-                        <Button>기사원문</Button>
-                    </a>
+                    <NewsInfo>{news_date} </NewsInfo>
+                    <Button variant='outlined' href={news_url} size='small'>기사원문</Button>
                 </Toolbar>
                 {/* <img className={classes.image} src={news_image}/> */}
-                <img src={news_image} />
+                <img src={news_image} alt={"뉴스 썸네일"}/>
                 {/* <Grid item className={classes.itemArea}></Grid> */}
                 <NewsInfo>
                     {news_article}
@@ -45,7 +43,7 @@ function NewsList({
                 <Grid container spacing={3}>
                     {thumbnails.map((thumb, index) => (
                         <Grid item xs={4} key={index}>
-                            <img src={thumb} />
+                            <img src={thumb} alt={"뉴스 썸네일"}/>
                         </Grid>
                     ))}
                 </Grid>

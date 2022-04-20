@@ -1,9 +1,11 @@
 import AxiosInstance from './AxiosInstance';
 
 const WordCountApis = {
-    getWordCountList() {
+    getWordCountList(week) {
+        const param = week;
+        
         return AxiosInstance({
-            url:'http://localhost:8000/api/wordcount',
+            url:'http://localhost:8000/api/wordcount/' + param,
             method: 'get',
         });
     },
