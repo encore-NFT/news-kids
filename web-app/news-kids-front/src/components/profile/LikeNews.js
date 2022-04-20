@@ -22,7 +22,6 @@ function LikeNews({ likes, visible }) {
                     </ImageListItem>
                 ))}
             </ImageList>
-            {/* <Button onClick={showMoreItems}>더보기</Button> */}
         </>
     )
 }

@@ -45,7 +45,7 @@ function Profile() {
             <ContentLayout>
                 <Toolbar>
                     <Typography variant="h4">{data?.profile?.user_name}</Typography>
-                    <Link to={`/editProfile`}>
+                    <Link to={`/accounts/edit`}>
                         <EditButton>프로필 편집</EditButton>
                     </Link>
                 </Toolbar>
