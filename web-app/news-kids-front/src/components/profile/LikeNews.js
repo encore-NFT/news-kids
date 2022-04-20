@@ -1,25 +1,29 @@
 import { ImageList, ImageListItem, ImageListItemBar, makeStyles } from "@material-ui/core";
 import Thumbnail from "./Thumbnail";
 
-function LikeNews({ likes }) {
+function LikeNews({ likes, visible }) {
     const classes = useStyles();
+
     return (
-        <ImageList rowHeight={220} cols={4}>
-            {likes?.map((like) => (
-                <ImageListItem style={{ height: 'auto', width: 'auto' }} key={like.id}>
-                    <Thumbnail lg url={like.news_image} alt={like.news_title} />
-                    <ImageListItemBar
-                        title={like.news_title}
-                        position="bottom"
-                        actionPosition="left"
-                        classes={{
-                            root: classes.titleBar,
-                            title: classes.title,
-                        }}
-                    />
-                </ImageListItem>
-            ))}
-        </ImageList>
+        <>
+            <ImageList rowHeight={220} cols={4}>
+                {likes?.slice(0, visible).map((like) => (
+                    <ImageListItem style={{ height: 'auto', width: 'auto' }} key={like.id}>
+                        <Thumbnail lg url={like.news_image} alt={like.news_title} />
+                        <ImageListItemBar
+                            title={like.news_title}
+                            position="bottom"
+                            actionPosition="left"
+                            classes={{
+                                root: classes.titleBar,
+                                title: classes.title,
+                            }}
+                        />
+                    </ImageListItem>
+                ))}
+            </ImageList>
+            {/* <Button onClick={showMoreItems}>더보기</Button> */}
+        </>
     )
 }
 
