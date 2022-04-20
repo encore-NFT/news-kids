@@ -2,6 +2,7 @@ import json
 from json.decoder import JSONDecodeError
 
 from django.views import View
+from django.db.models import Q
 from django.http  import JsonResponse
 
 from .models      import News, Comments, Thumbnails, Keyword
@@ -43,6 +44,55 @@ class NewsView(View):
             } for news in News.objects.all()
         ]
         return JsonResponse({'data': news_list}, status=200)
+
+class NewsSearchView(View):
+    def get(self, request, word):
+        filtered_news = News.objects.filter(Q(news_title__contains=word) | Q(news_article__contains=word))
+        news_list = [{
+                'news_id'      : news.id,
+                'news_source'  : news.news_source,
+                'news_writer'  : news.news_writer,
+                'news_date'    : news.news_date,
+                'news_url'     : news.news_url,
+                'news_title'   : news.news_title,
+                'news_image'   : news.news_image,
+                'news_article' : news.news_article,
+                'keyword'      : get_json(list(Keyword.objects.filter(news=news.id).values('keyword', 'definition'))),
+                'thumbnails'   : [t.thumbnail_url for t in Thumbnails.objects.filter(news=news.id)],
+                'comments'     : [{
+                    'user': c.user.user_name, 
+                    'content': c.content, 
+                    'timestamp': time_str(c.timestamp)
+                    } for c in Comments.objects.filter(news=news.id)
+                ],
+                'liked_users'  : news.liked_users.count(), 
+            } for news in filtered_news
+        ]
+        return JsonResponse({'data': news_list}, status=200)
+
+class NewsDetailView(View):
+    def get(self, request, news_id):
+        news = News.objects.get(id=news_id)
+        news_dict = {
+                'news_id'      : news.id,
+                'news_source'  : news.news_source,
+                'news_writer'  : news.news_writer,
+                'news_date'    : news.news_date,
+                'news_url'     : news.news_url,
+                'news_title'   : news.news_title,
+                'news_image'   : news.news_image,
+                'news_article' : news.news_article,
+                'keyword'      : get_json(list(Keyword.objects.filter(news=news_id).values('keyword', 'definition'))),
+                'thumbnails'   : [t.thumbnail_url for t in Thumbnails.objects.filter(news=news_id)],
+                'comments'     : [{
+                    'user': c.user.user_name, 
+                    'content': c.content, 
+                    'timestamp': time_str(c.timestamp)
+                    } for c in Comments.objects.filter(news=news_id)
+                ],
+                'liked_users'  : news.liked_users.count(), 
+            }
+        return JsonResponse({'data': news_dict}, status=200)
 
 # 댓글 Create
 class CommentsView(View):
