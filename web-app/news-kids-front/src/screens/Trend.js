@@ -3,21 +3,19 @@ import WordCountApis from '../api/WordCountApis';
 import ContainerLayout from '../components/shared/ContainerLayout';
 import { Button, Toolbar } from '@material-ui/core'
 import { useForm } from 'react-hook-form';
-// import WordCount from '../components/wordCount/WordCount';
+import WordCount from '../components/wordCount/WordCount';
 
 
 function Trend() {
 
     const [wordCount, setWordCount] = useState([]);
-    //const [week, setWeek] = useState('');
+    const [week, setWeek] = useState('');
 
     const { register, handleSubmit } = useForm({
         mode: "onChange",
     });
     const onSubmitValid = (data) => {
-        console.log(data.week)
-        const week = data.week;
-        readWordCountLists(week)
+        setWeek(data.week);
     };
     const readWordCountLists = async (week) => {
         try {
@@ -31,16 +29,10 @@ function Trend() {
             console.log(error);
         }
     };
-    // useEffect(() => {
-    //     readWordCountLists(week);
-    // }, [week]);
+    useEffect(() => {
+        readWordCountLists(week);
+    }, [week]);
 
-    // const weekChange = (e) => {
-    //     e.preventDefault();
-    //     setWeek(e.target.value);
-    // }
-
-    //console.log(week);
     console.log(wordCount)
     return (
         <ContainerLayout>
@@ -55,7 +47,7 @@ function Trend() {
                     <Button type="submit" size='small' >워드 클라우드</Button>
                 </form>
             </Toolbar>
-            {/* <WordCount wordCount={wordCount}/> */}
+            <WordCount wordCount={wordCount}/>
         </ContainerLayout>
     )
 }
