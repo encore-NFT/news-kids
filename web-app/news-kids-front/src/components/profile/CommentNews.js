@@ -1,10 +1,11 @@
 import { Grid, Paper, styled, Typography } from "@material-ui/core";
 import Thumbnail from "./Thumbnail";
 
-function CommentNews({ comments }) {
+function CommentNews({ comments, visible }) {
+
     return (
         <>
-            {comments?.map((comment) => (
+            {comments?.slice(0, visible).map((comment) => (
                 <CommentContainers key={comment.id}>
                     <Grid container alignItems="center" wrap="nowrap" spacing={3}>
                         <Grid item>
