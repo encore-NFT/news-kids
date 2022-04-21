@@ -20,6 +20,7 @@ function App() {
       <Router>
         <Routes>
           <Route path={`/`} element={<Layout setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} ><Home /></Layout>} />
+          <Route path={`/news/:newId`} element={<Layout setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} ><Trend /></Layout>} />
           <Route path={`/trend`} element={<Layout setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} ><Trend /></Layout>} />
           <Route path={`/quiz`} element={<Layout setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} ><Quiz /></Layout>} />
           <Route path={`/profile`} element={<Layout setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn}><Profile /></Layout>} />

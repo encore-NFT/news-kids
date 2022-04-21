@@ -1,25 +1,30 @@
 import { Grid, Paper, styled, Typography } from "@material-ui/core";
+import { useState } from "react";
 import Thumbnail from "./Thumbnail";
+import { Link } from 'react-router-dom';
 
 function CommentNews({ comments, visible }) {
 
     return (
         <>
             {comments?.slice(0, visible).map((comment) => (
-                <CommentContainers key={comment.id}>
-                    <Grid container alignItems="center" wrap="nowrap" spacing={3}>
-                        <Grid item>
-                            <Thumbnail url={comment.news.news_image} alt={comment.news.news_title} />
+                <Link to={`/news/${comment.news.id}`} key={comment.id}>
+                    <CommentContainers>
+                        <Grid container alignItems="center" wrap="nowrap" spacing={3}>
+                            <Grid item>
+                                <Thumbnail url={comment.news.news_image} alt={comment.news.news_title} />
+                            </Grid>
+                            <Grid item xs>
+                                <NewsTitle>{comment.news.news_title}</NewsTitle>
+                                <Comment>{comment.content}</Comment>
+                                <NewsTime>{comment.timestamp}</NewsTime>
+                            </Grid>
                         </Grid>
-                        <Grid item xs>
-                            <NewsTitle>{comment.news.news_title}</NewsTitle>
-                            <Comment>{comment.content}</Comment>
-                            <NewsTime>{comment.timestamp}</NewsTime>
-                        </Grid>
-                    </Grid>
-                </CommentContainers>
+                    </CommentContainers>
+                </Link>
             ))}
         </>
+
     )
 }
 export default CommentNews;
