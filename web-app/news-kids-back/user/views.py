@@ -51,7 +51,7 @@ class SignupView(View):
         password = data.get('password', None)
 
         # 프론트에서 1차 공백 체크
-        if not(password and email and name):
+        if not (password and email and name):
             return JsonResponse({'message': 'KEY_ERROR'}, status=400)
 
         # 이메일/비밀번호 검증
@@ -174,6 +174,7 @@ class ProfileDetailView(View):
 
 # 프로필 edit
 class ProfileEditView(View):
+    # 프로필 정보 가져오기
     @login_decorator
     def get(self, request):
         profile = {
@@ -185,6 +186,7 @@ class ProfileEditView(View):
 
         return JsonResponse({'data': profile}, status=200)
 
+    # 프로필 정보 수정
     @login_decorator
     def post(self, request):
         try:
@@ -198,7 +200,7 @@ class ProfileEditView(View):
             if not (user_email and user_name):
                 return JsonResponse({'message': 'KEY_ERROR'}, status=400)
 
-            # 이메일/비밀번호 검증
+            # 이메일 검증
             if not validate_email(user_email):
                 return JsonResponse({'message': 'EMAIL_VALIDATION_ERROR'}, status=422)
 
@@ -206,6 +208,7 @@ class ProfileEditView(View):
             if request.user.user_name != user_name:
                 if User.objects.filter(user_name=user_name).exists():
                     return JsonResponse({'message': '사용자 아이디가 존재합니다.'}, status=409)
+
             if request.user.user_email != user_email:
                 if User.objects.filter(user_email=user_email).exists():
                     return JsonResponse({'message': '사용자 이메일이 존재합니다.'}, status=409)
@@ -231,6 +234,43 @@ class ProfileEditView(View):
         except JSONDecodeError:
             return JsonResponse({'message': 'REQUEST_BOBY_DOES_NOT_EXISTS'}, status=400)
 
+    # 비밀번호 수정
+    @login_decorator
+    def put(self, request):
+        try:
+            data = json.loads(request.body)
+            pre_password = data.get('pre_password', None)
+            new_password = data.get('new_password', None)
+            chk_password = data.get('chk_password', None)
+
+            # 폼 KEY_ERROR 검증
+            if not (pre_password and new_password and chk_password):
+                return JsonResponse({'message': 'KEY_ERROR'}, status=400)
+
+            # 비밀번호 검증
+            if not validate_password(new_password and chk_password):
+                return JsonResponse({'message': 'PASSWORD_VALIDATION_ERROR'}, status=422)
+
+            # 이전 비밀 번호 일치 검증
+            if not bcrypt.checkpw(pre_password.encode('utf-8'), request.user.user_password.encode('utf-8')):
+                return JsonResponse({'message': '이전 비밀번호를 잘못 입력했습니다.'}, status=401)
+
+            if (pre_password==new_password):
+                return JsonResponse({'message': '현재 비밀번호와 다른 새 비밀번호를 만드세요.'}, status=401)
+
+            if not (new_password==chk_password):
+                return JsonResponse({'message': '두 비밀번호가 일치하지 않습니다.'}, status=401)
+
+            # 암호화 후 저장
+            user = User.objects.get(id=request.user.id)
+            user.user_password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+            user.save()
+            return JsonResponse({'data': 'SUCCESS'}, status=200)
+
+        except:
+            return JsonResponse({'message': 'REQUEST_BOBY_DOES_NOT_EXISTS'}, status=400)
+
+    # 회원탈퇴
     @login_decorator
     def delete(self, request):
         try:

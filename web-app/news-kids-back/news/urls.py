@@ -12,7 +12,7 @@ from .views import (
 urlpatterns = [
     path('', NewsView.as_view()),   # localhost:8000/api/news/1
     path('<int:news_id>', NewsDetailView.as_view()),
-    path('search/<str:word>', NewsSearchView.as_view()),
+    path('search', NewsSearchView.as_view()),
     path('comments', CommentsView.as_view()),
     path('comments/<int:comments_id>', CommentsDetailView.as_view()),
     path('like', LikeView.as_view()),
