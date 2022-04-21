@@ -6,6 +6,7 @@ import EditButton from "../components/editProfile/EditButton";
 import MenuHeader from "../components/editProfile/MenuHeader";
 import ProfileApis from "../api/ProfileApis";
 import { useEffect, useMemo, useState } from "react";
+import FormError from "../components/auth/FormError";
 
 function EditProfile() {
     const TOKEN = localStorage.getItem("Authorization");
@@ -39,7 +40,7 @@ function EditProfile() {
     }, [data]);
 
 
-    const { register, handleSubmit, reset, control } = useForm({
+    const { register, handleSubmit, reset, control, formState: { errors }, setError } = useForm({
         mode: "onChange",
         defaultValues: useMemo(() => initValue, [initValue]),
     });
@@ -67,7 +68,9 @@ function EditProfile() {
                         render={({ field }) => (
                             <AuthInput
                                 {...field}
-                                {...register('user_name')}
+                                {...register('user_name', {
+                                    required: "사용자 아이디는 필수입니다."
+                                })}
                                 name="user_name"
                                 label="아이디"
                                 type="text"
@@ -78,6 +81,7 @@ function EditProfile() {
                         control={control}
                         name="user_name"
                     />
+                    {errors?.user_name && (<FormError message={errors?.user_name?.message} />)}
                     <Controller
                         render={({ field }) => (
                             <AuthInput
@@ -113,6 +117,7 @@ function EditProfile() {
                             <AuthInput
                                 {...field}
                                 {...register('user_email', {
+                                    required: "이메일은 필수입니다.",
                                     pattern: {
                                         value: /^[a-zA-Z0-9+-.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/i,
                                         message: "이메일 형식이 아닙니다."
@@ -128,6 +133,7 @@ function EditProfile() {
                         control={control}
                         name="user_email"
                     />
+                    {errors?.user_email && (<FormError message={errors?.user_email?.message} />)}
                     <EditButton type="submit">제출</EditButton>
                     {/* <FormError message={errors?.result?.message} /> */}
                 </form>
