@@ -38,7 +38,7 @@ RUN set -x \
     && curl -LO https://bitbucket.org/eunjeon/mecab-ko/downloads/mecab-0.996-ko-0.9.2.tar.gz \
     && tar -zxvf mecab-0.996-ko-0.9.2.tar.gz \
     && cd mecab-0.996-ko-0.9.2 \
-    && ./configure \
+    && ./configure  \
     && make && make check && make install && ldconfig \
     # mecab-ko-dic
     && cd ${shared_workspace} \
@@ -46,12 +46,12 @@ RUN set -x \
     && tar -zxvf mecab-ko-dic-2.1.1-20180720.tar.gz \
     && cd mecab-ko-dic-2.1.1-20180720 \
     && ./autogen.sh \
-    && ./configure \
+    && ./configure  \
     && make && make install \
     && cd ${shared_workspace} \
     && rm mecab-0.996-ko-0.9.2.tar.gz mecab-ko-dic-2.1.1-20180720.tar.gz
 
-# add jars & make folder for src
+# add jars & make folder for src & stop_words
 RUN set -x \
     && cd ${shared_workspace} \
     && mkdir jars \
@@ -59,7 +59,8 @@ RUN set -x \
     && curl -LO https://repo1.maven.org/maven2/mysql/mysql-connector-java/8.0.21/mysql-connector-java-8.0.21.jar \
     && curl -LO https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.2.3/hadoop-aws-3.2.3.jar \
     && curl -LO https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.901/aws-java-sdk-bundle-1.11.901.jar \
-    && mkdir -p /opt/workspace/src
+    && mkdir -p /opt/workspace/src \
+    && mkdir -p /opt/workspace/stop_words
     
 
 RUN pip3 install --upgrade \
@@ -67,16 +68,8 @@ RUN pip3 install --upgrade \
     setuptools \
     wheel \
     pandas \
-    # tensorflow==2.6.0 \
-    # scipy \
-    # Cython \
-    # scikit-learn==0.22.1  \
-    # torch \
     JPype1 \
     konlpy \
     mecab-python3
-    # # kss \
-    # && pip uninstall -y keras==2.8.0
 
-# Add credential for S3 & RDS
-COPY ./base-python/credentials.json /opt/workspace/src/.credentials.json
+COPY ./base-python/korean_stop_words.txt /opt/workspace/stop_words/korean_stop_words.txt

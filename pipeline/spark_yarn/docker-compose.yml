@@ -2,7 +2,7 @@ version: "3"
 
 services:
   resourcemanager:
-    image: resourcemanager
+    image: carl020958/resourcemanager:3.2.3
     container_name: resourcemanager
     networks:
       - hadoopnet
@@ -17,7 +17,7 @@ services:
       - ./hadoop.env
   
   historyserver:
-    image: historyserver
+    image: carl020958/historyserver:3.2.3
     container_name: historyserver
     networks:
       - hadoopnet
@@ -33,7 +33,7 @@ services:
       - ./hadoop.env
   
   nodemanager1:
-    image: nodemanager
+    image: carl020958/nodemanager:3.2.3
     container_name: nodemanager1
     networks:
       - hadoopnet
@@ -44,7 +44,7 @@ services:
       - ./hadoop.env
 
   nodemanager2:
-    image: nodemanager
+    image: carl020958/nodemanager:3.2.3
     container_name: nodemanager2
     networks:
       - hadoopnet
@@ -55,7 +55,7 @@ services:
       - ./hadoop.env
 
   namenode:
-    image: namenode
+    image: carl020958/namenode:3.2.3
     container_name: namenode
     networks:
       - hadoopnet
@@ -69,7 +69,7 @@ services:
       - ./hadoop.env
   
   datanode1:
-    image: datanode
+    image: carl020958/datanode:3.2.3
     container_name: datanode1
     networks:
       - hadoopnet
@@ -81,7 +81,7 @@ services:
       - ./hadoop.env
   
   datanode2:
-    image: datanode
+    image: carl020958/datanode:3.2.3
     container_name: datanode2
     networks:
       - hadoopnet
@@ -93,7 +93,7 @@ services:
       - ./hadoop.env
 
   spark:
-    image: spark
+    image: carl020958/spark:3.1.2
     container_name: spark
     networks:
       - hadoopnet
@@ -102,7 +102,7 @@ services:
       - nodemanager1
       - nodemanager2
     volumes:
-      - /Users/zsu/Projects/DE/encore/spark_yarn/src:/opt/workspace/src
+      - /Users/jisu/Downloads/news-kids-main/pipeline/spark/src:/opt/workspace/src
     env_file:
       - ./spark.env
     stdin_open: true
