@@ -61,7 +61,7 @@ function Login({ setIsLoggedIn }) {
                         variant="outlined"
                         size="small"
                     />
-                    {errors.id && (<FormError message={errors.id.message} />)}
+                    {errors?.id && (<FormError message={errors?.id?.message} />)}
                     <AuthInput
                         {...register('password', {
                             required: "비밀번호는 필수입니다.",
@@ -77,9 +77,9 @@ function Login({ setIsLoggedIn }) {
                         variant="outlined"
                         size="small"
                     />
-                    {errors.password && (<FormError message={errors.password.message} />)}
+                    {errors?.password && (<FormError message={errors?.password?.message} />)}
                     <AuthButton type="submit">로그인</AuthButton>
-                    <FormError message={errors?.result?.message} />
+                    {errors?.result && (<FormError message={errors?.result?.message} />)}
                 </form>
             </FormBox>
             <BottomBox cta="계정이 없으신가요?" linkText="회원가입" link={`/sign-up`} />

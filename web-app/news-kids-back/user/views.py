@@ -267,7 +267,7 @@ class ProfileEditView(View):
             user = User.objects.get(id=request.user.id)
             user.user_password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
             user.save()
-            return JsonResponse({'data': 'SUCCESS'}, status=200)
+            return JsonResponse({'data': '비밀번호가 변경되었습니다.'}, status=200)
 
         except:
             return JsonResponse({'message': 'REQUEST_BOBY_DOES_NOT_EXISTS'}, status=400)
