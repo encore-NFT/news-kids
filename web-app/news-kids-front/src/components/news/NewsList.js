@@ -1,23 +1,25 @@
-import ContainerLayout from '../shared/ContainerLayout'
-import { Grid, Typography, styled, Toolbar, Button, Container } from '@material-ui/core'
-import ContentLayout from '../shared/ContentLayout';
+import { Grid, Typography, styled, Button, Container } from '@material-ui/core'
 import { theme } from '../../styles';
 import UnderLine from '../shared/UnderLine';
 import styledComponent from 'styled-components';
+import Like from './Like';
+import Comment from './Comment'
 
 function NewsList({
     news_id,
     news_source,
-    news_writer,
-    news_date,
-    news_url,
     news_title,
+    news_date,
+    news_writer,
+    news_url,
     news_image,
     news_article,
     keyword,
     thumbnails,
-    comments,
-    liked_users
+    like_count,
+    like_status,
+    comments
+
 }) {
     console.log(Object.keys(comments).length === 0);
     return (
@@ -36,7 +38,15 @@ function NewsList({
                         <NewsInfo> {news_date} | {news_writer} </NewsInfo>
                         </Grid>
                     <Grid item>
-                        <NewsButton variant='outlined' href={news_url} size='small'>기사원문</NewsButton>
+                        <NewsButton 
+                            variant='outlined' 
+                            href={news_url} 
+                            size='small'
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            기사원문
+                        </NewsButton>
                     </Grid>
                 </Grid>
 
@@ -50,10 +60,19 @@ function NewsList({
 
                 <Grid container spacing={2} alignItems='center'>
                     <Grid item>
-                        <Typography variant='h5' component='h5'>{keyword.keyword}</Typography>
+                        <Keyword
+                            variant='h2' 
+                            component='h2'
+                            style={{
+                                'textDecoration':'underline',
+                                'textUnderlinePosition': 'under'
+                            }}
+                        >
+                            {keyword.keyword}
+                        </Keyword>
                     </Grid>
                     <Grid item>
-                        <Typography>{keyword.definition}</Typography>
+                        <Keyword>{keyword.definition}</Keyword>
                     </Grid>
                 </Grid>
 
@@ -65,9 +84,9 @@ function NewsList({
                     ))}
                 </Grid>
 
-                <NewsInfo> {liked_users} |  </NewsInfo>
+                <Like newsId={news_id} likeCount={like_count} likeStatus={like_status}/>
                 {comments.map((comment, index) => (
-                    <NewsInfo key={index}>{comment.content}</NewsInfo>
+                    <Comment key={index} newsId={news_id} comment={comment}/>
                 ))}
             </NewsContent>
         </NewsContainer>
@@ -80,7 +99,7 @@ const NewsContainer = styled(Container)({
     border: '0.5px solid #eaeaea',
     borderRadius: '20px',
     backgroundColor: '#ffffff',
-    padding: '2em 0em',
+    padding: '3em 0em',
     boxShadow: '0px 0px 10px 1px #e2e2e2',
     textAlign: 'center',
     margin: '0 auto',
@@ -129,10 +148,17 @@ const NewsImage = styledComponent.img`
 
 const NewsArticle = styled(Typography)({
     textAlign: 'left',
+    whiteSpace: 'pre-line',
     fontSize: '20px',
     margin: '20px 0px 80px 0px',
     lineHeight: '32px',
     color: theme.palette.primary.contrastText,
+})
+
+const Keyword = styled(Typography)({
+    textAlign: 'left',
+    margin: '0px 0px',
+    lineHeight: '24px',
 })
 
 const ThumbImage = styledComponent.img`
