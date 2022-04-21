@@ -39,7 +39,9 @@ docker container run \
 -p 5432:5432 \
 --network airflownet \
 --name postgres-airflow \
--e POSTGRES_PASSWORD=1234 \
+-e POSTGRES_USER: admin \
+-e POSTGRES_PASSWORD: admin \
+-e POSTGRES_DB: airflow_db \
 -d \
 -v psql_data:/var/lib/postgresql/data \
 postgres:13
@@ -52,6 +54,12 @@ docker container run \
 -v $(pwd):/home/airflow/airflow/dags \
 -e LC_ALL=C.UTF-8 \
 --name airflow carl020958/ubuntu-airflow:18.04-2.1.4-psql-amd64
+
+# initialize db
+su - airflow
+cd airflow
+source ./.venv/bin/activate
+airflow db init
 ```
 
 ### Web-Crawler
