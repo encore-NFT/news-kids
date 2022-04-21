@@ -4,7 +4,7 @@ import { theme } from "../../styles";
 const EditButton = styled(Button)({
     border: 'none',
     borderRadius: '3px',
-    marginTop: '20px',
+    margin: '20px 0px 10px 0px',
     backgroundColor: theme.palette.primary.light,
     textAlign: 'center',
     padding: '6px 0px',
