@@ -111,8 +111,8 @@ class ProfileView(View):
     @login_decorator
     def get(self, request):
         user_id = request.user.id
-        comment_record = Comments.objects.filter(user_id=user_id)
-        like_record = Like.objects.filter(user_id=user_id)
+        comment_record = Comments.objects.filter(user_id=user_id).order_by('-timestamp')
+        like_record = Like.objects.filter(user_id=user_id).order_by('-id')
 
         profile = {
             'user_name': request.user.user_name,
