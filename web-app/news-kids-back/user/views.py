@@ -1,12 +1,13 @@
 import re
 import jwt
-import json
 import bcrypt
-from datetime import datetime
+
+import json
+from json.decoder import JSONDecodeError
 
 from django.views import View
-from django.http import JsonResponse
 from django.db.models import Q
+from django.http import JsonResponse
 
 from .models import User
 from news.models import Comments, News, Like
@@ -50,7 +51,7 @@ class SignupView(View):
         password = data.get('password', None)
 
         # 프론트에서 1차 공백 체크
-        if not(password and email and name):
+        if not (password and email and name):
             return JsonResponse({'message': 'KEY_ERROR'}, status=400)
 
         # 이메일/비밀번호 검증
@@ -110,14 +111,14 @@ class ProfileView(View):
     @login_decorator
     def get(self, request):
         user_id = request.user.id
-        user = User.objects.get(id=user_id)
         comment_record = Comments.objects.filter(user_id=user_id)
         like_record = Like.objects.filter(user_id=user_id)
 
         profile = {
-            'user_name': user.user_name,
-            'user_nickname': user.user_nickname,
-            'user_email': user.user_email,
+            'user_name': request.user.user_name,
+            'user_nickname': request.user.user_nickname,
+            'user_email': request.user.user_email,
+            'user_introduce': request.user.user_introduce,
         }
         record = {
             'like': [
@@ -137,3 +138,156 @@ class ProfileView(View):
 
         data = {'profile': profile, 'record': record}
         return JsonResponse({'data': data}, status=200)
+
+# 프로필 user 파라미터
+class ProfileDetailView(View):
+    def get(self, request, user_name):
+        user = User.objects.get(user_name=user_name)
+        user_id = user.id
+        comment_record = Comments.objects.filter(user_id=user_id)
+        like_record = Like.objects.filter(user_id=user_id)
+
+        profile = {
+            'user_name': user.user_name,
+            'user_nickname': user.user_nickname,
+            'user_email': user.user_email,
+            'user_introduce': user.user_introduce,
+        }
+        record = {
+            'like': [
+                get_json(list(News.objects.filter(id=l.news_id)
+                    .values('id', 'news_title', 'news_image')))
+                for l in like_record
+            ],
+            'comment': [{
+                'id': c.id,
+                'content' : c.content,
+                'timestamp': time_str(c.timestamp),
+                'news': get_json(list(News.objects.filter(id=c.news_id)
+                            .values('id', 'news_title', 'news_image')))
+                } for c in comment_record
+            ],
+        }
+
+        data = {'profile': profile, 'record': record}
+        return JsonResponse({'data': data}, status=200)
+
+# 프로필 edit
+class ProfileEditView(View):
+    # 프로필 정보 가져오기
+    @login_decorator
+    def get(self, request):
+        profile = {
+            'user_name': request.user.user_name,
+            'user_nickname': request.user.user_nickname,
+            'user_email': request.user.user_email,
+            'user_introduce': request.user.user_introduce,
+        }
+
+        return JsonResponse({'data': profile}, status=200)
+
+    # 프로필 정보 수정
+    @login_decorator
+    def post(self, request):
+        try:
+            data = json.loads(request.body)
+            user_name = data.get('user_name', None)
+            user_nickname = data.get('user_nickname', None)
+            user_email = data.get('user_email', None)
+            user_introduce = data.get('user_introduce', None)
+
+            # 폼 KEY_ERROR 검증
+            if not (user_email and user_name):
+                return JsonResponse({'message': 'KEY_ERROR'}, status=400)
+
+            # 이메일 검증
+            if not validate_email(user_email):
+                return JsonResponse({'message': 'EMAIL_VALIDATION_ERROR'}, status=422)
+
+            # unique 값 검증
+            if request.user.user_name != user_name:
+                if User.objects.filter(user_name=user_name).exists():
+                    return JsonResponse({'message': '사용자 아이디가 존재합니다.'}, status=409)
+
+            if request.user.user_email != user_email:
+                if User.objects.filter(user_email=user_email).exists():
+                    return JsonResponse({'message': '사용자 이메일이 존재합니다.'}, status=409)
+
+            # 대상 유저 수정 후 저장
+            user = User.objects.get(id=request.user.id)
+            user.user_name = user_name
+            user.user_nickname = user_nickname
+            user.user_email = user_email
+            user.user_introduce = user_introduce
+            user.save()
+
+            profile = {
+                'user_name': user.user_name,
+                'user_nickname': user.user_nickname,
+                'user_email': user.user_email,
+                'user_introduce': user.user_introduce,
+            }
+
+            return JsonResponse({'data': profile}, status=200)
+
+        # JSON 에러 처리
+        except JSONDecodeError:
+            return JsonResponse({'message': 'REQUEST_BOBY_DOES_NOT_EXISTS'}, status=400)
+
+    # 비밀번호 수정
+    @login_decorator
+    def put(self, request):
+        try:
+            data = json.loads(request.body)
+            pre_password = data.get('pre_password', None)
+            new_password = data.get('new_password', None)
+            chk_password = data.get('chk_password', None)
+
+            # 폼 KEY_ERROR 검증
+            if not (pre_password and new_password and chk_password):
+                return JsonResponse({'message': 'KEY_ERROR'}, status=400)
+
+            # 비밀번호 검증
+            if not validate_password(new_password and chk_password):
+                return JsonResponse({'message': 'PASSWORD_VALIDATION_ERROR'}, status=422)
+
+            # 이전 비밀 번호 일치 검증
+            if not bcrypt.checkpw(pre_password.encode('utf-8'), request.user.user_password.encode('utf-8')):
+                return JsonResponse({'message': '이전 비밀번호를 잘못 입력했습니다.'}, status=401)
+
+            if (pre_password==new_password):
+                return JsonResponse({'message': '현재 비밀번호와 다른 새 비밀번호를 만드세요.'}, status=401)
+
+            if not (new_password==chk_password):
+                return JsonResponse({'message': '두 비밀번호가 일치하지 않습니다.'}, status=401)
+
+            # 암호화 후 저장
+            user = User.objects.get(id=request.user.id)
+            user.user_password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+            user.save()
+            return JsonResponse({'data': 'SUCCESS'}, status=200)
+
+        except:
+            return JsonResponse({'message': 'REQUEST_BOBY_DOES_NOT_EXISTS'}, status=400)
+
+    # 회원탈퇴
+    @login_decorator
+    def delete(self, request):
+        try:
+            data = json.loads(request.body)
+            user_password = data.get('user_password', None)
+
+            # 폼 KEY_ERROR 검증
+            if not (user_password):
+                return JsonResponse({'message': 'KEY_ERROR'}, status=400)        
+
+            # 비밀번호 검증
+            if bcrypt.checkpw(user_password.encode('utf-8'), request.user.user_password.encode('utf-8')):
+                user = User.objects.get(id=request.user.id)
+                user.delete()
+                return JsonResponse({'data': 'SUCCESS'}, status=200)
+
+            return JsonResponse({'message': '비밀번호를 잘못 입력했습니다.'}, status=401)
+
+        except JSONDecodeError:
+            return JsonResponse({'message': 'REQUEST_BOBY_DOES_NOT_EXISTS'}, status=400)
