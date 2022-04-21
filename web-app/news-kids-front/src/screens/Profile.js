@@ -30,19 +30,6 @@ function Profile() {
         getProfile(TOKEN);
     }, [TOKEN]);
 
-    const getEditProfile = async (TOKEN) => {
-        try {
-            const response = await ProfileApis.getEditProfileList(TOKEN);
-            console.log("프로필 수정 response", response.data);
-
-        } catch (err) {
-            console.log(err);
-        }
-    }
-    useEffect(() => {
-        getEditProfile(TOKEN);
-    }, [TOKEN]);
-
     const [showLike, setShowLike] = useState(4);
     const [showComment, setShowComment] = useState(2);
 
