@@ -5,9 +5,9 @@ from django.views import View
 from django.db.models import Q
 from django.http  import JsonResponse
 
-from .models      import News, Comments, Thumbnails, Keyword
+from .models      import Like, News, Comments, Thumbnails, Keyword
 from user.models  import User
-from user.utils   import login_decorator
+from user.utils   import login_decorator, user_decorator
 
 # get json
 def get_json(arr):
@@ -22,6 +22,7 @@ def time_str(timestamp):
 
 # 뉴스 Read
 class NewsView(View):
+    @user_decorator
     def get(self, request):
         news_list = [{
                 'news_id'      : news.id,
@@ -40,7 +41,9 @@ class NewsView(View):
                     'timestamp': time_str(c.timestamp)
                     } for c in Comments.objects.filter(news=news.id)
                 ],
-                'liked_users'  : news.liked_users.count(), 
+                'like_count'   : news.liked_users.count(),
+                'like_status'  : Like.objects.filter(Q(news_id=news.id) & Q(user_id=request.user_id)).exists()\
+                                    if request.user else False
             } for news in News.objects.all().order_by('-news_date')
         ]
         return JsonResponse({'data': news_list}, status=200)
@@ -106,7 +109,7 @@ class CommentsView(View):
         
         # news_id 유효 검증
         if not News.objects.filter(id=news_id).exists():
-            return JsonResponse({'message': 'INVALID_POST'}, status=400)
+            return JsonResponse({'message': 'INVALID_NEWS'}, status=400)
 
         # 댓글 DB 저장
         Comments.objects.create(
@@ -178,7 +181,7 @@ class LikeView(View):
 
         # news_id 유효 검증
         if not News.objects.filter(id=news_id).exists():
-            return JsonResponse({'message': 'INVALID_POST'}, status=400)
+            return JsonResponse({'message': 'INVALID_NEWS'}, status=400)
 
         # id 대상 뉴스 로드
         news = News.objects.get(id=news_id)
