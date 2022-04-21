@@ -44,7 +44,7 @@ docker container run \
 -v psql_data:/var/lib/postgresql/data \
 postgres:13
 
-# Airflow
+# Airflow (check the directory for bind-mount)
 docker container run \
 -it \
 -p 8090:8080 \
@@ -56,17 +56,20 @@ docker container run \
 
 ### Web-Crawler
 ```bash
+# check the directory for bind-mount
 docker container run \
 -it \
 -d \
 --network airflownet \
 -e LC_ALL=C.UTF-8 \
 --name scrapy \
+-v $(pwd):/home/scrapy/scrapy \
 carl020958/ubuntu-python-ssh-scrapy:18.04-3.8.10-amd64
 ```
 
 ### Hadoop-Spark Cluster
 ```bash
+# check the directory for bind-mount(spark)
 docker-compose up
 ```
 
