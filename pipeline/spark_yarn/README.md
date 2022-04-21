@@ -39,9 +39,9 @@ docker container run \
 -p 5432:5432 \
 --network airflownet \
 --name postgres-airflow \
--e POSTGRES_ENV_POSTGRES_USER: admin \
--e POSTGRES_ENV_POSTGRES_PASSWORD: admin \
--e POSTGRES_ENV_DB_NAME: airflow_db \
+-e POSTGRES_PASSWORD=admin \
+-e POSTGRES_USER=admin \
+-e POSTGRES_DB=airflow_db \
 -d \
 -v psql_data:/var/lib/postgresql/data \
 postgres:13
@@ -60,9 +60,16 @@ su - airflow
 cd airflow
 source ./.venv/bin/activate
 airflow db init
+
+# make user
+airflow users create -u admin -p admin -f jisu -l park -r Admin -e carl020958@korea.ac.kr
+
+# Add Variable & Connection for the dag
 ```
 
 ### Web-Crawler
+* Needs .credential.json in directory "/home/scrapy/scrapy/kidnewscrawling/kidnewscrawling"
+
 ```bash
 # check the directory for bind-mount
 docker container run \
@@ -76,6 +83,8 @@ carl020958/ubuntu-python-ssh-scrapy:18.04-3.8.10-amd64
 ```
 
 ### Hadoop-Spark Cluster
+* Needs .credential.json in directory "/opt/workspace/src"
+
 ```bash
 # check the directory for bind-mount(spark)
 docker-compose up
