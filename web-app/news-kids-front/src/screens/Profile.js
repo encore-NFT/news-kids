@@ -30,6 +30,19 @@ function Profile() {
         getProfile(TOKEN);
     }, [TOKEN]);
 
+    const getEditProfile = async (TOKEN) => {
+        try {
+            const response = await ProfileApis.getEditProfileList(TOKEN);
+            console.log("프로필 수정 response", response.data);
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    useEffect(() => {
+        getEditProfile(TOKEN);
+    }, [TOKEN]);
+
     const [showLike, setShowLike] = useState(4);
     const [showComment, setShowComment] = useState(2);
 
@@ -50,7 +63,9 @@ function Profile() {
                     </Link>
                 </Toolbar>
                 <MyInfo>{data?.profile?.user_nickname}</MyInfo>
-                <MyInfo>안녕하세요. {data?.profile?.user_name} 입니다.</MyInfo>
+                {data?.profile?.user_introduce !== "" ?
+                    <MyInfo>{data?.profile?.user_introduce}</MyInfo>
+                    : <MyInfo>안녕하세요. {data?.profile?.user_name} 입니다.</MyInfo>}
                 <UnderLine />
                 <Grid container spacing={1} alignItems='center' style={{ margin: '20px 0px 10px 0px' }}>
                     <Grid item>
