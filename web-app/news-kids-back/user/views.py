@@ -11,7 +11,7 @@ from django.http import JsonResponse
 
 from .models import User
 from news.models import Comments, News, Like
-from .utils   import login_decorator
+from .utils   import login_decorator, user_decorator
 from config import SECRET_KEY, ALGORITHMS
 
 MINIMUM_PASSWORD_LENGTH = 8
@@ -136,16 +136,18 @@ class ProfileView(View):
             ],
         }
 
-        data = {'profile': profile, 'record': record}
+        data = {'master': True, 'profile': profile, 'record': record}
         return JsonResponse({'data': data}, status=200)
 
 # 프로필 user 파라미터
 class ProfileDetailView(View):
+    @user_decorator
     def get(self, request, user_name):
         user = User.objects.get(user_name=user_name)
         user_id = user.id
         comment_record = Comments.objects.filter(user_id=user_id)
         like_record = Like.objects.filter(user_id=user_id)
+        master = (user_id==request.user_id) if request.user else False
 
         profile = {
             'user_name': user.user_name,
@@ -169,7 +171,7 @@ class ProfileDetailView(View):
             ],
         }
 
-        data = {'profile': profile, 'record': record}
+        data = {'master': master, 'profile': profile, 'record': record}
         return JsonResponse({'data': data}, status=200)
 
 # 프로필 edit
