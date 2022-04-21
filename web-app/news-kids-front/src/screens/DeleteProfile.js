@@ -105,7 +105,6 @@ const Content = styled(Typography)({
 const LongContent = styled(Typography)({
     textAlign: 'left',
     fontSize: '14px',
-    // margin: '2.5em 0 0.5em 0',
     marginTop: '2.5em'
 
 })
