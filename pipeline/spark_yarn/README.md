@@ -63,7 +63,7 @@ docker container run \
 --network airflownet \
 -e LC_ALL=C.UTF-8 \
 --name scrapy \
--v $(pwd):/home/scrapy/scrapy \
+-v $(pwd):/home/scrapy/scrapy/kidnewscrawling \
 carl020958/ubuntu-python-ssh-scrapy:18.04-3.8.10-amd64
 ```
 
