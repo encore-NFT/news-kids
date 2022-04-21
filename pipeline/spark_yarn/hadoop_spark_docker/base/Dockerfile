@@ -11,10 +11,7 @@ RUN apt-get update -y \
 RUN curl -fSL https://dist.apache.org/repos/dist/release/hadoop/common/KEYS -o /tmp/hadoop_keys \
     && gpg --import /tmp/hadoop_keys
 
-# m1
-ENV JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-arm64
-# intel
-# ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 ENV HADOOP_VERSION=3.2.3
 ARG HADOOP_URL=https://www.apache.org/dist/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz
 RUN set -x \

@@ -1,0 +1,120 @@
+version: "3"
+
+services:
+  resourcemanager:
+    image: carl020958/resourcemanager:3.2.3
+    container_name: resourcemanager
+    networks:
+      - hadoopnet
+    restart: always
+    depends_on:
+      - namenode
+      - datanode1
+      - datanode2
+    ports:
+      - "8088:8088"
+    env_file:
+      - ./hadoop.env
+  
+  historyserver:
+    image: carl020958/historyserver:3.2.3
+    container_name: historyserver
+    networks:
+      - hadoopnet
+    depends_on:
+      - namenode
+      - datanode1
+      - datanode2
+    ports:
+      - "8188:8188"
+    volumes:
+      - historyserver:/hadoop/yarn/timeline
+    env_file:
+      - ./hadoop.env
+  
+  nodemanager1:
+    image: carl020958/nodemanager:3.2.3
+    container_name: nodemanager1
+    networks:
+      - hadoopnet
+    depends_on:
+      - namenode
+      - resourcemanager
+    env_file:
+      - ./hadoop.env
+
+  nodemanager2:
+    image: carl020958/nodemanager:3.2.3
+    container_name: nodemanager2
+    networks:
+      - hadoopnet
+    depends_on:
+      - namenode
+      - resourcemanager
+    env_file:
+      - ./hadoop.env
+
+  namenode:
+    image: carl020958/namenode:3.2.3
+    container_name: namenode
+    networks:
+      - hadoopnet
+    volumes:
+      - namenode:/hadoop/dfs/name
+    environment:
+      - CLUSTER_NAME=yarn
+    ports:
+      - "9870:9870"
+    env_file:
+      - ./hadoop.env
+  
+  datanode1:
+    image: carl020958/datanode:3.2.3
+    container_name: datanode1
+    networks:
+      - hadoopnet
+    depends_on:
+      - namenode
+    volumes:
+      - datanode1:/hadoop/dfs/data
+    env_file:
+      - ./hadoop.env
+  
+  datanode2:
+    image: carl020958/datanode:3.2.3
+    container_name: datanode2
+    networks:
+      - hadoopnet
+    depends_on:
+      - namenode
+    volumes:
+      - datanode2:/hadoop/dfs/data
+    env_file:
+      - ./hadoop.env
+
+  spark:
+    image: carl020958/spark:3.1.2
+    container_name: spark
+    networks:
+      - hadoopnet
+    depends_on:
+      - resourcemanager
+      - nodemanager1
+      - nodemanager2
+    volumes:
+      - /Users/jisu/Downloads/news-kids-main/pipeline/spark/src:/opt/workspace/src
+    env_file:
+      - ./spark.env
+    stdin_open: true
+    tty: true
+
+volumes:
+  namenode:
+  datanode1:
+  datanode2:
+  historyserver:
+
+networks:
+  hadoopnet:
+    external:
+      name: airflownet
