@@ -14,6 +14,19 @@ RUN set -x \
     && mv ${SPARK_HOME}/conf/spark-defaults.conf.template ${SPARK_HOME}/conf/spark-defaults.conf \
     && mkdir ${shared_workspace}/src
 
+# Airflow (JAVA_HOME / SSH)
+COPY ./spark/run.sh /run.sh
+RUN set -x \
+    && mv ${SPARK_HOME}/conf/spark-env.sh.template ${SPARK_HOME}/conf/spark-env.sh \
+    && echo "JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> ${SPARK_HOME}/conf/spark-env.sh \
+    && echo "HADOOP_CONF_DIR=/etc/hadoop" >> ${SPARK_HOME}/conf/spark-env.sh \
+    && apt-get update -y \
+    && apt-get install -y openssh-server \
+    && sed -i "s/#PermitRootLogin prohibit-password/PermitRootLogin yes/" /etc/ssh/sshd_config \
+    && sed -i "s/#PasswordAuthentication yes/PasswordAuthentication yes/" /etc/ssh/sshd_config \
+    && echo "root:1234" | chpasswd \
+    && rm -rf /var/lib/apt/lists/* \
+    && chmod a+x /run.sh
+
 WORKDIR ${SPARK_HOME}
 
-CMD ["bash"]
