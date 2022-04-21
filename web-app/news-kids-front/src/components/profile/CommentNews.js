@@ -1,5 +1,4 @@
 import { Grid, Paper, styled, Typography } from "@material-ui/core";
-import { useState } from "react";
 import Thumbnail from "./Thumbnail";
 import { Link } from 'react-router-dom';
 

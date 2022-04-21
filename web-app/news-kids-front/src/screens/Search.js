@@ -40,7 +40,7 @@ function Search() {
                                         <Grid item>
                                             <Thumbnail url={search.news_image} alt={search.news_title} />
                                         </Grid>
-                                        <Grid item xs>
+                                        <Grid item xs={8}>
                                             <NewsTitle variant="h6" component="h3">{search.news_title}</NewsTitle>
                                             <NewsContent variant="body2">{search.news_article}</NewsContent>
                                             <NewsTime>{search.news_date} | {search.news_source}</NewsTime>
@@ -62,10 +62,16 @@ export default Search;
 const NewsTitle = styled(Typography)({
     textAlign: 'left',
     margin: '0px 15px 20px 0px',
+    width: '100%',
 })
 
 const NewsContent = styled(Typography)({
     textAlign: 'left',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    height: '20px',
+    width: '100%',
     margin: '0px 15px 5px 0px',
 })
 
