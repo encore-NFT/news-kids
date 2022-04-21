@@ -26,7 +26,7 @@ function Login({ setIsLoggedIn }) {
 
             const token = response.data.access_token;
             if (token) {
-                localStorage.setItem("token", token);
+                localStorage.setItem("Authorization", token);
                 setIsLoggedIn(true);
                 navigate(`/`);
             };
