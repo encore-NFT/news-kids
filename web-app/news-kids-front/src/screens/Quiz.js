@@ -2,6 +2,7 @@ import { useState } from 'react';
 import styledComponents from 'styled-components';
 import QuestionButton from '../components/quiz/QuestionButton';
 import ContainerLayout from '../components/shared/ContainerLayout';
+import ContentLayout from '../components/shared/ContentLayout';
 
 function Quiz() {
     const questions = [
@@ -72,24 +73,28 @@ function Quiz() {
         <>
             {showScore ? (
                 <ContainerLayout>
-                    <QuizState>점수 결과</QuizState>
-                    <Question>
-                        {questions.length * 20}점 만점에 당신의 점수는 {score}점 입니다.
-                    </Question>
+                    <ContentLayout>
+                        <QuizState>점수 결과</QuizState>
+                        <Question>
+                            {questions.length * 20}점 만점에 당신의 점수는 {score}점 입니다.
+                        </Question>
+                    </ContentLayout>
                 </ContainerLayout>
             ) : (
                 <ContainerLayout>
-                    <QuizTop>
-                        <QuizState>
-                            퀴즈 {currentQuestion + 1}
-                        </QuizState>
-                    </QuizTop>
-                    <Question>{questions[currentQuestion].questionText}</Question>
-                    <Questions>
-                        {questions[currentQuestion].answerOptions.map((answerOption) => (
-                            <QuestionButton key={answerOption.answerText} onClick={() => handleAnswerOptionClick(answerOption.isCorrect)}>{answerOption.answerText}</QuestionButton>
-                        ))}
-                    </Questions>
+                    <ContentLayout>
+                        <QuizTop>
+                            <QuizState>
+                                퀴즈 {currentQuestion + 1}
+                            </QuizState>
+                        </QuizTop>
+                        <Question>{questions[currentQuestion].questionText}</Question>
+                        <Questions>
+                            {questions[currentQuestion].answerOptions.map((answerOption) => (
+                                <QuestionButton key={answerOption.answerText} onClick={() => handleAnswerOptionClick(answerOption.isCorrect)}>{answerOption.answerText}</QuestionButton>
+                            ))}
+                        </Questions>
+                    </ContentLayout>
                 </ContainerLayout>
             )}
         </>
@@ -117,7 +122,7 @@ const QuizState = styledComponents.div`
 const Question = styledComponents(QuizTop)`
     font-weight: 800;
     font-size: 24px;
-    width: 80%;
+    width: 100%;
     margin: 25px auto;
 `
 

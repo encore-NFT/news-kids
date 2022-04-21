@@ -3,7 +3,7 @@ import { theme } from "../../styles";
 
 const QuestionButton = styled(Button)({
     padding: '10px 0px',
-    width: '80%',
+    width: '100%',
     margin: '8px auto',
     border: '0.5px solid #adadad',
     borderRadius: '20px',

@@ -6,10 +6,12 @@ export const GlobalStyles = createGlobalStyle`
         box-sizing:border-box;
     }
     body{
-        font-size: 15px;
+        font-size: 14px;
         font-family:'Open Sans', sans-serif;
         background-color: #f9f9f9;
         color: #333333;
+        margin: 0;
+        padding: 0;
     }
     a{
         text-decoration: none;
