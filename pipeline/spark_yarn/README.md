@@ -39,9 +39,9 @@ docker container run \
 -p 5432:5432 \
 --network airflownet \
 --name postgres-airflow \
--e POSTGRES_USER: admin \
--e POSTGRES_PASSWORD: admin \
--e POSTGRES_DB: airflow_db \
+-e POSTGRES_ENV_POSTGRES_USER: admin \
+-e POSTGRES_ENV_POSTGRES_PASSWORD: admin \
+-e POSTGRES_ENV_DB_NAME: airflow_db \
 -d \
 -v psql_data:/var/lib/postgresql/data \
 postgres:13
