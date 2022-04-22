@@ -117,7 +117,7 @@ const NewsSource = styled(Typography)({
     textAlign: 'left',
     color: theme.palette.secondary.contrastText,
     fontSize: '16px',
-    margin: '8px 0px'
+    margin: '8px 0px',
 })
 
 const NewsTitle = styled(Typography)({

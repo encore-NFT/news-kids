@@ -117,13 +117,13 @@ class CommentsView(View):
             news      = News.objects.get(id=news_id),
             content   = content
         )
-        return JsonResponse({'message': 'SUCCESS'}, status=200)
+        return JsonResponse({'data': {'user_name': user.user_name, 'content': content}}, status=200)
 
 # 댓글 Update / Delete
 class CommentsDetailView(View):
     # 댓글 Update
     @login_decorator    # login 검증
-    def post(self, request, comments_id):
+    def post(self, request, comment_id):
         try:
             data    = json.loads(request.body)
             content = data.get('content', None)
@@ -133,7 +133,7 @@ class CommentsDetailView(View):
                 return JsonResponse({'message': 'KEY_ERROR'}, status=400)
             
             # 수정할 comments 가져오기
-            comments = Comments.objects.get(id=comments_id)
+            comments = Comments.objects.get(id=comment_id)
             
             # 유저 검증
             if comments.user != request.user:
@@ -142,7 +142,7 @@ class CommentsDetailView(View):
             # 대상 comments 수정 후 저장
             comments.content = content 
             comments.save()
-            return JsonResponse({'message': 'SUCCESS'}, status=200)
+            return JsonResponse({'data': content}, status=200)
 
         # JSON 에러 처리
         except JSONDecodeError:
@@ -150,13 +150,13 @@ class CommentsDetailView(View):
 
     # 댓글 Delete
     @login_decorator    # login 검증
-    def delete(self, request, comments_id):
+    def delete(self, request, comment_id):
         # 대상 comments 유효 검증
-        if not Comments.objects.filter(id=comments_id).exists():
+        if not Comments.objects.filter(id=comment_id).exists():
             return JsonResponse({'message': 'INVALID_COMMENT'}, status=400)
         
         # 삭제할 comments 가져오기
-        comments = Comments.objects.get(id=comments_id)
+        comments = Comments.objects.get(id=comment_id)
         
         # 유저 검증
         if comments.user != request.user:
@@ -172,8 +172,8 @@ class LikeView(View):
     @login_decorator    # login 검증
     def post(self, request):
         data    = json.loads(request.body)
+        news_id = data.get('news_id', None)    # 프론트에서 news.id 받아옴
         user    = request.user
-        news_id = data.get('news', None)    # 프론트에서 news.id 받아옴
 
         # news_id 폼 검증
         if not news_id:
