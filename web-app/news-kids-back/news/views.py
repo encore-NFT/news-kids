@@ -164,7 +164,7 @@ class CommentsDetailView(View):
         
         # 유저 검증
         if comments.user != request.user:
-            return JsonResponse({'message': 'INVALID_USER'}, status=401)
+            return JsonResponse({'message': '사용자 계정의 댓글이 아니므로 삭제할 수 없습니다.'}, status=401)
 
         # 대상 comments 삭제
         comments.delete()
