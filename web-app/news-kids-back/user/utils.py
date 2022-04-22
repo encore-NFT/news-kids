@@ -37,8 +37,9 @@ def user_decorator(func):
     # API function 인자 / 중첩 함수 wrapper 값 반환
     def wrapper(self, request, *args, **kwargs):
         request.user = False
+        
         # login check
-        if "Authorization" in request.headers:        
+        if "Authorization" in request.headers:
             # JWT 정상 포함
             try:
                 access_token = request.headers['Authorization']
