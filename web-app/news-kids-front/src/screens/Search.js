@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import NewsApis from "../api/NewsApis";
 import ContainerLayout from '../components/shared/ContainerLayout';
 import ContentLayout from '../components/shared/ContentLayout';
-import { Grid, Paper, styled, Typography } from '@material-ui/core';
+import { Button, Grid, Paper, styled, Typography } from '@material-ui/core';
 import Thumbnail from '../components/profile/Thumbnail';
 import UnderLine from '../components/shared/UnderLine';
 import styledComponent from 'styled-components';
@@ -31,6 +31,11 @@ function Search() {
         postSearch(data);
     }, [data]);
 
+    const [showNews, setShowNews] = useState(5);
+
+    const showMoreNews = () => {
+        setShowNews(prevValue => prevValue + 5);
+    }
     return (
         <>
             {searchData && newsSum !== 0 ?
@@ -40,7 +45,7 @@ function Search() {
                             <Typography variant='h5' component="h1"><span style={{ color: "#4d88d8" }}>{data?.word}</span> 검색결과 {newsSum}건</Typography> :
                             <Typography variant='h5' component="h1">전체 검색결과 {newsSum}건</Typography>}
                         <UnderLine />
-                        {searchData?.map((search) => (
+                        {searchData?.slice(0, showNews).map((search) => (
                             <Link to={`/news/${search.news_id}`} key={search.news_id}>
                                 <CommentContainers>
                                     <Grid container alignItems="center" wrap="nowrap" spacing={3}>
@@ -57,6 +62,7 @@ function Search() {
                             </Link>
                         ))
                         }
+                        <Button variant='outlined' size='small' onClick={showMoreNews}>더보기</Button>
                     </ContentLayout >
                 </ContainerLayout >
                 :
