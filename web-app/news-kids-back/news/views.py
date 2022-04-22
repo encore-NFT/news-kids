@@ -36,6 +36,7 @@ class NewsView(View):
                 'keyword'      : get_json(list(Keyword.objects.filter(news=news.id).values('keyword', 'definition'))),
                 'thumbnails'   : [t.thumbnail_url for t in Thumbnails.objects.filter(news=news.id)],
                 'comments'     : [{
+                    'comments_id': c.id,
                     'user': c.user.user_name, 
                     'content': c.content, 
                     'timestamp': time_str(c.timestamp)
@@ -85,6 +86,7 @@ class NewsDetailView(View):
                 'keyword'      : get_json(list(Keyword.objects.filter(news=news_id).values('keyword', 'definition'))),
                 'thumbnails'   : [t.thumbnail_url for t in Thumbnails.objects.filter(news=news_id)],
                 'comments'     : [{
+                    'comments_id': c.id,
                     'user': c.user.user_name, 
                     'content': c.content, 
                     'timestamp': time_str(c.timestamp)
