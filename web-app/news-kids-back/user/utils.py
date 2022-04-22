@@ -13,7 +13,7 @@ def login_decorator(func):
         # login check
         # JWT가 없다면
         if "Authorization" not in request.headers:
-            return JsonResponse({"message": "NEED_LOGIN"}, status=401)
+            return JsonResponse({"message": "로그인 후 이용 가능합니다."}, status=401)
         
         # JWT 정상 포함
         try:
