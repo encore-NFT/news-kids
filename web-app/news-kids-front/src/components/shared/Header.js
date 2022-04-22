@@ -41,22 +41,9 @@ function Header({ setIsLoggedIn, isLoggedIn }) {
                 word: data.word,
             }
         });
-        // postSearch(data);
         reset();
     };
-    // const [searchData, setSearchData] = useState("");
 
-    // const postSearch = async (data) => {
-    //     try {
-    //         const response = await NewsApis.postSearchNews(data);
-    //         console.log("검색 response", response);
-    //         const result = (response.data);
-    //         return setSearchData(result);
-
-    //     } catch (err) {
-    //         console.log(err)
-    //     }
-    // }
     return (
         <MyAppBar position="fixed">
             <HeaderBar>
