@@ -49,6 +49,20 @@ const ProfileApis = {
         });
     },
 
+    deleteUser(deleteData) {
+        const { data, TOKEN } = deleteData;
+        const { user_password } = data;
+
+        return AxiosInstance({
+            url: 'http://localhost:8000/api/user/edit',
+            method: 'delete',
+            headers: {
+                'Authorization': TOKEN,
+            },
+            data: { user_password },
+        });
+    },
+
     getOtherUser(userData) {
         const { userName, TOKEN } = userData;
         const { user_name } = userName;

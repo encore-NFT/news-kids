@@ -20,8 +20,8 @@ function NewsList({
     like_status,
     comments
 }) {
-    const likeCount = like_count
-    const commentCount = comments.length
+    const likeCount = like_count;
+    const commentCount = comments.length;
 
     return (
         <NewsContainer>
@@ -37,11 +37,11 @@ function NewsList({
                 <Grid container spacing={1} alignItems='center'>
                     <Grid item>
                         <NewsInfo> {news_date} | {news_writer} </NewsInfo>
-                        </Grid>
+                    </Grid>
                     <Grid item>
-                        <NewsButton 
-                            variant='outlined' 
-                            href={news_url} 
+                        <NewsButton
+                            variant='outlined'
+                            href={news_url}
                             size='small'
                             target="_blank"
                             rel="noopener noreferrer"
@@ -51,9 +51,9 @@ function NewsList({
                     </Grid>
                 </Grid>
 
-                <UnderLine/>
+                <UnderLine />
 
-                <NewsImage src={news_image} alt={"뉴스 이미지"}/>
+                <NewsImage src={news_image} alt={"뉴스 이미지"} />
 
                 <NewsArticle>
                     {news_article}
@@ -62,10 +62,10 @@ function NewsList({
                 <Grid container spacing={2} alignItems='center'>
                     <Grid item>
                         <Keyword
-                            variant='h2' 
+                            variant='h2'
                             component='h2'
                             style={{
-                                'textDecoration':'underline',
+                                'textDecoration': 'underline',
                                 'textUnderlinePosition': 'under'
                             }}
                         >
@@ -80,27 +80,27 @@ function NewsList({
                 <Grid container spacing={1}>
                     {thumbnails.map((thumb, index) => (
                         <Grid item xs={4} key={index}>
-                            <ThumbImage src={thumb} alt={"뉴스 썸네일"}/>
+                            <ThumbImage src={thumb} alt={"뉴스 썸네일"} />
                         </Grid>
                     ))}
                 </Grid>
 
-                <Like newsId={news_id} likeCount={like_count} likeStatus={like_status}/>
-                
-                <NewsInfo> 
+                <Like newsId={news_id} likeCount={like_count} likeStatus={like_status} />
+
+                <NewsInfo>
                     {`좋아요 ${likeCount}개 댓글 ${commentCount}개`}
                 </NewsInfo>
 
                 {comments.map((comment, index) => (
-                    <Comment 
-                        key={index} 
-                        newsId={news_id} 
+                    <Comment
+                        key={index}
+                        newsId={news_id}
                         comment={comment}
                         commentCount={commentCount}
                     />
                 ))}
 
-                <UnderLine/>
+                <UnderLine />
 
                 <form>
                     <SearchGrid>
@@ -194,10 +194,5 @@ const ThumbImage = styledComponent.img`
 
 const SearchGrid = styledComponent.div`
     display: flex;
-    padding: 2px 10px;
-    svg{
-        height: 100%;
-        margin-right: 5px;
-        color: ${theme.palette.secondary.contrastText};
-    }
+    padding: 2px 1px;
 `

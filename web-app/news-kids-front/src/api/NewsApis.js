@@ -7,7 +7,7 @@ const NewsApis = {
             method: 'get'
         }
         if (TOKEN) {
-            param['headers'] = {'Authorization': TOKEN}
+            param['headers'] = { 'Authorization': TOKEN }
         }
         return AxiosInstance(param)
     },
@@ -19,6 +19,20 @@ const NewsApis = {
             url: 'http://localhost:8000/api/news/search',
             method: 'post',
             data: { word },
+        });
+    },
+
+    deleteComment(deleteData) {
+        const { commentId, TOKEN } = deleteData;
+        const { comment_id } = commentId;
+
+        return AxiosInstance({
+            url: 'http://localhost:8000/api/news/comments/' + comment_id,
+            method: 'delete',
+            headers: {
+                'Authorization': TOKEN,
+            },
+            data: { comment_id },
         });
     },
 }
