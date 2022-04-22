@@ -28,7 +28,7 @@ class NewsView(View):
                 'news_id'      : news.id,
                 'news_source'  : news.news_source,
                 'news_writer'  : news.news_writer,
-                'news_date'    : news.news_date,
+                'news_date'    : time_str(news.news_date).split(" ")[0],
                 'news_url'     : news.news_url,
                 'news_title'   : news.news_title,
                 'news_image'   : news.news_image,
@@ -58,7 +58,8 @@ class NewsSearchView(View):
                         .order_by('-news_date')
         news_list = [{
                 'news_id'      : news.id,
-                'news_date'    : news.news_date,
+                'news_source'  : news.news_source,
+                'news_date'    : time_str(news.news_date).split(" ")[0],
                 'news_title'   : news.news_title,
                 'news_image'   : news.news_image,
                 'news_article' : news.news_article,
@@ -76,7 +77,7 @@ class NewsDetailView(View):
                 'news_id'      : news.id,
                 'news_source'  : news.news_source,
                 'news_writer'  : news.news_writer,
-                'news_date'    : news.news_date,
+                'news_date'    : time_str(news.news_date).split(" ")[0],
                 'news_url'     : news.news_url,
                 'news_title'   : news.news_title,
                 'news_image'   : news.news_image,
