@@ -121,7 +121,7 @@ class CommentsView(View):
             news      = News.objects.get(id=news_id),
             content   = content
         )
-        return JsonResponse({'data': {'user_name': user.user_name, 'content': content, 'timestamp': time_str(datetime.now())}}, status=200)
+        return JsonResponse({'data': {'user': user.user_name, 'content': content, 'timestamp': time_str(datetime.now())}}, status=200)
 
 # 댓글 Update / Delete
 class CommentsDetailView(View):
