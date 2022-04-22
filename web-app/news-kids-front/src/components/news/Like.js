@@ -8,13 +8,14 @@ function Like({ newsId, likeCount, likeStatus }) {
     const [toggleLike, setToggleLike] = useState(likeStatus);
 
     const ButtonHandler = () => {
-        setToggleLike(likeStatus => !likeStatus)
+        setToggleLike(likeStatus => !likeStatus);
+        console.log(likeCount)
     }
 
     return (
         <>
-            <IconButton color='secondary' onClick={ButtonHandler}>
-                {toggleLike ? <FavoriteIcon fontSize='large' /> : <FavoriteBorderIcon fontSize='large' />}
+            <IconButton onClick={ButtonHandler}>
+                {toggleLike ? <FavoriteIcon fontSize='large' color='secondary'/> : <FavoriteBorderIcon fontSize='large'/>}
             </IconButton>
         </>
     )

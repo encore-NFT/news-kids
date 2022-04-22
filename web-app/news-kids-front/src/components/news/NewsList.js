@@ -1,4 +1,4 @@
-import { Grid, Typography, styled, Button, Container } from '@material-ui/core'
+import { Grid, Typography, styled, Button, Container, InputBase } from '@material-ui/core'
 import { theme } from '../../styles';
 import UnderLine from '../shared/UnderLine';
 import styledComponent from 'styled-components';
@@ -99,6 +99,18 @@ function NewsList({
                         commentCount={commentCount}
                     />
                 ))}
+
+                <UnderLine/>
+
+                <form>
+                    <SearchGrid>
+                        <InputBase
+                            name="word"
+                            type="text"
+                            placeholder="댓글 달기..."
+                        />
+                    </SearchGrid>
+                </form>
             </NewsContent>
         </NewsContainer>
     );
@@ -178,4 +190,14 @@ const ThumbImage = styledComponent.img`
     width: 100%;
     height: 104px;
     border-radius: 4px;
+`
+
+const SearchGrid = styledComponent.div`
+    display: flex;
+    padding: 2px 10px;
+    svg{
+        height: 100%;
+        margin-right: 5px;
+        color: ${theme.palette.secondary.contrastText};
+    }
 `
