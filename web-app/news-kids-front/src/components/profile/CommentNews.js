@@ -1,5 +1,4 @@
 import { Grid, Paper, styled, Typography } from "@material-ui/core";
-import { useState } from "react";
 import Thumbnail from "./Thumbnail";
 import { Link } from 'react-router-dom';
 
@@ -15,8 +14,8 @@ function CommentNews({ comments, visible }) {
                                 <Thumbnail url={comment.news.news_image} alt={comment.news.news_title} />
                             </Grid>
                             <Grid item xs>
-                                <NewsTitle>{comment.news.news_title}</NewsTitle>
-                                <Comment>{comment.content}</Comment>
+                                <NewsTitle variant="h6" component="h3">{comment.news.news_title}</NewsTitle>
+                                <Comment variant="body2">{comment.content}</Comment>
                                 <NewsTime>{comment.timestamp}</NewsTime>
                             </Grid>
                         </Grid>
@@ -31,13 +30,11 @@ export default CommentNews;
 
 const NewsTitle = styled(Typography)({
     textAlign: 'left',
-    fontWeight: '500',
     margin: '0px 15px 20px 0px',
 })
 
 const Comment = styled(Typography)({
     textAlign: 'left',
-    fontSize: '16px',
     margin: '0px 15px 5px 0px',
 })
 

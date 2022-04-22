@@ -8,12 +8,12 @@ function MenuHeader() {
     return (
         <EditFormBox>
             <ButtonGroup style={{ width: '100%' }} variant="text" aria-label="outlined primary button group">
-                <HeaderButton >
+                <HeaderButton>
                     <Link to={`/accounts/edit`}>
                         프로필 편집
                     </Link>
                 </HeaderButton>
-                <HeaderButton >
+                <HeaderButton>
                     <Link to={`/accounts/password/change`}>
                         비밀번호 변경
                     </Link>

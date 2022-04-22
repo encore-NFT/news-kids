@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styledComponents from "styled-components";
 import { theme } from "../../styles";
+import { useForm } from 'react-hook-form';
 
 function Header({ setIsLoggedIn, isLoggedIn }) {
 
@@ -32,6 +33,30 @@ function Header({ setIsLoggedIn, isLoggedIn }) {
         navigate(`/login`);
     }
 
+    const { register, handleSubmit, reset } = useForm();
+
+    const onSubmitValid = (data) => {
+        navigate(`/search`, {
+            state: {
+                word: data.word,
+            }
+        });
+        // postSearch(data);
+        reset();
+    };
+    // const [searchData, setSearchData] = useState("");
+
+    // const postSearch = async (data) => {
+    //     try {
+    //         const response = await NewsApis.postSearchNews(data);
+    //         console.log("검색 response", response);
+    //         const result = (response.data);
+    //         return setSearchData(result);
+
+    //     } catch (err) {
+    //         console.log(err)
+    //     }
+    // }
     return (
         <MyAppBar position="fixed">
             <HeaderBar>
@@ -49,14 +74,19 @@ function Header({ setIsLoggedIn, isLoggedIn }) {
                         <MyButton>퀴즈</MyButton>
                     </Link>
                     <Grow />
-                    <SearchGrid>
-                        <div>
-                            <Search />
-                        </div>
-                        <InputBase
-                            placeholder="검색"
-                        />
-                    </SearchGrid>
+                    <form onSubmit={handleSubmit(onSubmitValid)}>
+                        <SearchGrid>
+                            <div>
+                                <Search />
+                            </div>
+                            <InputBase
+                                {...register('word')}
+                                name="word"
+                                type="text"
+                                placeholder="검색"
+                            />
+                        </SearchGrid>
+                    </form>
                     <div>
                         <IconButton
                             aria-label="account of current user"
@@ -104,7 +134,6 @@ function Header({ setIsLoggedIn, isLoggedIn }) {
         </MyAppBar>
     );
 }
-
 export default Header;
 
 const MyAppBar = styled(AppBar)({
