@@ -4,6 +4,9 @@ import UnderLine from '../shared/UnderLine';
 import styledComponent from 'styled-components';
 import Like from './Like';
 import Comment from './Comment'
+import { useForm } from 'react-hook-form';
+import NewsApis from '../../api/NewsApis';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function NewsList({
     news_id,
@@ -22,6 +25,44 @@ function NewsList({
 }) {
     const likeCount = like_count;
     const commentCount = comments.length;
+
+    const TOKEN = localStorage.getItem("Authorization");
+
+    const navigate = useNavigate();
+
+    const onClickHandler = (news_id) => {
+        navigate(`/`, {
+            state: {
+                news_id: news_id,
+            }
+        });
+    };
+    const location = useLocation();
+    const newsId = location.state;
+    console.log(newsId)
+    const { register, handleSubmit } = useForm({
+        mode: "onChange",
+    });
+
+    const onSubmitValid = (data) => {
+        const writeData = { data, TOKEN, newsId };
+        postCommentData(writeData);
+    };
+
+    const postCommentData = async (writeData) => {
+        try {
+            const response = await NewsApis.postComment(writeData);
+            console.log("댓글 response", response);
+            window.location.reload();
+
+        } catch (err) {
+            if (err.response.status === 401) {
+                console.log(err.response.data.message)
+            } else {
+                console.log(err)
+            }
+        }
+    }
 
     return (
         <NewsContainer>
@@ -102,14 +143,14 @@ function NewsList({
 
                 <UnderLine />
 
-                <form>
-                    <SearchGrid>
-                        <InputBase
-                            name="word"
-                            type="text"
-                            placeholder="댓글 달기..."
-                        />
-                    </SearchGrid>
+                <form onSubmit={handleSubmit(onSubmitValid)} onClick={(() => onClickHandler(news_id))}>
+                    <InputBase
+                        {...register('content')}
+                        name="content"
+                        type="text"
+                        fullWidth
+                        placeholder="댓글 달기..."
+                    />
                 </form>
             </NewsContent>
         </NewsContainer>
@@ -190,9 +231,4 @@ const ThumbImage = styledComponent.img`
     width: 100%;
     height: 104px;
     border-radius: 4px;
-`
-
-const SearchGrid = styledComponent.div`
-    display: flex;
-    padding: 2px 1px;
 `
