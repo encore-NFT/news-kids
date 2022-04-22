@@ -19,9 +19,10 @@ function NewsList({
     like_count,
     like_status,
     comments
-
 }) {
-    console.log(Object.keys(comments).length === 0);
+    const likeCount = like_count
+    const commentCount = comments.length
+
     return (
         <NewsContainer>
             <NewsContent>
@@ -85,8 +86,18 @@ function NewsList({
                 </Grid>
 
                 <Like newsId={news_id} likeCount={like_count} likeStatus={like_status}/>
+                
+                <NewsInfo> 
+                    {`좋아요 ${likeCount}개 댓글 ${commentCount}개`}
+                </NewsInfo>
+
                 {comments.map((comment, index) => (
-                    <Comment key={index} newsId={news_id} comment={comment}/>
+                    <Comment 
+                        key={index} 
+                        newsId={news_id} 
+                        comment={comment}
+                        commentCount={commentCount}
+                    />
                 ))}
             </NewsContent>
         </NewsContainer>

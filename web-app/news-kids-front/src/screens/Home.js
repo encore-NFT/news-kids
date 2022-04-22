@@ -4,16 +4,15 @@ import NewsList from '../components/news/NewsList';
 
 
 function Home() {
-    
+    const TOKEN = localStorage.getItem("Authorization");
     const [news, setNews] = useState([]);
-    
-    const readNewsLists = async () => {
+    // console.log("Token "+null)
+    const readNewsLists = async (TOKEN) => {
         try {
-            const response = await NewsApis.getNewsList();
+            const response = await NewsApis.getNewsList(TOKEN);
             if (response.status === 200) {
                 console.log(response.data);
                 setNews(response.data.data);
-                console.log(news);
             } else {
                 alert(response.status);
             }
@@ -23,8 +22,8 @@ function Home() {
     };
 
     useEffect(() => {
-        readNewsLists();
-    }, []);
+        readNewsLists(TOKEN);
+    }, [TOKEN]);
     
 
     return (

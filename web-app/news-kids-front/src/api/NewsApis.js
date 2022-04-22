@@ -2,14 +2,16 @@ import AxiosInstance from './AxiosInstance';
 
 const NewsApis = {
     getNewsList(TOKEN) {
-        return AxiosInstance({
+        const param = {
             url: 'http://localhost:8000/api/news',
-            method: 'get',
-            headers: {
-                'Authorization': TOKEN,
-            },
-        });
+            method: 'get'
+        }
+        if (TOKEN) {
+            param['headers'] = {'Authorization': TOKEN}
+        }
+        return AxiosInstance(param)
     },
+
     postSearchNews(data) {
         const { word } = data;
 
