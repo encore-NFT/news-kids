@@ -102,7 +102,7 @@ services:
       - nodemanager1
       - nodemanager2
     volumes:
-      - /Users/jisu/Downloads/news-kids-main/pipeline/spark/src:/opt/workspace/src
+      - /home/ubuntu/news-kids/pipeline/spark_yarn/src:/opt/workspace/src
     env_file:
       - ./spark.env
     stdin_open: true
