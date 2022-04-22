@@ -57,7 +57,8 @@ function NewsList({
 
         } catch (err) {
             if (err.response.status === 401) {
-                console.log(err.response.data.message)
+                const message = err.response.data.message;
+                alert(message);
             } else {
                 console.log(err)
             }

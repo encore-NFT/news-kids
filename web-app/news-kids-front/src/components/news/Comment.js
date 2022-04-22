@@ -54,7 +54,6 @@ function Comment({ comment }) {
 
         } catch (err) {
             if (err.response.status === 401) {
-                console.log(err.response.data.message)
                 const message = err.response.data.message;
                 handleClose();
                 alert(message);
