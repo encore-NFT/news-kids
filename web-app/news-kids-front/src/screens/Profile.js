@@ -42,73 +42,39 @@ function Profile() {
 
     return (
         <>
-            {
-                data?.master ?
-                    <ContainerLayout>
-                        <ContentLayout>
-                            <Toolbar>
-                                <Typography variant="h4">{data?.profile?.user_name}</Typography>
-                                <Link to={`/accounts/edit`}>
-                                    <EditButton>프로필 편집</EditButton>
-                                </Link>
-                            </Toolbar>
-                            <MyInfo>{data?.profile?.user_nickname}</MyInfo>
-                            {data?.profile?.user_introduce !== "" ?
-                                <MyInfo>{data?.profile?.user_introduce}</MyInfo>
-                                : <MyInfo>안녕하세요. {data?.profile?.user_name} 입니다.</MyInfo>}
-                            <UnderLine />
-                            <Grid container spacing={1} alignItems='center' style={{ margin: '20px 0px 10px 0px' }}>
-                                <Grid item>
-                                    <MyRecord>내가 좋아요한 뉴스</MyRecord>
-                                </Grid>
-                                <Grid item>
-                                    <ShowButton variant='outlined' size='small' onClick={showMoreLike}>더보기</ShowButton>
-                                </Grid>
-                            </Grid>
-                            <LikeNews likes={data?.record?.like} visible={showLike} />
-                            <Grid container spacing={1} alignItems='center' style={{ margin: '20px 0px 10px 0px' }}>
-                                <Grid item>
-                                    <MyRecord>내가 작성한 댓글</MyRecord>
-                                </Grid>
-                                <Grid item>
-                                    <ShowButton variant='outlined' size='small' onClick={showMoreComment}>더보기</ShowButton>
-                                </Grid>
-                            </Grid>
-                            <CommentNews comments={data?.record?.comment} visible={showComment} />
-                        </ContentLayout>
-                    </ContainerLayout>
-                    :
-                    <ContainerLayout>
-                        <ContentLayout>
-                            <Toolbar>
-                                <Typography variant="h4">{data?.profile?.user_name}</Typography>
-                            </Toolbar>
-                            <MyInfo>{data?.profile?.user_nickname}</MyInfo>
-                            {data?.profile?.user_introduce !== "" ?
-                                <MyInfo>{data?.profile?.user_introduce}</MyInfo>
-                                : <MyInfo>안녕하세요. {data?.profile?.user_name} 입니다.</MyInfo>}
-                            <UnderLine />
-                            <Grid container spacing={1} alignItems='center' style={{ margin: '20px 0px 10px 0px' }}>
-                                <Grid item>
-                                    <MyRecord>{data?.profile?.user_name}님이 좋아요한 뉴스</MyRecord>
-                                </Grid>
-                                <Grid item>
-                                    <ShowButton variant='outlined' size='small' onClick={showMoreLike}>더보기</ShowButton>
-                                </Grid>
-                            </Grid>
-                            <LikeNews likes={data?.record?.like} visible={showLike} />
-                            <Grid container spacing={1} alignItems='center' style={{ margin: '20px 0px 10px 0px' }}>
-                                <Grid item>
-                                    <MyRecord>{data?.profile?.user_name}님이 작성한 댓글</MyRecord>
-                                </Grid>
-                                <Grid item>
-                                    <ShowButton variant='outlined' size='small' onClick={showMoreComment}>더보기</ShowButton>
-                                </Grid>
-                            </Grid>
-                            <CommentNews comments={data?.record?.comment} visible={showComment} />
-                        </ContentLayout>
-                    </ContainerLayout>
-            }
+            <ContainerLayout>
+                <ContentLayout>
+                    <Toolbar>
+                        <Typography variant="h4">{data?.profile?.user_name}</Typography>
+                        <Link to={`/accounts/edit`}>
+                            <EditButton>프로필 편집</EditButton>
+                        </Link>
+                    </Toolbar>
+                    <MyInfo>{data?.profile?.user_nickname}</MyInfo>
+                    {data?.profile?.user_introduce !== "" ?
+                        <MyInfo>{data?.profile?.user_introduce}</MyInfo>
+                        : <MyInfo>안녕하세요. {data?.profile?.user_name} 입니다.</MyInfo>}
+                    <UnderLine />
+                    <Grid container spacing={1} alignItems='center' style={{ margin: '20px 0px 10px 0px' }}>
+                        <Grid item>
+                            <MyRecord>내가 좋아요한 뉴스</MyRecord>
+                        </Grid>
+                        <Grid item>
+                            <ShowButton variant='outlined' size='small' onClick={showMoreLike}>더보기</ShowButton>
+                        </Grid>
+                    </Grid>
+                    <LikeNews likes={data?.record?.like} visible={showLike} />
+                    <Grid container spacing={1} alignItems='center' style={{ margin: '20px 0px 10px 0px' }}>
+                        <Grid item>
+                            <MyRecord>내가 작성한 댓글</MyRecord>
+                        </Grid>
+                        <Grid item>
+                            <ShowButton variant='outlined' size='small' onClick={showMoreComment}>더보기</ShowButton>
+                        </Grid>
+                    </Grid>
+                    <CommentNews comments={data?.record?.comment} visible={showComment} />
+                </ContentLayout>
+            </ContainerLayout>
         </>
     )
 }

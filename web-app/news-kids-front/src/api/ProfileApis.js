@@ -48,6 +48,20 @@ const ProfileApis = {
             data: { pre_password, new_password, chk_password },
         });
     },
+
+    getOtherUser(userData) {
+        const { userName, TOKEN } = userData;
+        const { user_name } = userName;
+
+        const param = {
+            url: 'http://localhost:8000/api/user/profile/' + user_name,
+            method: 'get'
+        }
+        if (TOKEN) {
+            param['headers'] = { 'Authorization': TOKEN }
+        }
+        return AxiosInstance(param)
+    },
 }
 
 export default ProfileApis;
