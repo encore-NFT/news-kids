@@ -1,10 +1,10 @@
-import { Typography, styled, Modal, Fade, ButtonGroup, Button } from '@material-ui/core'
+import { Typography, styled, Modal, ButtonGroup, Button } from '@material-ui/core'
 import { theme } from '../../styles';
 import UnderLine from '../shared/UnderLine';
 import { useLocation, useNavigate } from "react-router-dom";
 import styledComponent from 'styled-components';
 import MoreVert from '@material-ui/icons/MoreVert'
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import NewsApis from '../../api/NewsApis';
 
 function Comment({ comment }) {
@@ -38,7 +38,6 @@ function Comment({ comment }) {
     };
     const location = useLocation();
     const commentId = location.state;
-    console.log(commentId)
 
     const onDeleteHandler = () => {
         deleteComments(deleteData);
@@ -56,10 +55,6 @@ function Comment({ comment }) {
             console.log(err);
         }
     };
-
-    // useEffect(() => {
-    //     deleteComments(deleteData);
-    // }, [deleteData]);
 
     return (
         <>
