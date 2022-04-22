@@ -7,6 +7,7 @@ import Comment from './Comment'
 import { useForm } from 'react-hook-form';
 import NewsApis from '../../api/NewsApis';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 function NewsList({
     news_id,
@@ -37,10 +38,11 @@ function NewsList({
             }
         });
     };
+
     const location = useLocation();
     const newsId = location.state;
-    console.log(newsId)
-    const { register, handleSubmit } = useForm({
+
+    const { register, handleSubmit, reset } = useForm({
         mode: "onChange",
     });
 
@@ -48,12 +50,15 @@ function NewsList({
         const writeData = { data, TOKEN, newsId };
         postCommentData(writeData);
     };
+    const [createComment, setCreateComment] = useState("");
 
     const postCommentData = async (writeData) => {
         try {
             const response = await NewsApis.postComment(writeData);
             console.log("댓글 response", response);
-            window.location.reload();
+            reset();
+            return setCreateComment(response.data.data);
+            //window.location.reload();
 
         } catch (err) {
             if (err.response.status === 401) {
@@ -132,16 +137,40 @@ function NewsList({
                 <NewsInfo>
                     {`좋아요 ${likeCount}개 댓글 ${commentCount}개`}
                 </NewsInfo>
-
-                {comments.map((comment, index) => (
+                {
+                    createComment && createComment !== undefined ?
+                        <>
+                            {comments.map((comment, index) => (
+                                <Comment
+                                    key={index}
+                                    comment={comment}
+                                    commentCount={commentCount}
+                                />
+                            ))}
+                            <Comment
+                                comment={createComment}
+                                commentCount={commentCount}
+                            />
+                        </>
+                        :
+                        <>
+                            {comments.map((comment, index) => (
+                                <Comment
+                                    key={index}
+                                    comment={comment}
+                                    commentCount={commentCount}
+                                />
+                            ))}
+                        </>
+                }
+                {/* {comments.map((comment, index) => (
                     <Comment
                         key={index}
                         newsId={news_id}
                         comment={comment}
                         commentCount={commentCount}
                     />
-                ))}
-
+                ))} */}
                 <UnderLine />
 
                 <form onSubmit={handleSubmit(onSubmitValid)} onClick={(() => onClickHandler(news_id))}>

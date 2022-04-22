@@ -4,7 +4,7 @@ import UnderLine from '../shared/UnderLine';
 import { useLocation, useNavigate } from "react-router-dom";
 import styledComponent from 'styled-components';
 import MoreVert from '@material-ui/icons/MoreVert'
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import NewsApis from '../../api/NewsApis';
 
 function Comment({ comment }) {
