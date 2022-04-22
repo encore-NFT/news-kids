@@ -4,7 +4,7 @@ import UnderLine from '../shared/UnderLine';
 import { useLocation, useNavigate } from "react-router-dom";
 import styledComponent from 'styled-components';
 import MoreVert from '@material-ui/icons/MoreVert'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import NewsApis from '../../api/NewsApis';
 
 function Comment({ comment }) {
@@ -51,8 +51,14 @@ function Comment({ comment }) {
             console.log("댓글삭제 response", response.data);
             handleClose();
             window.location.reload();
+
         } catch (err) {
-            console.log(err);
+            if (err.response.status === 401) {
+                console.log(err.response.data.message)
+                const message = err.response.data.message;
+                handleClose();
+                alert(message);
+            }
         }
     };
 

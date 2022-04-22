@@ -26,15 +26,15 @@ const NewsApis = {
         const { commentId, TOKEN } = deleteData;
         const { comment_id } = commentId;
 
-        return AxiosInstance({
+        const param = {
             url: 'http://localhost:8000/api/news/comments/' + comment_id,
             method: 'delete',
-            headers: {
-                'Authorization': TOKEN,
-            },
-            data: { comment_id },
-        });
-    },
+        }
+        if (TOKEN) {
+            param['headers'] = { 'Authorization': TOKEN }
+        }
+        return AxiosInstance(param);
+    }
 }
 
 export default NewsApis;
