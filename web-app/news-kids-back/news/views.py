@@ -116,12 +116,17 @@ class CommentsView(View):
             return JsonResponse({'message': 'INVALID_NEWS'}, status=400)
 
         # 댓글 DB 저장
-        Comments.objects.create(
+        comment = Comments.objects.create(
             user      = user,
             news      = News.objects.get(id=news_id),
             content   = content
         )
-        return JsonResponse({'data': {'user': user.user_name, 'content': content, 'timestamp': time_str(datetime.now())}}, status=200)
+        return JsonResponse({'data': {
+            'comments_id': comment.id,
+            'user': user.user_name, 
+            'content': comment.content, 
+            'timestamp': time_str(comment.timestamp)
+        }}, status=200)
 
 # 댓글 Update / Delete
 class CommentsDetailView(View):

@@ -1,76 +1,56 @@
-import { Typography, styled, Modal, ButtonGroup, Button } from '@material-ui/core'
+import { Typography, styled, Modal, ButtonGroup, Button, IconButton } from '@material-ui/core'
 import { theme } from '../../styles';
 import UnderLine from '../shared/UnderLine';
 import { useLocation, useNavigate } from "react-router-dom";
 import styledComponent from 'styled-components';
 import MoreVert from '@material-ui/icons/MoreVert'
 import { useState } from 'react';
-import NewsApis from '../../api/NewsApis';
 
-function Comment({ comment }) {
-    const navigate = useNavigate();
-
-    const onClickHandler = (e) => {
-        const user_name = e.target.getAttribute("value");
-        navigate(`/profile/${user_name}`, {
-            state: {
-                user_name: user_name,
-            }
-        });
-    };
-
+function Comment({
+    comments_id, user, content, timestamp,
+    deleteComment 
+}) {
+    
     const [open, setOpen] = useState(false);
+
+    const handleOpen = (e) => {
+        setOpen(true);
+    };
 
     const handleClose = () => {
         setOpen(false);
     };
 
-    const TOKEN = localStorage.getItem("Authorization");
+    const onDeleteHandler = () => {
+        console.log(comments_id);
+        deleteComment(comments_id);
+        handleClose();
+    };
 
-    const onMenuHandler = (e) => {
-        const comment_id = e.target.getAttribute("value");
-        navigate(`/`, {
+    const navigate = useNavigate();
+
+    const onClickHandler = () => {
+        navigate(`/profile/${user}`, {
             state: {
-                comment_id: comment_id,
+                user: user,
             }
         });
-        setOpen(true);
-    };
-    const location = useLocation();
-    const commentId = location.state;
-
-    const onDeleteHandler = () => {
-        deleteComments(deleteData);
-    };
-
-    const deleteData = { commentId, TOKEN };
-
-    const deleteComments = async (deleteData) => {
-        try {
-            const response = await NewsApis.deleteComment(deleteData);
-            console.log("댓글삭제 response", response.data);
-            handleClose();
-            window.location.reload();
-
-        } catch (err) {
-            if (err.response.status === 401) {
-                const message = err.response.data.message;
-                handleClose();
-                alert(message);
-            }
-        }
     };
 
     return (
         <>
             <UnderLine />
             <CommentContainers>
+                
                 <CommentContainer>
-                    <UserComment onClick={((e) => onClickHandler(e))} value={comment.user}>{comment.user}</UserComment>
-                    <NewsInfo>{comment.timestamp}</NewsInfo>
+                    <UserComment onClick={onClickHandler}> {user} </UserComment>
+                    <NewsInfo>{timestamp}</NewsInfo>
                 </CommentContainer>
+                
                 <CommentContainer>
-                    <MoreVert onClick={((e) => onMenuHandler(e))} value={comment?.comments_id} />
+                    <IconButton onClick={handleOpen}>
+                        <MoreVert/>
+                    </IconButton>
                     <UserModal
                         aria-labelledby="transition-modal-title"
                         aria-describedby="transition-modal-description"
@@ -87,13 +67,21 @@ function Comment({ comment }) {
                             <ModalButton
                                 size='large'
                                 style={{ color: '#f23d4d' }}
-                                onClick={onDeleteHandler}>삭제</ModalButton>
-                            <ModalButton size='large' onClick={handleClose}>취소</ModalButton>
+                                onClick={onDeleteHandler}
+                            >
+                                삭제
+                            </ModalButton>
+                            <ModalButton 
+                                size='large' 
+                                onClick={handleClose}
+                            >
+                                취소
+                            </ModalButton>
                         </ButtonGroup>
                     </UserModal>
                 </CommentContainer>
             </CommentContainers>
-            <CommentContent>{comment.content}</CommentContent>
+            <CommentContent>{content}</CommentContent>
         </>
     )
 }

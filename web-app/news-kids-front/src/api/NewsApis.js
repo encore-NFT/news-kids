@@ -23,9 +23,9 @@ const NewsApis = {
     },
 
     postComment(writeData) {
-        const { data, TOKEN, newsId } = writeData;
+        const { data, TOKEN, news_id } = writeData;
         const { content } = data;
-        const { news_id: news } = newsId;
+        const news = news_id;
 
         return AxiosInstance({
             url: 'http://localhost:8000/api/news/comments',
@@ -38,11 +38,10 @@ const NewsApis = {
     },
 
     deleteComment(deleteData) {
-        const { commentId, TOKEN } = deleteData;
-        const { comment_id } = commentId;
+        const { comments_id, TOKEN } = deleteData;
 
         const param = {
-            url: 'http://localhost:8000/api/news/comments/' + comment_id,
+            url: 'http://localhost:8000/api/news/comments/' + comments_id,
             method: 'delete',
         }
         if (TOKEN) {

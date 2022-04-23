@@ -11,56 +11,46 @@ import { useState } from 'react';
 
 function NewsList({
     TOKEN,
-    news_id,
-    news_source,
-    news_title,
-    news_date,
-    news_writer,
-    news_url,
-    news_image,
-    news_article,
-    keyword,
-    thumbnails,
-    like_count,
-    like_status,
-    comments
+    news_id, news_source, news_title, news_date,
+    news_writer, news_url, news_image, news_article,
+    keyword, thumbnails, like_count, like_status, comments,
 }) {
     const [likeCount, setLikeCount] = useState(like_count);
     const [likeStatus, setLikeStatus] = useState(like_status);
 
-    const commentCount = comments.length;
+    const [commentCount, setCommentCount] = useState(comments.length);
+    const [commentList, setCommentList] = useState(comments);
 
-    const navigate = useNavigate();
+    console.log(commentList);
 
-    const onClickHandler = (news_id) => {
-        navigate(`/`, {
-            state: {
-                news_id: news_id,
-            }
-        });
-    };
+    // const navigate = useNavigate();
 
-    const location = useLocation();
-    const newsId = location.state;
+    // const onClickHandler = (news_id) => {
+    //     navigate(`/`, {
+    //         state: {
+    //             news_id: news_id,
+    //         }
+    //     });
+    // };
+
+    // const location = useLocation();
+    // const newsId = location.state;
 
     const { register, handleSubmit, reset } = useForm({
         mode: "onChange",
     });
 
     const onSubmitValid = (data) => {
-        const writeData = { data, TOKEN, newsId };
-        postCommentData(writeData);
+        const writeData = { data, TOKEN, news_id };
+        postComment(writeData);
     };
-    const [createComment, setCreateComment] = useState("");
 
-    const postCommentData = async (writeData) => {
+    const postComment = async (writeData) => {
         try {
             const response = await NewsApis.postComment(writeData);
-            console.log("댓글 response", response);
+            console.log("댓글 생성 response", response);
             reset();
-            return setCreateComment(response.data.data);
-            //window.location.reload();
-
+            setCommentList([...commentList, response.data.data]);
         } catch (err) {
             if (err.response.status === 401) {
                 const message = err.response.data.message;
@@ -70,6 +60,22 @@ function NewsList({
             }
         }
     }
+
+    const deleteComment = async (comments_id) => {
+        try {
+            const deleteData = { comments_id, TOKEN }
+            const response = await NewsApis.deleteComment(deleteData);
+            console.log("댓글 삭제 response", response);
+            setCommentList(commentList.filter(comment => {
+                return comment.comments_id !== comments_id;
+            }));
+        } catch (err) {
+            if (err.response.status === 401) {
+                const message = err.response.data.message;
+                alert(message);
+            }
+        }
+    };
 
     return (
         <NewsContainer>
@@ -145,7 +151,16 @@ function NewsList({
                 <NewsInfo>
                     {`좋아요 ${likeCount}개 댓글 ${commentCount}개`}
                 </NewsInfo>
-                {
+
+                {commentList.map((comment, index) =>
+                    <Comment
+                        key={comment.comments_id}
+                        {...comment}
+                        deleteComment={deleteComment}
+                    />
+                )}
+
+                {/* {
                     createComment && createComment !== undefined ?
                         <>
                             {comments.map((comment, index) => (
@@ -170,7 +185,8 @@ function NewsList({
                                 />
                             ))}
                         </>
-                }
+                } */}
+
                 {/* {comments.map((comment, index) => (
                     <Comment
                         key={index}
@@ -179,9 +195,12 @@ function NewsList({
                         commentCount={commentCount}
                     />
                 ))} */}
+
                 <UnderLine />
                 
-                <form onSubmit={handleSubmit(onSubmitValid)} onClick={(() => onClickHandler(news_id))}>
+                {/* <form onSubmit={handleSubmit(onSubmitValid)} onClick={(() => onClickHandler(news_id))}> 
+                */}
+                <form onSubmit={handleSubmit(onSubmitValid)}>
                     <InputBase
                         {...register('content')}
                         name="content"
