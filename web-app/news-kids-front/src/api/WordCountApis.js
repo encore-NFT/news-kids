@@ -2,7 +2,8 @@ import AxiosInstance from './AxiosInstance';
 
 const WordCountApis = {
     getWordCountList(week) {
-        const param = week;
+        const param = (week==='' ? week : 'week/' + week);
+
         return AxiosInstance({
             url:'http://localhost:8000/api/wordcount/' + param,
             method: 'get',

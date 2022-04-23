@@ -1,25 +1,66 @@
-import ContainerLayout from '../shared/ContainerLayout'
-import { Grid, Typography, styled, Toolbar, Button, Container } from '@material-ui/core'
-import ContentLayout from '../shared/ContentLayout';
+import { Grid, Typography, styled, Button, Container, InputBase } from '@material-ui/core'
 import { theme } from '../../styles';
 import UnderLine from '../shared/UnderLine';
 import styledComponent from 'styled-components';
+import Like from './Like';
+import Comment from './Comment'
+import { useForm } from 'react-hook-form';
+import NewsApis from '../../api/NewsApis';
+import { useState } from 'react';
+import CommentUnderLine from '../shared/CommentUnderLine';
 
 function NewsList({
-    news_id,
-    news_source,
-    news_writer,
-    news_date,
-    news_url,
-    news_title,
-    news_image,
-    news_article,
-    keyword,
-    thumbnails,
-    comments,
-    liked_users
+    TOKEN,
+    news_id, news_source, news_title, news_date,
+    news_url, news_image, news_article, keyword, 
+    thumbnails, like_count, like_status, comments,
 }) {
-    console.log(Object.keys(comments).length === 0);
+    const [likeCount, setLikeCount] = useState(like_count);
+    const [likeStatus, setLikeStatus] = useState(like_status);
+    const [commentCount, setCommentCount] = useState(comments.length);
+    const [commentList, setCommentList] = useState(comments);
+
+    const { register, handleSubmit, reset } = useForm({
+        mode: "onChange",
+    });
+
+    const onSubmitValid = (data) => {
+        const writeData = { data, TOKEN, news_id };
+        postComment(writeData);
+    };
+
+    const postComment = async (writeData) => {
+        try {
+            const response = await NewsApis.postComment(writeData);
+            reset();
+            setCommentList([...commentList, response.data.data]);
+            setCommentCount(commentCount+1);
+        } catch (error) {
+            if (error.response.status === 401) {
+                const message = error.response.data.message;
+                alert(message);
+            } else {
+                console.log(error)
+            }
+        }
+    }
+
+    const deleteComment = async (comments_id) => {
+        try {
+            const deleteData = { comments_id, TOKEN }
+            await NewsApis.deleteComment(deleteData);
+            setCommentList(commentList.filter(comment => {
+                return comment.comments_id !== comments_id;
+            }));
+            setCommentCount(commentCount-1);
+        } catch (error) {
+            if (error.response.status === 401) {
+                const message = error.response.data.message;
+                alert(message);
+            }
+        }
+    };
+
     return (
         <NewsContainer>
             <NewsContent>
@@ -33,16 +74,24 @@ function NewsList({
 
                 <Grid container spacing={1} alignItems='center'>
                     <Grid item>
-                        <NewsInfo> {news_date} | {news_writer} </NewsInfo>
-                        </Grid>
+                        <NewsInfo> {news_date} </NewsInfo>
+                    </Grid>
                     <Grid item>
-                        <NewsButton variant='outlined' href={news_url} size='small'>기사원문</NewsButton>
+                        <NewsButton
+                            variant='outlined'
+                            href={news_url}
+                            size='small'
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            기사원문
+                        </NewsButton>
                     </Grid>
                 </Grid>
 
-                <UnderLine/>
+                <UnderLine />
 
-                <NewsImage src={news_image} alt={"뉴스 이미지"}/>
+                <NewsImage src={news_image} alt={"뉴스 이미지"} />
 
                 <NewsArticle>
                     {news_article}
@@ -50,25 +99,71 @@ function NewsList({
 
                 <Grid container spacing={2} alignItems='center'>
                     <Grid item>
-                        <Typography variant='h5' component='h5'>{keyword.keyword}</Typography>
+                        <Keyword
+                            variant='h2'
+                            component='h2'
+                            style={{
+                                'textDecoration': 'underline',
+                                'textUnderlinePosition': 'under'
+                            }}
+                        >
+                            {keyword.keyword}
+                        </Keyword>
                     </Grid>
                     <Grid item>
-                        <Typography>{keyword.definition}</Typography>
+                        <Keyword>{keyword.definition}</Keyword>
                     </Grid>
                 </Grid>
 
                 <Grid container spacing={1}>
                     {thumbnails.map((thumb, index) => (
                         <Grid item xs={4} key={index}>
-                            <ThumbImage src={thumb} alt={"뉴스 썸네일"}/>
+                            <ThumbImage src={thumb} alt={"뉴스 썸네일"} />
                         </Grid>
                     ))}
                 </Grid>
+                
+                <Grid container 
+                    alignItems="center" 
+                    justifyContent="space-between" 
+                >
+                    <Grid item>
+                        <NewsInfo>
+                            { likeCount ? `좋아요 ${likeCount}개 ` : null } 
+                            { commentCount ? `댓글 ${commentCount}개 ` : null }
+                        </NewsInfo>
+                    </Grid>
+                    <Grid item>
+                        <Like 
+                                TOKEN={TOKEN} 
+                                newsId={news_id} 
+                                likeStatus={likeStatus}
+                                setLikeStatus={setLikeStatus}
+                                likeCount={likeCount} 
+                                setLikeCount={setLikeCount}
+                        />
+                    </Grid>
+                </Grid>
 
-                <NewsInfo> {liked_users} |  </NewsInfo>
-                {comments.map((comment, index) => (
-                    <NewsInfo key={index}>{comment.content}</NewsInfo>
-                ))}
+                <CommentUnderLine/>
+
+                {commentList.map((comment) =>
+                    <Comment
+                        key={comment.comments_id}
+                        {...comment}
+                        deleteComment={deleteComment}
+                    />
+                )}
+
+                <form onSubmit={handleSubmit(onSubmitValid)}>
+                    <InputBase
+                        {...register('content')}
+                        name="content"
+                        type="text"
+                        fullWidth
+                        placeholder="댓글 달기..."
+                    />
+                </form>
             </NewsContent>
         </NewsContainer>
     );
@@ -80,7 +175,7 @@ const NewsContainer = styled(Container)({
     border: '0.5px solid #eaeaea',
     borderRadius: '20px',
     backgroundColor: '#ffffff',
-    padding: '2em 0em',
+    padding: '3em 0em',
     boxShadow: '0px 0px 10px 1px #e2e2e2',
     textAlign: 'center',
     margin: '0 auto',
@@ -98,7 +193,7 @@ const NewsSource = styled(Typography)({
     textAlign: 'left',
     color: theme.palette.secondary.contrastText,
     fontSize: '16px',
-    margin: '8px 0px'
+    margin: '8px 0px',
 })
 
 const NewsTitle = styled(Typography)({
@@ -129,10 +224,17 @@ const NewsImage = styledComponent.img`
 
 const NewsArticle = styled(Typography)({
     textAlign: 'left',
+    whiteSpace: 'pre-line',
     fontSize: '20px',
     margin: '20px 0px 80px 0px',
     lineHeight: '32px',
     color: theme.palette.primary.contrastText,
+})
+
+const Keyword = styled(Typography)({
+    textAlign: 'left',
+    margin: '0px 0px',
+    lineHeight: '24px',
 })
 
 const ThumbImage = styledComponent.img`

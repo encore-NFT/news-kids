@@ -4,8 +4,6 @@ const AuthApis = {
     postRegister(data) {
         const { name, nickname, email, password } = data;
 
-        console.log('postRegister값', data);
-
         return AxiosInstance({
             url: 'http://localhost:8000/api/user/signup',
             method: 'post',
@@ -18,8 +16,6 @@ const AuthApis = {
 
     postLogin(data) {
         const { id, password } = data;
-
-        console.log('postLogin값', data);
 
         return AxiosInstance({
             url: 'http://localhost:8000/api/user/login',

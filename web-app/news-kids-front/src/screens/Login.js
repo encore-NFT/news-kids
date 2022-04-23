@@ -22,7 +22,6 @@ function Login({ setIsLoggedIn }) {
     const postLogin = async (data) => {
         try {
             const response = await AuthApis.postLogin(data);
-            console.log("로그인 response", response);
 
             const token = response.data.access_token;
             if (token) {
@@ -31,10 +30,10 @@ function Login({ setIsLoggedIn }) {
                 navigate(`/`);
             };
 
-        } catch (err) {
-            if (err.response.status === 401) {
+        } catch (error) {
+            if (error.response.status === 401) {
                 return setError("result", {
-                    message: err.response.data.message,
+                    message: error.response.data.message,
                 });
             }
         }
@@ -61,7 +60,7 @@ function Login({ setIsLoggedIn }) {
                         variant="outlined"
                         size="small"
                     />
-                    {errors.id && (<FormError message={errors.id.message} />)}
+                    {errors?.id && (<FormError message={errors?.id?.message} />)}
                     <AuthInput
                         {...register('password', {
                             required: "비밀번호는 필수입니다.",
@@ -77,9 +76,9 @@ function Login({ setIsLoggedIn }) {
                         variant="outlined"
                         size="small"
                     />
-                    {errors.password && (<FormError message={errors.password.message} />)}
+                    {errors?.password && (<FormError message={errors?.password?.message} />)}
                     <AuthButton type="submit">로그인</AuthButton>
-                    <FormError message={errors?.result?.message} />
+                    {errors?.result && (<FormError message={errors?.result?.message} />)}
                 </form>
             </FormBox>
             <BottomBox cta="계정이 없으신가요?" linkText="회원가입" link={`/sign-up`} />

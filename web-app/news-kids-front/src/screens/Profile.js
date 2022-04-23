@@ -17,12 +17,10 @@ function Profile() {
     const getProfile = async (TOKEN) => {
         try {
             const response = await ProfileApis.getProfileList(TOKEN);
-            console.log("프로필 response", response.data);
             const profileData = response.data.data;
             return setData(profileData);
-
-        } catch (err) {
-            console.log(err);
+        } catch (error) {
+            console.log(error);
         }
     }
 
@@ -41,37 +39,41 @@ function Profile() {
     }
 
     return (
-        <ContainerLayout>
-            <ContentLayout>
-                <Toolbar>
-                    <Typography variant="h4">{data?.profile?.user_name}</Typography>
-                    <Link to={`/accounts/edit`}>
-                        <EditButton>프로필 편집</EditButton>
-                    </Link>
-                </Toolbar>
-                <MyInfo>{data?.profile?.user_nickname}</MyInfo>
-                <MyInfo>안녕하세요. {data?.profile?.user_name} 입니다.</MyInfo>
-                <UnderLine />
-                <Grid container spacing={1} alignItems='center' style={{ margin: '20px 0px 10px 0px' }}>
-                    <Grid item>
-                        <MyRecord>내가 좋아요한 뉴스</MyRecord>
+        <>
+            <ContainerLayout>
+                <ContentLayout>
+                    <Toolbar>
+                        <Typography variant="h4">{data?.profile?.user_name}</Typography>
+                        <Link to={`/accounts/edit`}>
+                            <EditButton>프로필 편집</EditButton>
+                        </Link>
+                    </Toolbar>
+                    <MyInfo>{data?.profile?.user_nickname}</MyInfo>
+                    {data?.profile?.user_introduce !== "" ?
+                        <MyInfo>{data?.profile?.user_introduce}</MyInfo>
+                        : <MyInfo>안녕하세요. {data?.profile?.user_name} 입니다.</MyInfo>}
+                    <UnderLine />
+                    <Grid container spacing={1} alignItems='center' style={{ margin: '20px 0px 10px 0px' }}>
+                        <Grid item>
+                            <MyRecord>내가 좋아요한 뉴스</MyRecord>
+                        </Grid>
+                        <Grid item>
+                            <ShowButton variant='outlined' size='small' onClick={showMoreLike}>더보기</ShowButton>
+                        </Grid>
                     </Grid>
-                    <Grid item>
-                        <ShowButton variant='outlined' size='small' onClick={showMoreLike}>더보기</ShowButton>
+                    <LikeNews likes={data?.record?.like} visible={showLike} />
+                    <Grid container spacing={1} alignItems='center' style={{ margin: '20px 0px 10px 0px' }}>
+                        <Grid item>
+                            <MyRecord>내가 작성한 댓글</MyRecord>
+                        </Grid>
+                        <Grid item>
+                            <ShowButton variant='outlined' size='small' onClick={showMoreComment}>더보기</ShowButton>
+                        </Grid>
                     </Grid>
-                </Grid>
-                <LikeNews likes={data?.record?.like} visible={showLike} />
-                <Grid container spacing={1} alignItems='center' style={{ margin: '20px 0px 10px 0px' }}>
-                    <Grid item>
-                        <MyRecord>내가 작성한 댓글</MyRecord>
-                    </Grid>
-                    <Grid item>
-                        <ShowButton variant='outlined' size='small' onClick={showMoreComment}>더보기</ShowButton>
-                    </Grid>
-                </Grid>
-                <CommentNews comments={data?.record?.comment} visible={showComment} />
-            </ContentLayout>
-        </ContainerLayout>
+                    <CommentNews comments={data?.record?.comment} visible={showComment} />
+                </ContentLayout>
+            </ContainerLayout>
+        </>
     )
 }
 

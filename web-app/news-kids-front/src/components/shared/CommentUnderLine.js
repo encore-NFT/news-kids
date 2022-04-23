@@ -1,10 +1,10 @@
 import styledComponents from "styled-components";
 
-const UnderLine = styledComponents.hr`
+const CommentUnderLine = styledComponents.hr`
     width: 100%;
     background-color: #fefefef;
-    margin-top: 20px;
+    margin-top: 0px;
     border: solid 0.1px #dedede;
 `
 
-export default UnderLine;
+export default CommentUnderLine;
