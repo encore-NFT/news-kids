@@ -4,7 +4,6 @@ from user.models import User
 # 뉴스 테이블
 class News(models.Model):
     news_source     = models.CharField(max_length=20)
-    news_writer     = models.CharField(max_length=50, blank=True, null=True)
     news_date       = models.DateTimeField()
     news_url        = models.URLField(max_length=500)
     news_title      = models.CharField(max_length=200)

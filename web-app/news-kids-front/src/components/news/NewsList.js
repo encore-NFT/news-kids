@@ -12,8 +12,8 @@ import { useState } from 'react';
 function NewsList({
     TOKEN,
     news_id, news_source, news_title, news_date,
-    news_writer, news_url, news_image, news_article,
-    keyword, thumbnails, like_count, like_status, comments,
+    news_url, news_image, news_article, keyword, 
+    thumbnails, like_count, like_status, comments,
 }) {
     const [likeCount, setLikeCount] = useState(like_count);
     const [likeStatus, setLikeStatus] = useState(like_status);
@@ -90,7 +90,7 @@ function NewsList({
 
                 <Grid container spacing={1} alignItems='center'>
                     <Grid item>
-                        <NewsInfo> {news_date} | {news_writer} </NewsInfo>
+                        <NewsInfo> {news_date} </NewsInfo>
                     </Grid>
                     <Grid item>
                         <NewsButton

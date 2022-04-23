@@ -28,8 +28,7 @@ class NewsView(View):
         news_list = [{
                 'news_id'      : news.id,
                 'news_source'  : news.news_source,
-                'news_writer'  : news.news_writer,
-                'news_date'    : time_str(news.news_date).split(" ")[0],
+                'news_date'    : time_str(news.news_date),
                 'news_url'     : news.news_url,
                 'news_title'   : news.news_title,
                 'news_image'   : news.news_image,
@@ -78,8 +77,7 @@ class NewsDetailView(View):
         news_dict = {
                 'news_id'      : news.id,
                 'news_source'  : news.news_source,
-                'news_writer'  : news.news_writer,
-                'news_date'    : time_str(news.news_date).split(" ")[0],
+                'news_date'    : time_str(news.news_date),
                 'news_url'     : news.news_url,
                 'news_title'   : news.news_title,
                 'news_image'   : news.news_image,
