@@ -10,7 +10,7 @@ function AccountRoutes({ setIsLoggedIn, isLoggedIn }) {
     <>
       <Routes>
         <Route path={'/edit'} element={<Layout setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn}><EditProfile /></Layout>} />
-        <Route path={'/password/change'} element={<Layout setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn}><PwdChange /></Layout>} />
+        <Route path={'/password/change'} element={<Layout setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn}><PwdChange setIsLoggedIn={setIsLoggedIn} /></Layout>} />
         <Route path={'/delete'} element={<Layout setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn}><DeleteProfile setIsLoggedIn={setIsLoggedIn} /></Layout>} />
       </Routes>
     </>

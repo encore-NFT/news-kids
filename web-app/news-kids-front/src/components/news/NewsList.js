@@ -1,4 +1,4 @@
-import { Grid, Typography, styled, Button, Container, InputBase } from '@material-ui/core'
+import { Grid, Typography, styled, Button, Container, InputBase, Drawer } from '@material-ui/core'
 import { theme } from '../../styles';
 import UnderLine from '../shared/UnderLine';
 import styledComponent from 'styled-components';
@@ -8,11 +8,12 @@ import { useForm } from 'react-hook-form';
 import NewsApis from '../../api/NewsApis';
 import { useState } from 'react';
 import CommentUnderLine from '../shared/CommentUnderLine';
+import ErrorMessage from '../shared/Message';
 
 function NewsList({
     TOKEN,
     news_id, news_source, news_title, news_date,
-    news_url, news_image, news_article, keyword, 
+    news_url, news_image, news_article, keyword,
     thumbnails, like_count, like_status, comments,
 }) {
     const [likeCount, setLikeCount] = useState(like_count);
@@ -27,20 +28,32 @@ function NewsList({
     const onSubmitValid = (data) => {
         const writeData = { data, TOKEN, news_id };
         postComment(writeData);
+        reset();
+        if (message !== undefined) {
+            setOpen(true);
+            setTimeout(handleDrawerClose, 2000);
+        }
     };
+
+    const [open, setOpen] = useState(false);
+
+    const handleDrawerClose = () => {
+        setOpen(false);
+    };
+
+    const [message, setMessage] = useState("");
 
     const postComment = async (writeData) => {
         try {
             const response = await NewsApis.postComment(writeData);
-            reset();
             setCommentList([...commentList, response.data.data]);
-            setCommentCount(commentCount+1);
+            setCommentCount(commentCount + 1);
         } catch (error) {
             if (error.response.status === 401) {
                 const message = error.response.data.message;
-                alert(message);
+                return setMessage(message);
             } else {
-                console.log(error)
+                console.log(error);
             }
         }
     }
@@ -52,11 +65,11 @@ function NewsList({
             setCommentList(commentList.filter(comment => {
                 return comment.comments_id !== comments_id;
             }));
-            setCommentCount(commentCount-1);
+            setCommentCount(commentCount - 1);
         } catch (error) {
             if (error.response.status === 401) {
                 const message = error.response.data.message;
-                alert(message);
+                return setMessage(message);
             }
         }
     };
@@ -122,36 +135,37 @@ function NewsList({
                         </Grid>
                     ))}
                 </Grid>
-                
-                <Grid container 
-                    alignItems="center" 
-                    justifyContent="space-between" 
+
+                <Grid container
+                    alignItems="center"
+                    justifyContent="space-between"
                 >
                     <Grid item>
                         <NewsInfo>
-                            { likeCount ? `좋아요 ${likeCount}개 ` : null } 
-                            { commentCount ? `댓글 ${commentCount}개 ` : null }
+                            {likeCount ? `좋아요 ${likeCount}개 ` : null}
+                            {commentCount ? `댓글 ${commentCount}개 ` : null}
                         </NewsInfo>
                     </Grid>
                     <Grid item>
-                        <Like 
-                                TOKEN={TOKEN} 
-                                newsId={news_id} 
-                                likeStatus={likeStatus}
-                                setLikeStatus={setLikeStatus}
-                                likeCount={likeCount} 
-                                setLikeCount={setLikeCount}
+                        <Like
+                            TOKEN={TOKEN}
+                            newsId={news_id}
+                            likeStatus={likeStatus}
+                            setLikeStatus={setLikeStatus}
+                            likeCount={likeCount}
+                            setLikeCount={setLikeCount}
                         />
                     </Grid>
                 </Grid>
 
-                <CommentUnderLine/>
+                <CommentUnderLine />
 
                 {commentList.map((comment) =>
                     <Comment
                         key={comment.comments_id}
                         {...comment}
                         deleteComment={deleteComment}
+                        message={message}
                     />
                 )}
 
@@ -164,6 +178,15 @@ function NewsList({
                         placeholder="댓글 달기..."
                     />
                 </form>
+                <Drawer
+                    variant="persistent"
+                    anchor="bottom"
+                    open={open}
+                >
+                    <ErrorMessage>
+                        {message}
+                    </ErrorMessage>
+                </Drawer>
             </NewsContent>
         </NewsContainer>
     );

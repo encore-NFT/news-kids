@@ -1,29 +1,40 @@
-import { Typography, styled, Modal, ButtonGroup, Button, IconButton } from '@material-ui/core'
+import { Typography, styled, Modal, ButtonGroup, Button, IconButton, Drawer } from '@material-ui/core'
 import { theme } from '../../styles';
 import UnderLine from '../shared/UnderLine';
 import { useNavigate } from "react-router-dom";
 import styledComponent from 'styled-components';
 import MoreVert from '@material-ui/icons/MoreVert'
 import { useState } from 'react';
+import ErrorMessage from '../shared/Message';
 
 function Comment({
     comments_id, user, content, timestamp,
-    deleteComment 
+    deleteComment, message
 }) {
-    
-    const [open, setOpen] = useState(false);
+
+    const [openModal, setOpenModal] = useState(false);
 
     const handleOpen = (e) => {
-        setOpen(true);
+        setOpenModal(true);
     };
 
     const handleClose = () => {
-        setOpen(false);
+        setOpenModal(false);
     };
 
     const onDeleteHandler = () => {
         deleteComment(comments_id);
         handleClose();
+        if (message !== undefined) {
+            setOpen(true);
+            setTimeout(handleDrawerClose, 2000);
+        }
+    };
+
+    const [open, setOpen] = useState(false);
+
+    const handleDrawerClose = () => {
+        setOpen(false);
     };
 
     const navigate = useNavigate();
@@ -34,20 +45,20 @@ function Comment({
 
     return (
         <>
-            <CommentContainers>            
+            <CommentContainers>
                 <CommentContainer>
                     <UserComment onClick={onClickHandler}> {user} </UserComment>
                     <NewsInfo>{timestamp}</NewsInfo>
                 </CommentContainer>
-                
+
                 <CommentContainer>
                     <IconButton onClick={handleOpen}>
-                        <MoreVert/>
+                        <MoreVert />
                     </IconButton>
                     <UserModal
                         aria-labelledby="transition-modal-title"
                         aria-describedby="transition-modal-description"
-                        open={open}
+                        open={openModal}
                         onClose={handleClose}
                     >
                         <ButtonGroup
@@ -64,8 +75,8 @@ function Comment({
                             >
                                 삭제
                             </ModalButton>
-                            <ModalButton 
-                                size='large' 
+                            <ModalButton
+                                size='large'
                                 onClick={handleClose}
                             >
                                 취소
@@ -75,7 +86,16 @@ function Comment({
                 </CommentContainer>
             </CommentContainers>
             <CommentContent>{content}</CommentContent>
-            <UnderLine/>
+            <UnderLine />
+            <Drawer
+                variant="persistent"
+                anchor="bottom"
+                open={open}
+            >
+                <ErrorMessage>
+                    {message}
+                </ErrorMessage>
+            </Drawer>
         </>
     )
 }
