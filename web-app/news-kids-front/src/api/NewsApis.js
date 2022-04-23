@@ -12,6 +12,19 @@ const NewsApis = {
         return AxiosInstance(param)
     },
 
+    getNews(newsData) {
+        const { TOKEN, newsId } = newsData
+
+        const param = {
+            url: 'http://localhost:8000/api/news/' + newsId,
+            method: 'get'
+        }
+        if (TOKEN) {
+            param['headers'] = { 'Authorization': TOKEN }
+        }
+        return AxiosInstance(param)
+    },
+
     postSearchNews(data) {
         const { word } = data;
 

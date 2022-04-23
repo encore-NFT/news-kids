@@ -24,12 +24,11 @@ function SignUp() {
 
     const postSignup = async (data) => {
         try {
-            const response = await AuthApis.postRegister(data);
-            console.log("회원가입 response", response);
-        } catch (err) {
-            if (err.response.status === 409) {
+            await AuthApis.postRegister(data);
+        } catch (error) {
+            if (error.response.status === 409) {
                 return setError("result", {
-                    message: err.response.data.message,
+                    message: error.response.data.message,
                 });
             }
         }

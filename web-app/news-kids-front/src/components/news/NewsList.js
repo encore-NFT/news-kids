@@ -6,8 +6,8 @@ import Like from './Like';
 import Comment from './Comment'
 import { useForm } from 'react-hook-form';
 import NewsApis from '../../api/NewsApis';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import CommentUnderLine from '../shared/CommentUnderLine';
 
 function NewsList({
     TOKEN,
@@ -17,24 +17,8 @@ function NewsList({
 }) {
     const [likeCount, setLikeCount] = useState(like_count);
     const [likeStatus, setLikeStatus] = useState(like_status);
-
     const [commentCount, setCommentCount] = useState(comments.length);
     const [commentList, setCommentList] = useState(comments);
-
-    console.log(commentList);
-
-    // const navigate = useNavigate();
-
-    // const onClickHandler = (news_id) => {
-    //     navigate(`/`, {
-    //         state: {
-    //             news_id: news_id,
-    //         }
-    //     });
-    // };
-
-    // const location = useLocation();
-    // const newsId = location.state;
 
     const { register, handleSubmit, reset } = useForm({
         mode: "onChange",
@@ -48,15 +32,15 @@ function NewsList({
     const postComment = async (writeData) => {
         try {
             const response = await NewsApis.postComment(writeData);
-            console.log("댓글 생성 response", response);
             reset();
             setCommentList([...commentList, response.data.data]);
-        } catch (err) {
-            if (err.response.status === 401) {
-                const message = err.response.data.message;
+            setCommentCount(commentCount+1);
+        } catch (error) {
+            if (error.response.status === 401) {
+                const message = error.response.data.message;
                 alert(message);
             } else {
-                console.log(err)
+                console.log(error)
             }
         }
     }
@@ -64,14 +48,14 @@ function NewsList({
     const deleteComment = async (comments_id) => {
         try {
             const deleteData = { comments_id, TOKEN }
-            const response = await NewsApis.deleteComment(deleteData);
-            console.log("댓글 삭제 response", response);
+            await NewsApis.deleteComment(deleteData);
             setCommentList(commentList.filter(comment => {
                 return comment.comments_id !== comments_id;
             }));
-        } catch (err) {
-            if (err.response.status === 401) {
-                const message = err.response.data.message;
+            setCommentCount(commentCount-1);
+        } catch (error) {
+            if (error.response.status === 401) {
+                const message = error.response.data.message;
                 alert(message);
             }
         }
@@ -138,21 +122,32 @@ function NewsList({
                         </Grid>
                     ))}
                 </Grid>
+                
+                <Grid container 
+                    alignItems="center" 
+                    justifyContent="space-between" 
+                >
+                    <Grid item>
+                        <NewsInfo>
+                            { likeCount ? `좋아요 ${likeCount}개 ` : null } 
+                            { commentCount ? `댓글 ${commentCount}개 ` : null }
+                        </NewsInfo>
+                    </Grid>
+                    <Grid item>
+                        <Like 
+                                TOKEN={TOKEN} 
+                                newsId={news_id} 
+                                likeStatus={likeStatus}
+                                setLikeStatus={setLikeStatus}
+                                likeCount={likeCount} 
+                                setLikeCount={setLikeCount}
+                        />
+                    </Grid>
+                </Grid>
 
-                <Like 
-                    TOKEN={TOKEN} 
-                    newsId={news_id} 
-                    likeStatus={likeStatus}
-                    setLikeStatus={setLikeStatus}
-                    likeCount={likeCount} 
-                    setLikeCount={setLikeCount} 
-                />
+                <CommentUnderLine/>
 
-                <NewsInfo>
-                    {`좋아요 ${likeCount}개 댓글 ${commentCount}개`}
-                </NewsInfo>
-
-                {commentList.map((comment, index) =>
+                {commentList.map((comment) =>
                     <Comment
                         key={comment.comments_id}
                         {...comment}
@@ -160,46 +155,6 @@ function NewsList({
                     />
                 )}
 
-                {/* {
-                    createComment && createComment !== undefined ?
-                        <>
-                            {comments.map((comment, index) => (
-                                <Comment
-                                    key={index}
-                                    comment={comment}
-                                    commentCount={commentCount}
-                                />
-                            ))}
-                            <Comment
-                                comment={createComment}
-                                commentCount={commentCount}
-                            />
-                        </>
-                        :
-                        <>
-                            {comments.map((comment, index) => (
-                                <Comment
-                                    key={index}
-                                    comment={comment}
-                                    commentCount={commentCount}
-                                />
-                            ))}
-                        </>
-                } */}
-
-                {/* {comments.map((comment, index) => (
-                    <Comment
-                        key={index}
-                        newsId={news_id}
-                        comment={comment}
-                        commentCount={commentCount}
-                    />
-                ))} */}
-
-                <UnderLine />
-                
-                {/* <form onSubmit={handleSubmit(onSubmitValid)} onClick={(() => onClickHandler(news_id))}> 
-                */}
                 <form onSubmit={handleSubmit(onSubmitValid)}>
                     <InputBase
                         {...register('content')}

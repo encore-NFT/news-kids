@@ -65,10 +65,9 @@ const ProfileApis = {
 
     getOtherUser(userData) {
         const { userName, TOKEN } = userData;
-        const { user_name } = userName;
 
         const param = {
-            url: 'http://localhost:8000/api/user/profile/' + user_name,
+            url: 'http://localhost:8000/api/user/profile/' + userName,
             method: 'get'
         }
         if (TOKEN) {

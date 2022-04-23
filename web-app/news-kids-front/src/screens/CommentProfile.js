@@ -14,25 +14,24 @@ function CommentProfile() {
     const TOKEN = localStorage.getItem("Authorization");
 
     const location = useLocation();
-    const userName = location.state;
+    const userName = location.pathname.replace('/profile/','');
     const userData = { userName, TOKEN };
 
     const [otherData, setOtherData] = useState("");
     const getOtherProfile = async (userData) => {
         try {
             const response = await ProfileApis.getOtherUser(userData);
-            console.log("댓글 프로필 response", response);
             const profileData = response.data.data;
             return setOtherData(profileData);
 
-        } catch (err) {
-            console.log(err);
+        } catch (error) {
+            console.log(error);
         }
     };
 
     useEffect(() => {
         getOtherProfile(userData);
-    }, [userData]);
+    });
 
 
     const [showLike, setShowLike] = useState(4);

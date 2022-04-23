@@ -18,12 +18,10 @@ function Search() {
     const postSearch = async (data) => {
         try {
             const response = await NewsApis.postSearchNews(data);
-            console.log("검색 response", response);
             const result = response.data.data;
             return setSearchData(result);
-
-        } catch (err) {
-            console.log(err)
+        } catch (error) {
+            console.log(error)
         }
     };
 

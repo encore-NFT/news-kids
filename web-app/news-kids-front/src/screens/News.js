@@ -2,14 +2,20 @@ import { useState, useEffect } from 'react';
 import NewsApis from '../api/NewsApis';
 import NewsList from '../components/news/NewsList';
 
+import { useLocation } from "react-router-dom";
 
-function Home() {
+function News() {
     const TOKEN = localStorage.getItem("Authorization");
-    const [news, setNews] = useState([]);
     
-    const readNewsList = async (TOKEN) => {
+    const location = useLocation();
+    const newsId = location.pathname.replace('/news/','')
+    const newsData = { newsId, TOKEN };
+
+    const [news, setNews] = useState([]);
+
+    const readNews = async (newsData) => {
         try {
-            const response = await NewsApis.getNewsList(TOKEN);
+            const response = await NewsApis.getNews(newsData);
             if (response.status === 200) {
                 setNews(response.data.data);
             } else {
@@ -21,17 +27,14 @@ function Home() {
     };
 
     useEffect(() => {
-        readNewsList(TOKEN);
-    }, [TOKEN]);
-    
+        readNews(newsData);
+    });
 
     return (
         <>
-            {news.map((news) => (
-                <NewsList key={news.news_id} TOKEN={TOKEN} {...news} />
-            ))}
+            {news && news.length !== 0 ? <NewsList TOKEN={TOKEN} {...news} /> : null }
         </>
     )
 }
 
-export default Home;
+export default News;

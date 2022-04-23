@@ -6,7 +6,6 @@ axios.defaults.withCredentials = true;
 
 AxiosInstance.interceptors.request.use(
     (config) => {
-        console.log(config);
         return config;
     },
     (error) => {
@@ -20,6 +19,7 @@ AxiosInstance.interceptors.response.use(
         return response;
     },
     (error) => {
+        console.log(error);
         return Promise.reject(error);
     },
 );

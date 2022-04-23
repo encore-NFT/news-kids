@@ -1,5 +1,3 @@
-// import ContainerLayout from '../shared/ContainerLayout'
-// import { Grid, Typography, styled, Toolbar, Button } from '@material-ui/core'
 import WordCloud from "react-d3-cloud";
 import { scaleOrdinal } from 'd3-scale';
 import { schemeTableau10 } from 'd3-scale-chromatic';

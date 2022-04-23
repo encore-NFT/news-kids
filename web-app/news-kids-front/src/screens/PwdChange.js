@@ -8,6 +8,7 @@ import ProfileApis from "../api/ProfileApis";
 import FormError from "../components/auth/FormError";
 import FormSuccess from "../components/editProfile/FormSuccess";
 import { useEffect, useState } from "react";
+import { styled, Typography } from "@material-ui/core";
 
 function PwdChange() {
     const TOKEN = localStorage.getItem("Authorization");
@@ -25,14 +26,13 @@ function PwdChange() {
     const putNewPassword = async (passwordData) => {
         try {
             const response = await ProfileApis.putPassword(passwordData);
-            console.log("비밀번호 response", response.data);
             const successMessage = response.data.data;
             return setData(successMessage);
 
-        } catch (err) {
-            if (err.response.status === 401) {
+        } catch (error) {
+            if (error.response.status === 401) {
                 return setError("result", {
-                    message: err.response.data.message,
+                    message: error.response.data.message,
                 });
             }
         }
@@ -53,6 +53,7 @@ function PwdChange() {
         <EditLayout>
             <MenuHeader />
             <EditFormBox>
+                <Content variant="h5" component="h2">비밀번호 변경</Content>
                 <form onSubmit={handleSubmit(onSubmitValid)}>
                     <AuthInput
                         {...register('pre_password', {
@@ -112,3 +113,8 @@ function PwdChange() {
 }
 
 export default PwdChange;
+
+const Content = styled(Typography)({
+    textAlign: 'left',
+    marginBottom: '35px',
+})

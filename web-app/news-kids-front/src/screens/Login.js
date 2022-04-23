@@ -22,7 +22,6 @@ function Login({ setIsLoggedIn }) {
     const postLogin = async (data) => {
         try {
             const response = await AuthApis.postLogin(data);
-            console.log("로그인 response", response);
 
             const token = response.data.access_token;
             if (token) {
@@ -31,10 +30,10 @@ function Login({ setIsLoggedIn }) {
                 navigate(`/`);
             };
 
-        } catch (err) {
-            if (err.response.status === 401) {
+        } catch (error) {
+            if (error.response.status === 401) {
                 return setError("result", {
-                    message: err.response.data.message,
+                    message: error.response.data.message,
                 });
             }
         }

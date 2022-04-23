@@ -18,12 +18,11 @@ function DeleteProfile({ setIsLoggedIn }) {
     const getProfile = async (TOKEN) => {
         try {
             const response = await ProfileApis.getProfileList(TOKEN);
-            console.log("프로필 response", response.data);
             const profileData = response.data.data;
             return setData(profileData);
 
-        } catch (err) {
-            console.log(err);
+        } catch (error) {
+            console.log(error);
         }
     }
 
@@ -43,16 +42,15 @@ function DeleteProfile({ setIsLoggedIn }) {
 
     const deleteProfile = async (deleteData) => {
         try {
-            const response = await ProfileApis.deleteUser(deleteData);
-            console.log("계정삭제 response", response.data);
+            await ProfileApis.deleteUser(deleteData);
             localStorage.removeItem("Authorization");
             setIsLoggedIn(false);
             alert("계정이 삭제되었습니다.")
             navigate(`/`);
-        } catch (err) {
-            if (err.response.status === 401) {
+        } catch (error) {
+            if (error.response.status === 401) {
                 return setError("result", {
-                    message: err.response.data.message,
+                    message: error.response.data.message,
                 });
             }
         }
@@ -65,7 +63,7 @@ function DeleteProfile({ setIsLoggedIn }) {
         <EditLayout>
             <MenuHeader />
             <EditFormBox>
-                <Content variant="h5" component="h2">계정 삭제</Content>
+                <Content variant="h5" component="h2">회원 탈퇴</Content>
                 <LongContent variant="body2">{data?.profile?.user_name}님, 안녕하세요.</LongContent>
                 <Content variant="body2">계정을 삭제하려고 하신다니 아쉽습니다.</Content>
                 <Content variant="h6" component="h4">계속하려면 비밀번호를 다시 입력하세요</Content>

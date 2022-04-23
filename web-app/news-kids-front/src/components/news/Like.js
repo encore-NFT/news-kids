@@ -1,4 +1,4 @@
-import { IconButton, Typography } from '@material-ui/core';
+import { IconButton } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
 import LikeApis from '../../api/LikeApis';
@@ -13,11 +13,9 @@ function Like({
 
     const postLike = async (newsData) => {
         try {
-            const response = await LikeApis.postLike(newsData);
+            await LikeApis.postLike(newsData);
             setLikeStatus(likeStatus => !likeStatus);
             likeStatus ? setLikeCount(likeCount-1) : setLikeCount(likeCount+1)
-            console.log(likeStatus);
-
         } catch (error) {
             if (error.response.status === 401) {
                 const message = error.response.data.message;
@@ -31,7 +29,7 @@ function Like({
     return (
         <>
             <IconButton onClick={onClickHandler}>
-                {likeStatus ? <FavoriteIcon fontSize='large' color='secondary'/> : <FavoriteBorderIcon fontSize='large'/>}
+                {likeStatus ? <FavoriteIcon fontSize='medium' color='secondary'/> : <FavoriteBorderIcon fontSize='medium'/>}
             </IconButton>
         </>
     )

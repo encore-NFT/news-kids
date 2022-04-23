@@ -17,12 +17,10 @@ function Profile() {
     const getProfile = async (TOKEN) => {
         try {
             const response = await ProfileApis.getProfileList(TOKEN);
-            console.log("프로필 response", response.data);
             const profileData = response.data.data;
             return setData(profileData);
-
-        } catch (err) {
-            console.log(err);
+        } catch (error) {
+            console.log(error);
         }
     }
 

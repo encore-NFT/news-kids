@@ -1,7 +1,7 @@
 import { Typography, styled, Modal, ButtonGroup, Button, IconButton } from '@material-ui/core'
 import { theme } from '../../styles';
 import UnderLine from '../shared/UnderLine';
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styledComponent from 'styled-components';
 import MoreVert from '@material-ui/icons/MoreVert'
 import { useState } from 'react';
@@ -22,7 +22,6 @@ function Comment({
     };
 
     const onDeleteHandler = () => {
-        console.log(comments_id);
         deleteComment(comments_id);
         handleClose();
     };
@@ -30,18 +29,12 @@ function Comment({
     const navigate = useNavigate();
 
     const onClickHandler = () => {
-        navigate(`/profile/${user}`, {
-            state: {
-                user: user,
-            }
-        });
+        navigate(`/profile/${user}`);
     };
 
     return (
         <>
-            <UnderLine />
-            <CommentContainers>
-                
+            <CommentContainers>            
                 <CommentContainer>
                     <UserComment onClick={onClickHandler}> {user} </UserComment>
                     <NewsInfo>{timestamp}</NewsInfo>
@@ -82,6 +75,7 @@ function Comment({
                 </CommentContainer>
             </CommentContainers>
             <CommentContent>{content}</CommentContent>
+            <UnderLine/>
         </>
     )
 }

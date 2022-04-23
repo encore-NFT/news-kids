@@ -33,7 +33,6 @@ function Trend() {
         readWordCountLists(week);
     }, [week]);
 
-    console.log(wordCount)
     return (
         <ContainerLayout>
             <Toolbar>

@@ -7,6 +7,7 @@ import MenuHeader from "../components/editProfile/MenuHeader";
 import ProfileApis from "../api/ProfileApis";
 import { useEffect, useMemo, useState } from "react";
 import FormError from "../components/auth/FormError";
+import { styled, Typography } from "@material-ui/core";
 
 function EditProfile() {
     const TOKEN = localStorage.getItem("Authorization");
@@ -19,8 +20,8 @@ function EditProfile() {
             const profileData = response.data.data;
             return setData(profileData);
 
-        } catch (err) {
-            console.log(err);
+        } catch (error) {
+            console.log(error);
         }
     }
 
@@ -39,8 +40,7 @@ function EditProfile() {
         reset(initValue);
     }, [data]);
 
-
-    const { register, handleSubmit, reset, control, formState: { errors }, setError } = useForm({
+    const { register, handleSubmit, reset, control, formState: { errors } } = useForm({
         mode: "onChange",
         defaultValues: useMemo(() => initValue, [initValue]),
     });
@@ -52,10 +52,9 @@ function EditProfile() {
 
     const postEditProfile = async (editData) => {
         try {
-            const response = await ProfileApis.postEditProfileList(editData);
-            console.log("프로필 수정 response", response);
-        } catch (err) {
-            console.log(err);
+            await ProfileApis.postEditProfileList(editData);
+        } catch (error) {
+            console.log(error);
         }
     }
 
@@ -63,6 +62,7 @@ function EditProfile() {
         <EditLayout>
             <MenuHeader />
             <EditFormBox>
+                <Content variant="h5" component="h2">프로필 편집</Content>
                 <form onSubmit={handleSubmit(onSubmitValid)}>
                     <Controller
                         render={({ field }) => (
@@ -134,8 +134,7 @@ function EditProfile() {
                         name="user_email"
                     />
                     {errors?.user_email && (<FormError message={errors?.user_email?.message} />)}
-                    <EditButton type="submit">제출</EditButton>
-                    {/* <FormError message={errors?.result?.message} /> */}
+                    <EditButton type="submit">저장</EditButton>
                 </form>
             </EditFormBox>
         </EditLayout>
@@ -143,3 +142,8 @@ function EditProfile() {
 }
 
 export default EditProfile;
+
+const Content = styled(Typography)({
+    textAlign: 'left',
+    marginBottom: '35px',
+})

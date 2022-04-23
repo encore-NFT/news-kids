@@ -65,13 +65,14 @@ class NewsSearchView(View):
                 'news_image'   : news.news_image,
                 'news_article' : news.news_article,
                 'comments'     : Comments.objects.filter(news=news.id).count(),
-                'liked_users'  : news.liked_users.count(), 
+                'like_count'   : news.liked_users.count(),
             } for news in filtered_news
         ]
         return JsonResponse({'data': news_list}, status=200)
 
 # 뉴스 Read One
 class NewsDetailView(View):
+    @user_decorator
     def get(self, request, news_id):
         news = News.objects.get(id=news_id)
         news_dict = {
@@ -91,7 +92,9 @@ class NewsDetailView(View):
                     'timestamp': time_str(c.timestamp)
                     } for c in Comments.objects.filter(news=news_id)
                 ],
-                'liked_users'  : news.liked_users.count(), 
+                'like_count'   : news.liked_users.count(),
+                'like_status'  : Like.objects.filter(Q(news_id=news.id) & Q(user_id=request.user_id)).exists()\
+                                    if request.user else False
             }
         return JsonResponse({'data': news_dict}, status=200)
 
