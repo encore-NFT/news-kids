@@ -10,6 +10,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 function NewsList({
+    TOKEN,
     news_id,
     news_source,
     news_title,
@@ -24,10 +25,10 @@ function NewsList({
     like_status,
     comments
 }) {
-    const likeCount = like_count;
-    const commentCount = comments.length;
+    const [likeCount, setLikeCount] = useState(like_count);
+    const [likeStatus, setLikeStatus] = useState(like_status);
 
-    const TOKEN = localStorage.getItem("Authorization");
+    const commentCount = comments.length;
 
     const navigate = useNavigate();
 
@@ -132,7 +133,14 @@ function NewsList({
                     ))}
                 </Grid>
 
-                <Like newsId={news_id} likeCount={like_count} likeStatus={like_status} />
+                <Like 
+                    TOKEN={TOKEN} 
+                    newsId={news_id} 
+                    likeStatus={likeStatus}
+                    setLikeStatus={setLikeStatus}
+                    likeCount={likeCount} 
+                    setLikeCount={setLikeCount} 
+                />
 
                 <NewsInfo>
                     {`좋아요 ${likeCount}개 댓글 ${commentCount}개`}
@@ -172,7 +180,7 @@ function NewsList({
                     />
                 ))} */}
                 <UnderLine />
-
+                
                 <form onSubmit={handleSubmit(onSubmitValid)} onClick={(() => onClickHandler(news_id))}>
                     <InputBase
                         {...register('content')}

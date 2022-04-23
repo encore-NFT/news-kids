@@ -29,7 +29,7 @@ function Home() {
     return (
         <>
             {news.map((news) => (
-                <NewsList key={news.news_id} {...news}/>
+                <NewsList key={news.news_id} TOKEN={TOKEN} {...news} />
             ))}
         </>
     )
