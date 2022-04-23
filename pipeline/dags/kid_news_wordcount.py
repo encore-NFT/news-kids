@@ -28,8 +28,8 @@ def s3_data_load():
     """check whether data was crawled"""
     s3_client = boto3.client(
         "s3", 
-        aws_access_key_id = Variable.get("AWS_ACCESS_KEY_ID"),
-        aws_secret_access_key = Variable.get("AWS_SECRET_ACCESS_KEY")
+        aws_access_key_id=Variable.get("AWS_ACCESS_KEY_ID"),
+        aws_secret_access_key=Variable.get("AWS_SECRET_ACCESS_KEY")
     )
     today = datetime.strftime(datetime.now() + timedelta(hours=9), "%Y-%m-%d")
     Bucket, path = Variable.get("Bucket"), f'{Variable.get("kid_news_dir")}/{today}'
