@@ -28,7 +28,7 @@ function News() {
 
     useEffect(() => {
         readNews(newsData);
-    });
+    }, [TOKEN]);
 
     return (
         <>

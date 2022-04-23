@@ -4,6 +4,8 @@ import ContainerLayout from '../components/shared/ContainerLayout';
 import { Button, Toolbar } from '@material-ui/core'
 import { useForm } from 'react-hook-form';
 import WordCount from '../components/wordCount/WordCount';
+import ContentLayout from '../components/shared/ContentLayout';
+import CommentUnderLine from '../components/shared/CommentUnderLine';
 
 
 function Trend() {
@@ -35,18 +37,25 @@ function Trend() {
 
     return (
         <ContainerLayout>
-            <Toolbar>
-                <form onSubmit={handleSubmit(onSubmitValid)}>
-                    <input
-                        {...register('week')}
-                        name="week"
-                        type="week"
-                        min='2021-W52'
-                    />
-                    <Button type="submit" size='small' >워드 클라우드</Button>
-                </form>
-            </Toolbar>
-            <WordCount wordCount={wordCount}/>
+            <ContentLayout>
+                
+                <Toolbar>
+                    <form onSubmit={handleSubmit(onSubmitValid)}>
+                        <input
+                            {...register('week')}
+                            name="week"
+                            type="week"
+                            min='2021-W52'
+                        />
+                        <Button type="submit" size='small' >워드 클라우드</Button>
+                    </form>
+                </Toolbar>
+
+                <CommentUnderLine/>
+
+                <WordCount wordCount={wordCount}/>
+
+            </ContentLayout>
         </ContainerLayout>
     )
 }

@@ -45,6 +45,7 @@ function PwdChange() {
             });
         }
     }, [data]);
+    
     const clearLoginError = () => {
         clearErrors("result");
         clearErrors("success");
