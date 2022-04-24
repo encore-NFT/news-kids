@@ -1,84 +1,140 @@
-import { Button, ButtonGroup, styled } from "@material-ui/core";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import AuthInput from "../components/auth/AuthInput";
 import EditFormBox from "../components/editProfile/EditFormBox";
 import EditLayout from "../components/editProfile/EditLayout";
-import { theme } from "../styles";
 import EditButton from "../components/editProfile/EditButton";
-import { Link } from "react-router-dom";
+import MenuHeader from "../components/editProfile/MenuHeader";
+import ProfileApis from "../api/ProfileApis";
+import { useEffect, useMemo, useState } from "react";
+import FormError from "../components/auth/FormError";
+import { styled, Typography } from "@material-ui/core";
 
 function EditProfile() {
+    const TOKEN = localStorage.getItem("Authorization");
+    const [data, setData] = useState("");
 
-    const { register, handleSubmit } = useForm({
+    const getEditProfile = async (TOKEN) => {
+        try {
+            const response = await ProfileApis.getEditProfileList(TOKEN);
+            console.log("프로필 response", response);
+            const profileData = response.data.data;
+            return setData(profileData);
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        getEditProfile(TOKEN);
+    }, [TOKEN]);
+
+    const initValue = {
+        user_name: data?.user_name || "",
+        user_nickname: data?.user_nickname || "",
+        user_introduce: data?.user_introduce || "",
+        user_email: data?.user_email || "",
+    };
+
+    useEffect(() => {
+        reset(initValue);
+    }, [data]);
+
+    const { register, handleSubmit, reset, control, formState: { errors } } = useForm({
         mode: "onChange",
+        defaultValues: useMemo(() => initValue, [initValue]),
     });
 
     const onSubmitValid = (data) => {
-        console.log(data);
+        const editData = { TOKEN, data };
+        postEditProfile(editData);
     };
+
+    const postEditProfile = async (editData) => {
+        try {
+            await ProfileApis.postEditProfileList(editData);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <EditLayout>
+            <MenuHeader />
             <EditFormBox>
-                <ButtonGroup style={{ width: '100%' }} variant="text" aria-label="outlined primary button group">
-                    <HeaderButton >
-                        <Link to={`/accounts/edit`}>
-                            프로필 편집
-                        </Link>
-                    </HeaderButton>
-                    <HeaderButton >
-                        <Link to={`/accounts/password/change`}>
-                            비밀번호 변경
-                        </Link>
-                    </HeaderButton>
-                    <HeaderButton >
-                        <Link to={`/accounts/delete`}>
-                            회원탈퇴
-                        </Link>
-                    </HeaderButton>
-                </ButtonGroup>
-            </EditFormBox>
-            <EditFormBox>
+                <Content variant="h5" component="h2">프로필 편집</Content>
                 <form onSubmit={handleSubmit(onSubmitValid)}>
-                    <AuthInput
-                        {...register('user_name')}
+                    <Controller
+                        render={({ field }) => (
+                            <AuthInput
+                                {...field}
+                                {...register('user_name', {
+                                    required: "사용자 아이디는 필수입니다."
+                                })}
+                                name="user_name"
+                                label="아이디"
+                                type="text"
+                                variant="outlined"
+                                size="small"
+                            />
+                        )}
+                        control={control}
                         name="user_name"
-                        label="아이디"
-                        type="text"
-                        variant="outlined"
-                        size="small"
                     />
-                    <AuthInput
-                        {...register('user_nickname')}
+                    {errors?.user_name && (<FormError message={errors?.user_name?.message} />)}
+                    <Controller
+                        render={({ field }) => (
+                            <AuthInput
+                                {...field}
+                                {...register('user_nickname')}
+                                name="user_nickname"
+                                label="닉네임"
+                                type="text"
+                                variant="outlined"
+                                size="small"
+                            />
+                        )}
+                        control={control}
                         name="user_nickname"
-                        label="닉네임"
-                        type="text"
-                        variant="outlined"
-                        size="small"
                     />
-                    <AuthInput
-                        {...register('user_introduce')}
+                    <Controller
+                        render={({ field }) => (
+                            <AuthInput
+                                {...field}
+                                {...register('user_introduce')}
+                                name="user_introduce"
+                                label="소개"
+                                multiline
+                                minRows={6}
+                                variant="outlined"
+                            />
+                        )}
+                        control={control}
                         name="user_introduce"
-                        label="소개"
-                        multiline
-                        minRows={6}
-                        variant="outlined"
                     />
-                    <AuthInput
-                        {...register('email', {
-                            pattern: {
-                                value: /^[a-zA-Z0-9+-.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/i,
-                                message: "이메일 형식이 아닙니다."
-                            },
-                        })}
-                        name="email"
-                        label="이메일"
-                        type="text"
-                        variant="outlined"
-                        size="small"
+                    <Controller
+                        render={({ field }) => (
+                            <AuthInput
+                                {...field}
+                                {...register('user_email', {
+                                    required: "이메일은 필수입니다.",
+                                    pattern: {
+                                        value: /^[a-zA-Z0-9+-.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/i,
+                                        message: "이메일 형식이 아닙니다."
+                                    },
+                                })}
+                                name="user_email"
+                                label="이메일"
+                                type="text"
+                                variant="outlined"
+                                size="small"
+                            />
+                        )}
+                        control={control}
+                        name="user_email"
                     />
-                    <EditButton type="submit">제출</EditButton>
-                    {/* <FormError message={errors?.result?.message} /> */}
+                    {errors?.user_email && (<FormError message={errors?.user_email?.message} />)}
+                    <EditButton type="submit">저장</EditButton>
                 </form>
             </EditFormBox>
         </EditLayout>
@@ -86,7 +142,8 @@ function EditProfile() {
 }
 
 export default EditProfile;
-const HeaderButton = styled(Button)({
-    width: '100%',
-    color: theme.palette.primary.contrastText
+
+const Content = styled(Typography)({
+    textAlign: 'left',
+    marginBottom: '35px',
 })

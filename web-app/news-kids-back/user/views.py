@@ -11,7 +11,7 @@ from django.http import JsonResponse
 
 from .models import User
 from news.models import Comments, News, Like
-from .utils   import login_decorator
+from .utils   import login_decorator, user_decorator
 from config import SECRET_KEY, ALGORITHMS
 
 MINIMUM_PASSWORD_LENGTH = 8
@@ -111,8 +111,8 @@ class ProfileView(View):
     @login_decorator
     def get(self, request):
         user_id = request.user.id
-        comment_record = Comments.objects.filter(user_id=user_id)
-        like_record = Like.objects.filter(user_id=user_id)
+        comment_record = Comments.objects.filter(user_id=user_id).order_by('-timestamp')
+        like_record = Like.objects.filter(user_id=user_id).order_by('-id')
 
         profile = {
             'user_name': request.user.user_name,
@@ -136,16 +136,18 @@ class ProfileView(View):
             ],
         }
 
-        data = {'profile': profile, 'record': record}
+        data = {'master': True, 'profile': profile, 'record': record}
         return JsonResponse({'data': data}, status=200)
 
 # 프로필 user 파라미터
 class ProfileDetailView(View):
+    @user_decorator
     def get(self, request, user_name):
         user = User.objects.get(user_name=user_name)
         user_id = user.id
         comment_record = Comments.objects.filter(user_id=user_id)
         like_record = Like.objects.filter(user_id=user_id)
+        master = (user_id==request.user_id) if request.user else False
 
         profile = {
             'user_name': user.user_name,
@@ -169,7 +171,7 @@ class ProfileDetailView(View):
             ],
         }
 
-        data = {'profile': profile, 'record': record}
+        data = {'master': master, 'profile': profile, 'record': record}
         return JsonResponse({'data': data}, status=200)
 
 # 프로필 edit
@@ -265,7 +267,7 @@ class ProfileEditView(View):
             user = User.objects.get(id=request.user.id)
             user.user_password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
             user.save()
-            return JsonResponse({'data': 'SUCCESS'}, status=200)
+            return JsonResponse({'data': '비밀번호가 변경되었습니다.'}, status=200)
 
         except:
             return JsonResponse({'message': 'REQUEST_BOBY_DOES_NOT_EXISTS'}, status=400)

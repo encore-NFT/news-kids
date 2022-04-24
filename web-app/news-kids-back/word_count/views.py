@@ -9,7 +9,6 @@ from django.db.models import Sum, Q
 
 from .models      import WordCount
 
-# 뉴스 Read
 class WordCountView(View):
     def get(self, request):
         dt = datetime.datetime.now()
@@ -23,10 +22,10 @@ class WordCountView(View):
             THIS_WEEK = str(int(THIS_WEEK)-1)
 
         count_list = list(
-                    WordCount.objects.values('word')
-                        .annotate(Sum('count'))
-                        .filter(Q(date__year=THIS_YEAR) & Q(date__week=THIS_WEEK))
-                    )
+            WordCount.objects.values('word')
+            .annotate(Sum('count'))
+            .filter(Q(date__year=THIS_YEAR) & Q(date__week=THIS_WEEK))
+        )
 
         return JsonResponse({'data': count_list}, status=200)
 
@@ -35,9 +34,22 @@ class PastWordCountView(View):
         PAST_YEAR, PAST_WEEK = past_week.split('-W')
 
         count_list = list(
-                    WordCount.objects.values('word')
-                        .annotate(Sum('count'))
-                        .filter(Q(date__year=PAST_YEAR) & Q(date__week=PAST_WEEK))
-                    )
+            WordCount.objects.values('word')
+            .annotate(Sum('count'))
+            .filter(Q(date__year=PAST_YEAR) & Q(date__week=PAST_WEEK))
+        )
+
+        return JsonResponse({'data': count_list}, status=200)
+
+class WordCountDetailView(View):
+    def post(self, request):
+        data = json.loads(request.body)
+        word = data.get('word', '')
+        
+        count_list = list(
+            WordCount.objects.filter(word=word)
+            .values('date', 'count')
+            .order_by('date')
+        )
 
         return JsonResponse({'data': count_list}, status=200)
