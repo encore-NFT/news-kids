@@ -4,7 +4,6 @@ import dictationData from "../static_data/dictationData";
 
 function Dictation() {
     const questions = dictationData
-    const restApiKey = '23f5f4a86af457b0872a2e55b52127f9'
     return (
         <ContainerLayout>
             <ContentLayout>
