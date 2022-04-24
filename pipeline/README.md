@@ -73,7 +73,7 @@ airflow users create -u admin -p admin -f jisu -l park -r Admin -e carl020958@ko
 ```
 
 ### Web-Crawler
-* Needs .credential.json in directory "/home/ubuntu/news-kids/pipeline/scrapy/kidnewscrawling/kidnewscrawling"(EC2)
+* Needs .credentials.json in directory "/home/ubuntu/news-kids/pipeline/scrapy/kidnewscrawling/kidnewscrawling"(EC2)
 
 ```bash
 # check the directory for bind-mount
@@ -89,7 +89,7 @@ carl020958/ubuntu-python-ssh-scrapy:18.04-3.8.10-amd64
 ```
 
 ### Hadoop-Spark Cluster
-* Needs .credential.json in directory "/home/ubuntu/news-kids/pipeline/spark_yarn/src"(EC2)
+* Needs .credentials.json in directory "/home/ubuntu/news-kids/pipeline/spark_yarn/src"(EC2)
 
 ```bash
 # check the directory for bind-mount(spark)
