@@ -26,6 +26,11 @@ groupadd docker
 usermod -aG docker ubuntu
 newgrp docker
 ```
+### Clone the Project
+```bash
+git clone https://github.com/encore-NFT/news-kids.git
+```
+
 ### Network
 ```bash
 # Create Docker Network for connection
