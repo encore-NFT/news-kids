@@ -30,7 +30,6 @@ function NewsList({
         postComment(writeData);
         reset();
         if (message !== undefined) {
-            setOpen(true);
             setTimeout(handleDrawerClose, 2000);
         }
     };
@@ -51,6 +50,7 @@ function NewsList({
         } catch (error) {
             if (error.response.status === 401) {
                 const message = error.response.data.message;
+                setOpen(true);
                 return setMessage(message);
             } else {
                 console.log(error);
@@ -171,7 +171,9 @@ function NewsList({
 
                 <form onSubmit={handleSubmit(onSubmitValid)}>
                     <InputBase
-                        {...register('content')}
+                        {...register('content', {
+                            required: true
+                        })}
                         name="content"
                         type="text"
                         fullWidth

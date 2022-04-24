@@ -12,7 +12,6 @@ function Like({
         const newsData = { TOKEN, newsId };
         postLike(newsData);
         if (message !== undefined) {
-            setOpen(true);
             setTimeout(handleDrawerClose, 2000);
         }
     };
@@ -33,6 +32,7 @@ function Like({
         } catch (error) {
             if (error.response.status === 401) {
                 const message = error.response.data.message;
+                setOpen(true)
                 return setMessage(message);
             } else {
                 console.log(error)
