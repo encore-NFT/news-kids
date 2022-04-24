@@ -41,7 +41,6 @@ function Trend() {
             const response = await WordCountApis.postWordSearch(word);
             if (response.status === 200) {
                 setWordHistory(response.data.data);
-                console.log(wordHistory);
             } else {
                 alert(response.status);
             }
@@ -75,11 +74,12 @@ function Trend() {
                 </Toolbar>
 
                 <CommentUnderLine />
-
-                <WordCount wordCount={wordCount} setWord={setWord} />
+                {wordCount && Object.keys(wordCount).length !== 0 ?
+                    <WordCount wordCount={wordCount} setWord={setWord} />
+                    : null}
 
                 <CommentUnderLine />
-
+                {word}
                 {
                     wordHistory && Object.keys(wordHistory).length !== 0 ?
                         <>

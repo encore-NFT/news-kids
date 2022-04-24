@@ -1,7 +1,7 @@
 import WordCloud from "react-d3-cloud";
 import { scaleOrdinal } from 'd3-scale';
 import { schemeTableau10 } from 'd3-scale-chromatic';
-import { useEffect, useState, React } from "react";
+import React from "react";
 
 function WordCount({ wordCount, setWord }) {
     const schemeCategory10ScaleOrdinal = scaleOrdinal(schemeTableau10);
@@ -27,4 +27,4 @@ function WordCount({ wordCount, setWord }) {
     );
 };
 
-export default WordCount;
+export default React.memo(WordCount);
