@@ -2,14 +2,14 @@ import WordCloud from "react-d3-cloud";
 import { scaleOrdinal } from 'd3-scale';
 import { schemeTableau10 } from 'd3-scale-chromatic';
 
-function WordCount({wordCount}) {
+function WordCount({wordCount, setWord}) {
     const schemeCategory10ScaleOrdinal = scaleOrdinal(schemeTableau10);
     
     return (
         <WordCloud
             data={wordCount.map((word) => ({text: word.word, value: word.count__sum}))}
-            width={600}
-            height={400}
+            width={360}
+            height={240}
             font="Helvetica"
             fontWeight="bold"
             fontSize={(word) => Math.log2(word.value) * 5}
@@ -20,6 +20,7 @@ function WordCount({wordCount}) {
             fill={(d, i) => schemeCategory10ScaleOrdinal(i)}
             onWordClick={(event, d) => {
                 console.log(`onWordClick: ${d.text}`);
+                setWord(d.text);
             }}
         />
     );

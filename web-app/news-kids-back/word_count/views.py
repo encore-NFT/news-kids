@@ -51,5 +51,7 @@ class WordCountDetailView(View):
             .values('date', 'count')
             .order_by('date')
         )
+        categories = [cl['date'] for cl in count_list]
+        series = [cl['count'] for cl in count_list]
 
-        return JsonResponse({'data': count_list}, status=200)
+        return JsonResponse({'data': {'categories': categories, 'series': series}}, status=200)
