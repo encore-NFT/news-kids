@@ -8,12 +8,10 @@ import ContentLayout from '../components/shared/ContentLayout';
 import CommentUnderLine from '../components/shared/CommentUnderLine';
 import LineChart from '../components/wordCount/LineChart';
 
-
 function Trend() {
-
     const [wordCount, setWordCount] = useState([]);
     const [wordHistory, setWordHistory] = useState([]);
-    
+
     const [week, setWeek] = useState('');
     const [word, setWord] = useState('');
 
@@ -43,6 +41,7 @@ function Trend() {
             const response = await WordCountApis.postWordSearch(word);
             if (response.status === 200) {
                 setWordHistory(response.data.data);
+                console.log(wordHistory);
             } else {
                 alert(response.status);
             }
@@ -54,11 +53,11 @@ function Trend() {
     useEffect(() => {
         readWordCountLists(week);
     }, [week]);
-    
+
     useEffect(() => {
         readWordSearch(word);
     }, [word]);
-    
+
     return (
         <ContainerLayout>
             <ContentLayout>
@@ -75,21 +74,21 @@ function Trend() {
                     </form>
                 </Toolbar>
 
-                <CommentUnderLine/>
+                <CommentUnderLine />
 
-                <WordCount wordCount={wordCount} setWord={setWord}/>
+                <WordCount wordCount={wordCount} setWord={setWord} />
 
-                <CommentUnderLine/>
-                
-                {console.log(wordHistory)}
+                <CommentUnderLine />
 
                 {
-                    word !== '' ? 
-                    <LineChart word={word} wordHistory={wordHistory}/> :
-                    null
+                    wordHistory && Object.keys(wordHistory).length !== 0 ?
+                        <>
+                            {wordHistory.categories.length !== 0 ?
+                                <LineChart word={word} wordHistory={wordHistory} />
+                                : null}
+                        </> :
+                        null
                 }
-                
-
             </ContentLayout>
         </ContainerLayout>
     )

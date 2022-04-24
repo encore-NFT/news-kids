@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import Chart from 'react-apexcharts';
 
-function LineChart({word, wordHistory}) {
-    const [ options, setOptions ] = useState({
+function LineChart({ word, wordHistory }) {
+    const options = {
         chart: {
             id: 'apex-chart example',
             height: 350,
@@ -19,18 +19,16 @@ function LineChart({word, wordHistory}) {
         xaxis: {
             categories: wordHistory.categories,
         }
-    })
+    }
 
-    const [ series, setSeries ] = useState([{
+    const series = [{
         name: word,
         data: wordHistory.series,
-    }])
+    }]
 
     return (
         <>
-            <div>{wordHistory.categories}</div>
-            <div>{wordHistory.series}</div>
-            <Chart options={options} series={series} type="line" height={350}  />
+            <Chart options={options} series={series} type="line" height={350} />
         </>
     );
 };
