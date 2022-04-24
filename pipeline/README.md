@@ -84,7 +84,7 @@ docker container run \
 -e LC_ALL=C.UTF-8 \
 --name scrapy \
 -v /home/ubuntu/news-kids/pipeline/scrapy/crawling/kidnewscrawling:/home/scrapy/crawling/kidnewscrawling \
--v /home/ubuntu/news-kids/pipeline/scrapy/thumbnail/kidnewsthumbnail:/home/scrapy/thumbnail/kidnewsthumbnail
+-v /home/ubuntu/news-kids/pipeline/scrapy/thumbnail/kidnewsthumbnail:/home/scrapy/thumbnail/kidnewsthumbnail \
 carl020958/ubuntu-python-ssh-scrapy:18.04-3.8.10-amd64
 ```
 
