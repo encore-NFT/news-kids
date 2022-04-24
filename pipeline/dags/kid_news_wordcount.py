@@ -59,8 +59,8 @@ with DAG(
     params={
         # params for scrapy
         "user": "scrapy",
-        "scrapy_env_dir": "/home/scrapy/scrapy",
-        "scrapy_project_dir": "/home/scrapy/scrapy/kidnewscrawling/kidnewscrawling",
+        "scrapy_env_dir": "/home/scrapy/crawling",
+        "scrapy_project_dir": "/home/scrapy/crawling/kidnewscrawling/kidnewscrawling",
         "spider": "kidNewsSpiderCurrentAffairs",
 
         # params for spark

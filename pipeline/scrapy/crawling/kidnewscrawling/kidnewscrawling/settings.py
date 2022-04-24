@@ -26,7 +26,7 @@ import json
 from datetime import datetime, timedelta
 today = datetime.strftime(datetime.now() + timedelta(hours=9), "%Y-%m-%d")
 
-with open("/home/scrapy/scrapy/kidnewscrawling/kidnewscrawling/.credentials.json", "r") as credential:
+with open("/home/scrapy/crawling/kidnewscrawling/kidnewscrawling/.credentials.json", "r") as credential:
     credential = json.load(credential)
     S3_URL = credential["S3_URL"]
     ACCESS_KEY_ID = credential["AWS_ACCESS_KEY_ID"]
