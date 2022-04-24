@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import WordCountApis from '../api/WordCountApis';
 import ContainerLayout from '../components/shared/ContainerLayout';
-import { Button, Toolbar } from '@material-ui/core'
+import { Button, Grid, Toolbar, Typography } from '@material-ui/core'
 import { useForm } from 'react-hook-form';
 import WordCount from '../components/wordCount/WordCount';
 import ContentLayout from '../components/shared/ContentLayout';
 import CommentUnderLine from '../components/shared/CommentUnderLine';
 import LineChart from '../components/wordCount/LineChart';
+import EditButton from '../components/profile/EditButton';
+import UnderLine from '../components/shared/UnderLine';
 
 function Trend() {
     const [wordCount, setWordCount] = useState([]);
@@ -60,29 +62,58 @@ function Trend() {
     return (
         <ContainerLayout>
             <ContentLayout>
+                <Typography 
+                    variant="h5" 
+                    component="h5" 
+                    style={{marginBottom:'0.2em', fontWeight: 'bold'}}
+                > 
+                    이번 주 이슈 단어를 살펴보세요 
+                </Typography>
+                <Typography
+                    style={{
+                        fontSize: '14px', 
+                        color: '#666',
+                        marginBottom: '1.5em'
+                    }}
+                >
+                    한 주동안 많은 기사에서 언급 된 단어일 수록 단어의 크기가 큽니다
+                </Typography>
 
-                <Toolbar>
-                    <form onSubmit={handleSubmit(onSubmitValid)}>
-                        <input
-                            {...register('week')}
-                            name="week"
-                            type="week"
-                            min='2021-W52'
-                        />
-                        <Button type="submit" size='small' >워드 클라우드</Button>
-                    </form>
-                </Toolbar>
+                <UnderLine style={{marginBottom:'1em'}}/>
 
-                <CommentUnderLine />
+                <form onSubmit={handleSubmit(onSubmitValid)}>
+                    <Grid container spacing={1} alignItems='center'>
+                        <Grid item>
+                            <input
+                                {...register('week')}
+                                name="week"
+                                type="week"
+                                min='2021-W52'
+                                max={ Date() }
+                                style={{height: '2.1em'}}
+                            />
+                        </Grid>
+                        <Grid item>
+                            <Button type="submit" size='small' variant='outlined'>워드 클라우드</Button>
+                        </Grid>
+                    </Grid>
+                </form>
+
                 {wordCount && Object.keys(wordCount).length !== 0 ?
                     <WordCount wordCount={wordCount} setWord={setWord} />
                     : null}
 
-                <CommentUnderLine />
-                {word}
                 {
                     wordHistory && Object.keys(wordHistory).length !== 0 ?
-                        <>
+                        <>  
+                            <Typography 
+                                variant="h5" 
+                                component="h5" 
+                                style={{margin:'1em'}}
+                            > 
+                                {word}
+                            </Typography>
+
                             {wordHistory.categories.length !== 0 ?
                                 <LineChart word={word} wordHistory={wordHistory} />
                                 : null}

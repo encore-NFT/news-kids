@@ -20,7 +20,7 @@
     "styled-components": "^5.3.5",
     "web-vitals": "^2.1.0"
   },
-  "proxy": "http://localhost:8000",
+  "proxy": "https://kakaoi-newtone-openapi.kakao.com",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
