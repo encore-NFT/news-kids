@@ -31,7 +31,7 @@ function CommentProfile() {
 
     useEffect(() => {
         getOtherProfile(userData);
-    });
+    }, [TOKEN]);
 
 
     const [showLike, setShowLike] = useState(4);

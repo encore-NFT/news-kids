@@ -4,11 +4,12 @@ import EditButton from "../components/editProfile/EditButton";
 import MenuHeader from "../components/editProfile/MenuHeader";
 import AuthInput from "../components/auth/AuthInput";
 import { useForm } from "react-hook-form";
-import { styled, Typography } from "@material-ui/core";
+import { Drawer, styled, Typography } from "@material-ui/core";
 import FormError from "../components/auth/FormError";
 import ProfileApis from "../api/ProfileApis";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import ErrorMessage from "../components/shared/Message";
 
 function DeleteProfile({ setIsLoggedIn }) {
     const TOKEN = localStorage.getItem("Authorization");
@@ -45,8 +46,8 @@ function DeleteProfile({ setIsLoggedIn }) {
             await ProfileApis.deleteUser(deleteData);
             localStorage.removeItem("Authorization");
             setIsLoggedIn(false);
-            alert("계정이 삭제되었습니다.")
-            navigate(`/`);
+            setOpen(true);
+            setTimeout(handleDrawerClose, 2000);
         } catch (error) {
             if (error.response.status === 401) {
                 return setError("result", {
@@ -55,6 +56,13 @@ function DeleteProfile({ setIsLoggedIn }) {
             }
         }
     }
+
+    const [open, setOpen] = useState(false);
+
+    const handleDrawerClose = () => {
+        setOpen(false);
+        navigate(`/`);
+    };
 
     const clearLoginError = () => {
         clearErrors("result");
@@ -88,6 +96,15 @@ function DeleteProfile({ setIsLoggedIn }) {
                     <EditButton type="submit">계정 영구 삭제</EditButton>
                     {errors?.result && (<FormError message={errors?.result?.message} />)}
                 </form>
+                <Drawer
+                    variant="persistent"
+                    anchor="bottom"
+                    open={open}
+                >
+                    <ErrorMessage>
+                        계정이 삭제되었습니다.
+                    </ErrorMessage>
+                </Drawer>
             </EditFormBox>
         </EditLayout>
     )

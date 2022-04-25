@@ -20,7 +20,7 @@ function TopButton() {
     window.addEventListener('scroll', toggleVisible);
 
     return (
-        <Button onClick={scrollToTop} style={{ display: visible ? 'inline-box' : 'none' }}>
+        <Button onClick={scrollToTop} style={{ display: visible ? 'inline' : 'none' }}>
             <img width="60px" height="100px" src={up_panda} alt="위로 올라가는 버튼" />
         </Button>
     )
