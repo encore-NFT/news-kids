@@ -104,7 +104,7 @@ function NewsList({
 
                 <UnderLine />
 
-                <NewsImage src={news_image} alt={"뉴스 이미지"} />
+                { news_image ? <NewsImage src={news_image} alt={"뉴스 이미지"} /> : null}
 
                 <NewsArticle>
                     {news_article}
@@ -266,6 +266,6 @@ const ThumbImage = styledComponent.img`
     text-aline: center;
     margin: 20px auto;
     width: 100%;
-    height: 104px;
+    height: 70%;
     border-radius: 4px;
 `
