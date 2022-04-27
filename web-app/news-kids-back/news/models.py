@@ -34,6 +34,7 @@ class Like(models.Model):
 class Thumbnails(models.Model):
     news            = models.ForeignKey('News', on_delete=models.CASCADE)
     thumbnail_url   = models.URLField(max_length=500)
+    youtube_url     = models.URLField(max_length=500, blank=True, null=True)
 
     class Meta:
         db_table    = 'thumbnails'

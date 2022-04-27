@@ -172,10 +172,11 @@ const Inputcontainer = styledComponents.div`
 
 const AnswerInput = styled(InputBase)({
     borderBottom: `1px solid ${theme.palette.secondary.contrastText}`,
+    fontSize: '20px',
     width: '60%',
 });
 
 const Dot = styledComponents.span`
     font-weight: 800;
-    font-size: 38px;
+    font-size: 24px
 `
