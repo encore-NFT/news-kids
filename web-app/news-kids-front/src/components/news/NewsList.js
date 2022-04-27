@@ -14,7 +14,7 @@ function NewsList({
     TOKEN,
     news_id, news_source, news_title, news_date,
     news_url, news_image, news_article, keyword,
-    thumbnails, like_count, like_status, comments,
+    thumbnails, youtubes, like_count, like_status, comments,
 }) {
     const [likeCount, setLikeCount] = useState(like_count);
     const [likeStatus, setLikeStatus] = useState(like_status);
@@ -103,8 +103,8 @@ function NewsList({
                 </Grid>
 
                 <UnderLine />
-
-                { news_image ? <NewsImage src={news_image} alt={"뉴스 이미지"} /> : null}
+                
+                { news_image ? <NewsImage src={news_image} alt={"뉴스 이미지"} /> : null }
 
                 <NewsArticle>
                     {news_article}
@@ -131,7 +131,13 @@ function NewsList({
                 <Grid container spacing={1}>
                     {thumbnails.map((thumb, index) => (
                         <Grid item xs={4} key={index}>
-                            <ThumbImage src={thumb} alt={"뉴스 썸네일"} />
+                            <a
+                                href={youtubes[index]}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <ThumbImage src={thumb} alt={"뉴스 썸네일"} />
+                            </a>
                         </Grid>
                     ))}
                 </Grid>
