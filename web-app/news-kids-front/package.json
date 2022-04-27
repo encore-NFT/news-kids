@@ -17,10 +17,11 @@
     "react-hook-form": "^7.29.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.0",
+    "react-speech": "^1.0.2",
     "styled-components": "^5.3.5",
     "web-vitals": "^2.1.0"
   },
-  "proxy": "https://kakaoi-newtone-openapi.kakao.com",
+  "proxy": "https://opendict.korean.go.kr",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

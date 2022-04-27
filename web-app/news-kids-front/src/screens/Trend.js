@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react';
 import WordCountApis from '../api/WordCountApis';
 import ContainerLayout from '../components/shared/ContainerLayout';
-import { Button, Grid, Toolbar, Typography } from '@material-ui/core'
+import { Button, Grid, Typography } from '@material-ui/core'
 import { useForm } from 'react-hook-form';
 import WordCount from '../components/wordCount/WordCount';
 import ContentLayout from '../components/shared/ContentLayout';
-import CommentUnderLine from '../components/shared/CommentUnderLine';
 import LineChart from '../components/wordCount/LineChart';
-import EditButton from '../components/profile/EditButton';
 import UnderLine from '../components/shared/UnderLine';
 
 function Trend() {
