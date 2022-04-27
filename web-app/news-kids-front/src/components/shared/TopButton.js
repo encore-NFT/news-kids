@@ -28,12 +28,10 @@ function TopButton() {
 
 export default TopButton;
 
-const Button = styled.div`
+const Button = styled.span`
     position: fixed; 
-    width: 100%;
-    left: 88%;
     bottom: 10px;
-    height: 100px;
+    right: 2%;
     cursor: pointer;
     z-index: 1;
 `
