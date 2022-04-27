@@ -1,10 +1,12 @@
 import AxiosInstance from './AxiosInstance';
-import openDictKey from 'src';
+import Api from '../config';
 
 const DictApis = {
-    getWord(word) {
+    getWord(data) {
+        const { word } = data;
+        const key = Api.openDictKey;
         return AxiosInstance({
-            url: `/api/search?key=${openDictKey}&q=${word}&req_type=json`,
+            url: `/api/search?key=${key}&q=${word}&req_type=json`,
             method: 'get'
         })
     }
