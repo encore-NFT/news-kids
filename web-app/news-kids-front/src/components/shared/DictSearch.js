@@ -98,7 +98,7 @@ function DictSearch() {
                                             {
                                                 inputWord.word ?
                                                     <ErrorTitle variant='body1'><span style={{ color: "#ff5f4e" }}>'{inputWord?.word}'</span>에 대한 검색결과가 없습니다.</ErrorTitle>
-                                                    : <ErrorTitle variant='body1'>단어를 검색해주세요</ErrorTitle>
+                                                    : <ErrorTitle variant='body1'>무엇이든 물어보세요!</ErrorTitle>
                                             }
                                         </Container>
                                     }
