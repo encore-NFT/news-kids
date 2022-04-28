@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Search } from "@material-ui/icons";
-import LiveHelpIcon from '@material-ui/icons/LiveHelp';
+import MenuBookIcon from '@material-ui/icons/MenuBook';
 import { Card, CircularProgress, Container, InputBase, Typography, IconButton } from "@material-ui/core";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -49,7 +49,7 @@ function DictSearch() {
     return (
         <>
             <Button onClick={handleOpen}>
-                <LiveHelpIcon fontSize="large" style={{color:'#666'}}/>
+                <MenuBookIcon fontSize="large" style={{color:'#666'}}/>
             </Button>
             {
                 openModal === true
@@ -129,6 +129,13 @@ const DictCard = styled(Card)({
     right: '5%',
     zIndex: '1',
     width: '300px',
+    [theme.breakpoints.down("sm")]: {
+        right: '8%',
+    },
+    [theme.breakpoints.down("xs")]: {
+        right: '50px',
+    },
+
 });
 
 const SearchGrid = styledComponents.div`
@@ -168,7 +175,7 @@ const WordResult = styled(Typography)({
 })
 
 const WordContent = styledComponents.li`
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: #666;
     margin: 15px 0px;
     word-break: keep-all;
