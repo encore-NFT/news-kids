@@ -77,7 +77,7 @@ function DictSearch() {
                             </form>
                             {loading ?
                                 <>
-                                    <div style={{ margin: '0px 0px 15px 0px' }}>
+                                    <div style={{ margin: '0px 0px 15px 0px', textAlign: 'center' }}>
                                         <CircularProgress fontSize="small" />
                                     </div>
                                 </>
