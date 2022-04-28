@@ -49,7 +49,7 @@ function DictSearch() {
     return (
         <>
             <Button onClick={handleOpen}>
-                <MenuBookIcon fontSize="large" style={{color:'#666'}}/>
+                <MenuBookIcon fontSize="large" style={openModal?{color:'#333'}:{color:'#999'}}/>
             </Button>
             {
                 openModal === true
