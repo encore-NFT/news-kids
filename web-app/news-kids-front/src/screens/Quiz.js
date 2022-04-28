@@ -3,6 +3,7 @@ import styledComponents from 'styled-components';
 import QuestionButton from '../components/quiz/QuestionButton';
 import ContainerLayout from '../components/shared/ContainerLayout';
 import ContentLayout from '../components/shared/ContentLayout';
+import DictSearch from '../components/shared/DictSearch';
 
 function Quiz() {
     const questions = [
@@ -71,6 +72,7 @@ function Quiz() {
     };
     return (
         <>
+            <DictSearch />
             {showScore ? (
                 <ContainerLayout>
                     <ContentLayout>

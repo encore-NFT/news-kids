@@ -7,6 +7,7 @@ import WordCount from '../components/wordCount/WordCount';
 import ContentLayout from '../components/shared/ContentLayout';
 import LineChart from '../components/wordCount/LineChart';
 import UnderLine from '../components/shared/UnderLine';
+import DictSearch from '../components/shared/DictSearch';
 
 function Trend() {
     const [wordCount, setWordCount] = useState([]);
@@ -59,17 +60,18 @@ function Trend() {
 
     return (
         <ContainerLayout>
+            <DictSearch />
             <ContentLayout>
-                <Typography 
-                    variant="h5" 
-                    component="h5" 
-                    style={{marginBottom:'0.2em', fontWeight: 'bold'}}
-                > 
-                    이번 주 이슈 단어를 살펴보세요 
+                <Typography
+                    variant="h5"
+                    component="h5"
+                    style={{ marginBottom: '0.2em', fontWeight: 'bold' }}
+                >
+                    이번 주 이슈 단어를 살펴보세요
                 </Typography>
                 <Typography
                     style={{
-                        fontSize: '14px', 
+                        fontSize: '14px',
                         color: '#666',
                         marginBottom: '1.5em'
                     }}
@@ -77,7 +79,7 @@ function Trend() {
                     한 주동안 많은 기사에서 언급 된 단어일 수록 단어의 크기가 큽니다
                 </Typography>
 
-                <UnderLine style={{marginBottom:'1em'}}/>
+                <UnderLine style={{ marginBottom: '1em' }} />
 
                 <form onSubmit={handleSubmit(onSubmitValid)}>
                     <Grid container spacing={1} alignItems='center'>
@@ -87,8 +89,8 @@ function Trend() {
                                 name="week"
                                 type="week"
                                 min='2021-W52'
-                                max={ Date() }
-                                style={{height: '2.1em'}}
+                                max={Date()}
+                                style={{ height: '2.1em' }}
                             />
                         </Grid>
                         <Grid item>
@@ -103,12 +105,12 @@ function Trend() {
 
                 {
                     wordHistory && Object.keys(wordHistory).length !== 0 ?
-                        <>  
-                            <Typography 
-                                variant="h5" 
-                                component="h5" 
-                                style={{margin:'1em'}}
-                            > 
+                        <>
+                            <Typography
+                                variant="h5"
+                                component="h5"
+                                style={{ margin: '1em' }}
+                            >
                                 {word}
                             </Typography>
 

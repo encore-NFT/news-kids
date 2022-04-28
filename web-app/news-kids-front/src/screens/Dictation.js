@@ -1,7 +1,7 @@
 import ContainerLayout from "../components/shared/ContainerLayout";
 import ContentLayout from "../components/shared/ContentLayout";
 import styledComponents from 'styled-components';
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useSpeechSynthesis } from 'react-speech-kit';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import { Drawer, InputBase, styled } from "@material-ui/core";
@@ -10,6 +10,7 @@ import { theme } from "../styles";
 import SubmitButton from "../components/dictation/SubmitButton";
 import Message from "../components/shared/Message"
 import FormError from "../components/auth/FormError";
+import DictSearch from "../components/shared/DictSearch";
 
 function Dictation() {
     const questions = [
@@ -68,6 +69,7 @@ function Dictation() {
 
     return (
         <>
+            <DictSearch />
             {showScore ? (
                 <ContainerLayout>
                     <ContentLayout>

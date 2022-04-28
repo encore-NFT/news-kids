@@ -3,12 +3,13 @@ import NewsApis from '../api/NewsApis';
 import NewsList from '../components/news/NewsList';
 
 import { useLocation } from "react-router-dom";
+import DictSearch from '../components/shared/DictSearch';
 
 function News() {
     const TOKEN = localStorage.getItem("Authorization");
-    
+
     const location = useLocation();
-    const newsId = location.pathname.replace('/news/','')
+    const newsId = location.pathname.replace('/news/', '')
     const newsData = { newsId, TOKEN };
 
     const [news, setNews] = useState([]);
@@ -32,7 +33,8 @@ function News() {
 
     return (
         <>
-            {news && news.length !== 0 ? <NewsList TOKEN={TOKEN} {...news} /> : null }
+            <DictSearch />
+            {news && news.length !== 0 ? <NewsList TOKEN={TOKEN} {...news} /> : null}
         </>
     )
 }

@@ -12,6 +12,7 @@ import { useForm } from 'react-hook-form';
 import SearchContainer from '../components/search/SearchContiner';
 import { Search } from "@material-ui/icons";
 import { theme } from '../styles';
+import DictSearch from '../components/shared/DictSearch';
 
 function SearchPage() {
     const { width } = useViewport();
@@ -56,6 +57,7 @@ function SearchPage() {
     };
     return (
         <>
+            <DictSearch />
             {width < breakpoint ?
                 <>
                     <SearchContainer>
