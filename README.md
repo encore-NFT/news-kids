@@ -8,18 +8,18 @@
 
 문해력을 쑥쑥! 어린이 뉴스 프로젝트
 
-</br>
+----
 
 ### 📆 프로젝트 기간
 
 2022년 4월 6일 ~ 2021년 4월 29일
 
-</br>
+----
 
 ### ✨ 팀 소개
 
-**Not Fungible Team(NFT)**
-
+**팀명 : Not Fungible Team(NFT)** \
+**조장 : 김은옥** \
 👩‍💻 김은옥 : 웹 크롤링, Docker 플랫폼 구축, 데이터 분석 및 모델링, AWS 설계 \
 👨‍💻 박지수 : 웹 크롤링, Docker 플랫폼 구축, Spark, Airflow 설계, AWS 설계 \
 👨‍💻 정승헌 : 웹 크롤링, Front-end, Back-end(Full-Stack) \
@@ -31,26 +31,24 @@
 
 |Main |Trand|
 | ------------------| ---------------- |
-|||
+|![Main](https://user-images.githubusercontent.com/96277148/165837038-e52a3306-53b5-45e0-84d8-1f1bfd4b4ad0.png)|![Trnad](https://user-images.githubusercontent.com/96277148/165837077-dc0ba329-f6fa-485b-bb3a-f0081ccba848.png)|
 
 |Quiz |Dictation|
 | ------------------| ---------------- |
-|||
+|![Quiz](https://user-images.githubusercontent.com/96277148/165837270-13c2d4e0-76b7-47e8-8382-00488528feaa.png)|![Dictation](https://user-images.githubusercontent.com/96277148/165837288-7c29ccd3-09c8-4f8a-aa60-9466bd13f2c1.png)|
 
 |WordSearch|Login|
 | ------------------| ---------------- |
-|||
+|![WordSearch](https://user-images.githubusercontent.com/96277148/165837319-a055eeef-043f-4b8b-bbc3-084c8489069d.png)|![Login](https://user-images.githubusercontent.com/96277148/165837332-2c0da53a-9b37-4aff-a769-9f3c177dd373.png)|
 
 |MyPage |Profile|
 | ------------------| ---------------- |
-|||
+|![MyPage](https://user-images.githubusercontent.com/96277148/165837373-39d5e32c-1ffc-47ec-8109-748f1466cc32.png)|![Profile](https://user-images.githubusercontent.com/96277148/165837390-9d20e5db-b00f-4679-9aa1-7a1d3e5785cc.png)|
 
-
----
+----
 
 ### 💡 개발 환경 & 기술 스택
 
-<p>
 **구축 환경** :
 <img src="https://img.shields.io/badge/macOS--12.3.1-7D929E??style=plastic&logo=macOS&logoColor=000000"/>
 <img src="https://img.shields.io/badge/Windows--11-7D929E??style=plastic&logo=Windows&logoColor=0078D6"/>
@@ -89,7 +87,8 @@
 **적재 및 처리** :
 <img src="https://img.shields.io/badge/Apache Airflow-7D929E??style=plastic&logo=Apache Airflow&logoColor=017CEE"/>
 <img src="https://img.shields.io/badge/Apache Spark-7D929E??style=plastic&logo=Apache Spark&logoColor=E25A1C"/>
-<img src="https://img.shields.io/badge/Apache Hadoop Yarn-7D929E??style=plastic&logo=Apache Hadoop&logoColor=66CCFF"/></br>
-</br>
+<img src="https://img.shields.io/badge/Apache%20Hadoop%20Yarn-7D929E??style=plastic&logo=Apache%20Hadoop&logoColor=66CCFF"/></br>
+
+----
 
 ### 💻 Version
