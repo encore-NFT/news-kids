@@ -129,6 +129,13 @@ const DictCard = styled(Card)({
     right: '5%',
     zIndex: '1',
     width: '300px',
+    [theme.breakpoints.down("sm")]: {
+        right: '8%',
+    },
+    [theme.breakpoints.down("xs")]: {
+        right: '50px',
+    },
+
 });
 
 const SearchGrid = styledComponents.div`
