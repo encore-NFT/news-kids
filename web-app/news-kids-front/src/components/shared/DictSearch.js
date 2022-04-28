@@ -49,7 +49,7 @@ function DictSearch() {
     return (
         <>
             <Button onClick={handleOpen}>
-                <MenuBookIcon fontSize="large" style={openModal?{color:'#333'}:{color:'#999'}}/>
+                <MenuBookIcon fontSize="large" style={openModal ? { color: '#333' } : { color: '#999' }} />
             </Button>
             {
                 openModal === true
@@ -77,7 +77,7 @@ function DictSearch() {
                             </form>
                             {loading ?
                                 <>
-                                    <div style={{ margin: '0px 0px 15px 125px' }}>
+                                    <div style={{ margin: '0px 0px 15px 0px' }}>
                                         <CircularProgress fontSize="small" />
                                     </div>
                                 </>
