@@ -87,11 +87,13 @@ function Dictation() {
                                 퀴즈 {currentQuestion + 1} / 5
                             </QuizState>
                         </QuizTop>
-                        <DicButton onClick={() => speak({
-                            text: questions[currentQuestion].value,
-                            rate: 0.8,
-                            pitch: 0.7,
-                        })}>
+                        <DicButton 
+                            onClick={() => speak({
+                                text: questions[currentQuestion].value,
+                                rate: 0.8,
+                                pitch: 0.7,
+                            }
+                        )}>
                             <VolumeUpIcon />
                         </DicButton>
                         <Questions>
@@ -99,11 +101,11 @@ function Dictation() {
                                 <Inputcontainer>
                                     <AnswerInput
                                         {...register('content', {
-                                            required: "받아쓰기 입력은 필수입니다."
+                                            required: "포기란 없다"
                                         })}
                                         name="content"
                                         type="text"
-                                        placeholder="입력하세요"
+                                        placeholder="받아쓰기 입력..."
                                     />
                                     <Dot>.</Dot>
                                 </Inputcontainer>

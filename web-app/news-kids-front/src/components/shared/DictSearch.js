@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Search } from "@material-ui/icons";
-import LiveHelpIcon from '@material-ui/icons/LiveHelp';
-import { Card, CircularProgress, Container, InputBase, Typography } from "@material-ui/core";
+import MenuBookIcon from '@material-ui/icons/MenuBook';
+import { Card, CircularProgress, Container, InputBase, Typography, IconButton } from "@material-ui/core";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import styledComponents from "styled-components";
@@ -49,7 +49,7 @@ function DictSearch() {
     return (
         <>
             <Button onClick={handleOpen}>
-                <LiveHelpIcon fontSize="large" />
+                <MenuBookIcon fontSize="large" style={openModal?{color:'#333'}:{color:'#999'}}/>
             </Button>
             {
                 openModal === true
@@ -129,6 +129,13 @@ const DictCard = styled(Card)({
     right: '5%',
     zIndex: '1',
     width: '300px',
+    [theme.breakpoints.down("sm")]: {
+        right: '8%',
+    },
+    [theme.breakpoints.down("xs")]: {
+        right: '50px',
+    },
+
 });
 
 const SearchGrid = styledComponents.div`
@@ -160,12 +167,16 @@ const ErrorTitle = styled(Typography)({
 
 const WordResult = styled(Typography)({
     marginBottom: '15px',
-    color: '#0026C6',
-    textDecoration: 'underline'
+    color: '#333',
+    fontSize: '16px',
+    fontWeight: 'bold',
+    textDecoration: 'underline',
+    textUnderlinePosition: 'under'
 })
 
 const WordContent = styledComponents.li`
-    font-size: 0.8rem;
+    font-size: 0.85rem;
+    color: #666;
     margin: 15px 0px;
-    word-break: keep-all
+    word-break: keep-all;
 `
