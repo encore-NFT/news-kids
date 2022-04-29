@@ -50,8 +50,8 @@
 ### 💡 개발 환경 & 기술 스택
 
 **구축 환경** :
-<img src="https://img.shields.io/badge/macOS--12.3.1-7D929E??style=plastic&logo=macOS&logoColor=000000"/>
-<img src="https://img.shields.io/badge/Windows--11-7D929E??style=plastic&logo=Windows&logoColor=0078D6"/>
+<img src="https://img.shields.io/badge/macOS-7D929E??style=plastic&logo=macOS&logoColor=000000"/>
+<img src="https://img.shields.io/badge/Windows-7D929E??style=plastic&logo=Windows&logoColor=0078D6"/>
 <img src="https://img.shields.io/badge/Amazon AWS-7D929E??style=plastic&logo=Amazon AWS&logoColor=232F3E"/>
 <img src="https://img.shields.io/badge/EC2-7D929E??style=plastic&logo=Amazon AWS&logoColor=232F3E"/>
 <img src="https://img.shields.io/badge/Ubuntu-7D929E??style=plastic&logo=Ubuntu&logoColor=E95420"/></br>
