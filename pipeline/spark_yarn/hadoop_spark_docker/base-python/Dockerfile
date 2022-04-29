@@ -70,6 +70,7 @@ RUN pip3 install --upgrade \
     pandas \
     JPype1 \
     konlpy \
-    mecab-python3
+    mecab-python3 \
+    krworkdrank
 
 COPY ./base-python/korean_stop_words.txt /opt/workspace/stop_words/korean_stop_words.txt
