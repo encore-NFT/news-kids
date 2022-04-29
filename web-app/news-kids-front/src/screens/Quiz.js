@@ -3,6 +3,7 @@ import styledComponents from 'styled-components';
 import QuestionButton from '../components/quiz/QuestionButton';
 import ContainerLayout from '../components/shared/ContainerLayout';
 import ContentLayout from '../components/shared/ContentLayout';
+import DictSearch from '../components/shared/DictSearch';
 
 function Quiz() {
     const questions = [
@@ -37,8 +38,8 @@ function Quiz() {
             questionText: '다음 중 맞춤법이 틀린 문장은?',
             answerOptions: [
                 { answerText: '그 정책은 참담한 결과를 낳았다.', isCorrect: false },
-                { answerText: '어제 아내가 공주님을 낳았다.', isCorrect: true },
-                { answerText: '상황이 낮아졌다.', isCorrect: false },
+                { answerText: '어제 아내가 공주님을 낳았다.', isCorrect: false },
+                { answerText: '상황이 낮아졌다.', isCorrect: true },
                 { answerText: '여러분이 기자보다 낮다.', isCorrect: false },
             ],
         },
@@ -71,6 +72,7 @@ function Quiz() {
     };
     return (
         <>
+            <DictSearch />
             {showScore ? (
                 <ContainerLayout>
                     <ContentLayout>
@@ -85,7 +87,7 @@ function Quiz() {
                     <ContentLayout>
                         <QuizTop>
                             <QuizState>
-                                퀴즈 {currentQuestion + 1}
+                                퀴즈 {currentQuestion + 1} / 5
                             </QuizState>
                         </QuizTop>
                         <Question>{questions[currentQuestion].questionText}</Question>

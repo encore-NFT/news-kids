@@ -6,14 +6,15 @@ import AuthInput from "../components/auth/AuthInput";
 import { useForm } from "react-hook-form";
 import ProfileApis from "../api/ProfileApis";
 import FormError from "../components/auth/FormError";
-import FormSuccess from "../components/editProfile/FormSuccess";
-import { useEffect, useState } from "react";
-import { styled, Typography } from "@material-ui/core";
+import { useState } from "react";
+import { Drawer, styled, Typography } from "@material-ui/core";
+import Message from "../components/shared/Message";
+import { useNavigate } from "react-router-dom";
 
-function PwdChange() {
+function PwdChange({ setIsLoggedIn }) {
     const TOKEN = localStorage.getItem("Authorization");
 
-    const { register, handleSubmit, formState: { errors }, setError, clearErrors, reset } = useForm({
+    const { register, handleSubmit, formState: { errors }, setError, clearErrors } = useForm({
         mode: "onChange",
     });
 
@@ -21,13 +22,19 @@ function PwdChange() {
         const passwordData = { TOKEN, data };
         putNewPassword(passwordData);
     };
-    const [data, setData] = useState("");
+    const [successMessage, setSuccessMessage] = useState("");
 
     const putNewPassword = async (passwordData) => {
         try {
             const response = await ProfileApis.putPassword(passwordData);
-            const successMessage = response.data.data;
-            return setData(successMessage);
+            const message = response.data.data;
+            localStorage.removeItem("Authorization");
+            setIsLoggedIn(false);
+            if (successMessage !== undefined) {
+                setOpen(true);
+                setTimeout(handleDrawerClose, 2000);
+            };
+            return setSuccessMessage(message);
 
         } catch (error) {
             if (error.response.status === 401) {
@@ -37,14 +44,15 @@ function PwdChange() {
             }
         }
     }
-    useEffect(() => {
-        if (data) {
-            reset();
-            setError("success", {
-                message: data,
-            });
-        }
-    }, [data]);
+    const navigate = useNavigate();
+
+    const [open, setOpen] = useState(false);
+
+    const handleDrawerClose = () => {
+        setOpen(false);
+        navigate(`/login`);
+    };
+
     const clearLoginError = () => {
         clearErrors("result");
         clearErrors("success");
@@ -105,8 +113,17 @@ function PwdChange() {
                     {errors?.chk_password && (<FormError message={errors?.chk_password?.message} />)}
                     <EditButton type="submit">저장</EditButton>
                     {errors?.result && (<FormError message={errors?.result?.message} />)}
-                    {errors?.success && (<FormSuccess message={errors?.success?.message} />)}
+                    {/* {errors?.success && (<FormSuccess message={errors?.success?.message} />)} */}
                 </form>
+                <Drawer
+                    variant="persistent"
+                    anchor="bottom"
+                    open={open}
+                >
+                    <Message>
+                        {successMessage}
+                    </Message>
+                </Drawer>
             </EditFormBox>
         </EditLayout>
     )

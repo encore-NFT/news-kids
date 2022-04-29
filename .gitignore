@@ -1,16 +1,16 @@
 # Java template
 *.class
- 
+
 # Package Files #
 *.jar
 *.war
 *.ear
- 
+
 # macOS template
 *.DS_Store
 .AppleDouble
 .LSOverride
- 
+
 # IntelliJ project files
 .idea
 .idea/*.xml
@@ -19,17 +19,17 @@ out
 gen
 build
 rebel.xml
- 
+
 # Compliled files
 /target/
 **/target
 /example/
- 
+
 # Gradle
 .gradle
 /build/
 .gradletasknamecache
- 
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

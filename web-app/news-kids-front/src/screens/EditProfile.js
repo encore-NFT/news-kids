@@ -7,7 +7,8 @@ import MenuHeader from "../components/editProfile/MenuHeader";
 import ProfileApis from "../api/ProfileApis";
 import { useEffect, useMemo, useState } from "react";
 import FormError from "../components/auth/FormError";
-import { styled, Typography } from "@material-ui/core";
+import { Drawer, styled, Typography } from "@material-ui/core";
+import Message from "../components/shared/Message";
 
 function EditProfile() {
     const TOKEN = localStorage.getItem("Authorization");
@@ -53,10 +54,18 @@ function EditProfile() {
     const postEditProfile = async (editData) => {
         try {
             await ProfileApis.postEditProfileList(editData);
+            setOpen(true);
+            setTimeout(handleDrawerClose, 2000);
+
         } catch (error) {
             console.log(error);
         }
     }
+    const [open, setOpen] = useState(false);
+
+    const handleDrawerClose = () => {
+        setOpen(false);
+    };
 
     return (
         <EditLayout>
@@ -136,6 +145,15 @@ function EditProfile() {
                     {errors?.user_email && (<FormError message={errors?.user_email?.message} />)}
                     <EditButton type="submit">저장</EditButton>
                 </form>
+                <Drawer
+                    variant="persistent"
+                    anchor="bottom"
+                    open={open}
+                >
+                    <Message>
+                        프로필 정보가 변경되었습니다.
+                    </Message>
+                </Drawer>
             </EditFormBox>
         </EditLayout>
     )

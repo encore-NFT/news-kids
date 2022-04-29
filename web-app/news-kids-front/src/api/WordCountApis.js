@@ -5,10 +5,18 @@ const WordCountApis = {
         const param = (week==='' ? week : 'week/' + week);
 
         return AxiosInstance({
-            url:'http://localhost:8000/api/wordcount/' + param,
+            url: 'http://localhost:8000/api/wordcount/' + param,
             method: 'get',
         });
     },
+
+    postWordSearch(word) {
+        return AxiosInstance({
+            url: 'http://localhost:8000/api/wordcount/search',
+            method: "post",
+            data: { word }
+        })
+    }
 }
 
 export default WordCountApis;

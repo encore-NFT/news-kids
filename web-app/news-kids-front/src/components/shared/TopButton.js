@@ -20,7 +20,7 @@ function TopButton() {
     window.addEventListener('scroll', toggleVisible);
 
     return (
-        <Button onClick={scrollToTop} style={{ display: visible ? 'inline-box' : 'none' }}>
+        <Button onClick={scrollToTop} style={{ display: visible ? 'inline' : 'none' }}>
             <img width="60px" height="100px" src={up_panda} alt="위로 올라가는 버튼" />
         </Button>
     )
@@ -28,12 +28,10 @@ function TopButton() {
 
 export default TopButton;
 
-const Button = styled.div`
+const Button = styled.span`
     position: fixed; 
-    width: 100%;
-    left: 88%;
     bottom: 10px;
-    height: 100px;
+    right: 2%;
     cursor: pointer;
     z-index: 1;
 `
