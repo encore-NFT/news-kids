@@ -23,7 +23,8 @@
 👩‍💻 김은옥 : 웹 크롤링, Docker 플랫폼 구축, 데이터 분석 및 모델링, AWS 설계 \
 👨‍💻 박지수 : 웹 크롤링, Docker 플랫폼 구축, Spark, Airflow 설계, AWS 설계 \
 👨‍💻 정승헌 : 웹 크롤링, Front-end, Back-end(Full-Stack) \
-👨‍💻 한지웅 : 웹 크롤링,  DB 설계, Back-end
+👨‍💻 한지웅 : 웹 크롤링,  DB 설계, Back-end \
+👩‍💻 전정인 : Front-end, 화면 설계, API
 
 ----
 
@@ -89,6 +90,3 @@
 <img src="https://img.shields.io/badge/Apache Spark-7D929E??style=plastic&logo=Apache Spark&logoColor=E25A1C"/>
 <img src="https://img.shields.io/badge/Apache%20Hadoop%20Yarn-7D929E??style=plastic&logo=Apache%20Hadoop&logoColor=66CCFF"/></br>
 
-----
-
-### 💻 Version
